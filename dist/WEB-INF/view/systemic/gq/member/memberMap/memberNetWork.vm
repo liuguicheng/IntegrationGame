@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  #headInclude()
+  <link rel="stylesheet" href="../lib/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+	  <link rel="stylesheet" href="../lib/ztree/zTreeStyle/map.css" type="text/css">
+  <script type="text/javascript" src="../lib/ztree/js/jquery.ztree.core.min.js"></script>
+  <script type="text/javascript">
+  #if($message)alert("#javaScriptEscape($message)");#end
+		function onmynode(){
+			$("#textdiv").empty();
+			$("#networktable").empty();
+ 			$.ajax({
+       			 url: '../memberMap/selectMemberNetWork.do',
+        		 type: 'POST',
+			     data:"staffId="+$("#staffId").val()+"&cennum="+$("#cennum").val(),
+       			 cache: false,
+       			 success: function(result) {
+				 	var s=$.parseJSON(result);//内容
+					var region=parseInt(s[0].region);//系统区域
+					var maxtd=parseInt(s[0].tdnum);//最大td 格数
+					var trnuml=parseInt(s[0].trnuml);//table的行数
+					//线
+					var line="<img src='../lib/ztree/zTreeStyle/img/ico/l_down.gif' height='30'>"+
+						"<img src='../lib/ztree/zTreeStyle/img/ico/line.gif' width='32%' height='30'> "+
+						"<img src='../lib/ztree/zTreeStyle/img/ico/up.gif' height='30'> "+
+						"<img src='../lib/ztree/zTreeStyle/img/ico/line.gif' width='32%' height='30'> "+
+						"<img src='../lib/ztree/zTreeStyle/img/ico/r_down.gif' height='30'>";
+					//空位
+					var kw="<td><div><a href='javascript:;'  >"+
+							"<img	src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'> <br> <span>空位</span></a></div></td>";	
+					//注册
+					var zc="<td><div><a href=''>"+
+							"<img src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'>"+
+							"	<br> <span>注册</span></a></div></td>";
+					//临时变量
+					var trstr="";
+					//第一行 不变
+					trstr="<tr>"+
+							"<td colspan='"+maxtd+"'>"+
+							"<div>"+
+							"<a href='' "+
+							"	onmouseover='yidao(event,this)' onmousemove='yidong(event)'"+
+							"	onmouseout='yichu(this)'  "+
+							"	title=' "+s[1].name+" '>"+
+							"	<img src='"+s[1].icon+"' height='32'> <br> <span>"+s[1].id+"</span>"+
+							"</a>"+
+							"</div>"+
+							"</td>"+
+							"</tr>"+
+							"<tr><td colspan='"+maxtd+"'>"+line+"</td></tr>";	
+					//记录上一行节点id 方便查找子节点
+					var shtrid=s[1].id;
+					//添加第一行到表格
+					$("#networktable").append(trstr); 
+					//第二行开始
+					var temps=0;
+					var tdstrs="";
+					var clstd="";
+					var lintr="";
+					var shangyicengnode="";//上一层id 集合
+					var shangyicenglist="";
+					var leftn=0;
+					//循环展示多少层
+					for(var z=2;z<=trnuml;z++){
+					     //根据区域 和层数  算出每格子的跨度
+						 var mc=parseInt(Math.pow(region,(z-1)));
+						 clstd=parseInt((maxtd/mc));
+						 //第二行特殊处理
+						if(z==2){
+							tdstrs="<tr>";
+							//循环多少个区域
+					   		 for(var w=0;w<region;w++){
+							 	//根据区域 循环查询传回数据
+						   		$.each(s, function(i,val){
+								//判断区域 节点 都相同则添加td
+								if((parseInt(val.connectionId)==parseInt(shtrid))&&(parseInt(val.region)==w)){
+							  		temps++;
+									tdstrs+="<td colspan='"+clstd+"'><div>"+
+									 "<a href='javascript:clickBIN("+val.id+");' "+
+									 "	onmouseover='yidao(event,this)' onmousemove='yidong(event)'"+
+									 "	onmouseout='yichu(this)'  "+
+									 "	title=' "+val.name+" '>"+
+									 "	<img src='"+val.icon+"' height='32'> <br> <span>"+val.id+"</span>"+
+									 "  </a></div></td>";
+									 shangyicengnode+=val.id+","
+								}
+								});
+								//temps 临时变量，如==0 说明该节点无数据
+								 if(parseInt(temps)==0){
+								 //leftn 临时变量 如==0说明 显示可点击注册 ==其他说明是空位
+								 	if(parseInt(leftn)==0){
+										leftn++;
+										tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:register("+shtrid+")''>"+
+										"<img src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'>"+
+										"	<br> <span>注册</span></a></div></td>";
+									}else{
+										tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:;'  >"+
+											"<img	src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'> <br> <span>空位</span></a></div></td>";	
+									}
+									shangyicengnode+="-1,"	
+							 	 }
+						 		 temps=0;
+							}
+						leftn=0;
+						tdstrs+="</tr>";
+						lintr="<tr>";
+						//循环添加横线td
+						var xhst= parseInt(Math.pow(region,(z-1)));
+						for(var ls=0;ls<xhst;ls++){
+							lintr+="<td colspan='"+clstd+"'>"+line+"</td>";
+						}
+						lintr+="</tr>"
+						//判断是否是最后一行 如果是则不添加横线td
+						if(z!=trnuml){
+							$("#networktable").append(tdstrs+lintr); 
+						}else{
+							$("#networktable").append(tdstrs);
+						}
+						tdstrs="";
+						lintr="";
+						}else{
+						    // 第三行开始 根据第二行 的节点 进行再次循环处理
+							//shangyicengnode 是 第二行的节点
+							shangyicengnode=shangyicengnode.substring(0,shangyicengnode.length-1);
+							shangyicenglist=shangyicengnode.split(",");
+							shangyicengnode="";
+							temps=0;
+							 tdstrs="<tr>";
+							 //循环节点  查询子节点 并补齐欠缺节点
+							$.each(shangyicenglist, function(v,shangynode){ 
+								//循环多少个区域
+					   			 for(var df=0;df<region;df++){
+						   			$.each($.parseJSON(result), function(ld,vaw){  
+									if((parseInt(vaw.connectionId)==parseInt(shangynode))&&(parseInt(vaw.region)==df)){
+							  		temps++;
+									tdstrs+="<td colspan='"+clstd+"'><div>"+
+									 "<a href='javascript:clickBIN("+vaw.id+");' "+
+									 "	onmouseover='yidao(event,this)' onmousemove='yidong(event)'"+
+									 "	onmouseout='yichu(this)'  "+
+									 "	title=' "+vaw.name+" '>"+
+									 "	<img src='"+vaw.icon+"' height='32'> <br> <span>"+vaw.id+"</span>"+
+									 "  </a></div></td>";
+									 shangyicengnode+=vaw.id+","
+									}
+									});
+								if(shangynode=="-1"){
+										tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:;'  >"+
+										"<img	src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'> <br> <span>空位</span></a></div></td>";
+								
+								
+								}else{
+								       if(parseInt(temps)==0){
+							  			if(parseInt(leftn)==0){
+										leftn++;
+										tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:register("+shangynode+")'>"+
+										"<img src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'>"+
+										"	<br> <span>注册</span></a></div></td>";
+									 	}else{
+											tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:;'  >"+
+											"<img	src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'> <br> <span>空位</span></a></div></td>";	
+							  		 	}
+						   		 		shangyicengnode+="-1,"	
+						  		 	}
+								}
+						  			
+						  		 temps=0;
+						}
+						leftn=0;
+						});
+						tdstrs+="</tr>";
+						lintr="<tr>";
+						var xhst= parseInt(Math.pow(region,(z-1)));
+						for(var ls=0;ls<xhst;ls++){
+							
+							lintr+="<td colspan='"+clstd+"'>"+line+"</td>";
+						}
+						lintr+="</tr>"
+						
+						if(z!=trnuml){
+							$("#networktable").append(tdstrs+lintr); 
+						}else{
+							$("#networktable").append(tdstrs);
+						}
+						
+						tdstrs="";
+						lintr="";
+							
+						}
+					}
+					
+        		 }
+   		    });		
+		}
+		
+		
+			$(document).ready(function(){
+			   onmynode();
+			})
+			//根据输入会员id查询
+			function doSearch(){
+			   onmynode();
+			}
+			//查询自己
+			function doSearchmy(id){
+			   $("#staffId").val(id);
+			   onmynode();
+			}
+			//点击会员节点
+			function clickBIN(id){
+				 $("#staffId").val(id);
+			   onmynode();
+			}
+			//注册
+			function register(id){
+			  window.location.href="../member/memberEdit.do?node="+id;
+			}
+  </script>
+</head>
+<body>
+<div class="PageHeader">
+  <div class="LeftBox Title">网络结构图</div>
+</div>
+
+<div class="PageContainer indieui-scroll">
+	<!--查询-->
+    <div class="InfoBox">
+		<div class="indieui-form">
+			<table class="TbCommon">
+				<tr >
+					<td width="8%" align="left" class="TdLabel">#requiredInput("会员编号")：</td>
+					<td  align="left" class="TdInput" colspan="5">
+						<input type="text" id="staffId" value="$!{command.id}" >
+						显示层数:<select id="cennum">
+                            <option value="2">2层</option>
+							<option value="3" selected >3层</option>
+							<option value="4">4层</option>
+                        </select>	
+						<input type="button" value="查询" onclick="javascript:doSearch();"/>
+						<input type="button" value="我的图谱" onclick="javascript:doSearchmy('$!{command.id}');"/>
+      				</td>
+				</tr>
+			</table>
+		</div>
+	</div>  
+	<div id="toolbar" style="padding:5px;height:auto;margin: 5px;">
+			            
+		<div class="cRed" style="text-align: center;margin: 4px 0px;font-size: 12px;">单位：单<span class="cDRed">(每单=)</span></div>
+		<div class="map" id="divMapTree">
+            <div id="textdiv"></div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" id="networktable">
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div>
+						<table border="0" cellpadding="1" cellspacing="1" class="bot" style="margin: 4px; background-color: #888;">
+                        <tbody><tr align="center" >
+                            <td>颜色<br><br>级别 </td>
+                            <td><img src="../lib/ztree/zTreeStyle/img/ico/empty.png">空白</td>
+							<td><img src="../lib/ztree/zTreeStyle/img/ico/1.png">普通账户</td>
+							<td><img src="../lib/ztree/zTreeStyle/img/ico/0.png">未激活</td>
+                               #** <td>
+                                    <img src="../lib/ztree/zTreeStyle/img/ico/2.png">银卡账户</td>
+                                <td>
+                                    <img src="../lib/ztree/zTreeStyle/img/ico/3.png">金卡账户</td>
+                                <td>
+                                    <img src="../lib/ztree/zTreeStyle/img/ico/4.png"> 白金账户</td>
+                                <td>
+                                    <img src="../lib/ztree/zTreeStyle/img/ico/5.png"> 钻石账户</td>
+                                <td>
+                                    <img src="../lib/ztree/zTreeStyle/img/ico/6.png">铂金账户</td>*#
+								
+                        </tr>
+						</tbody>
+						</table>
+    </div>
+</div>
+
+<script type="text/javascript">
+        var x = -155;
+		var y = -95;
+        var myTitle = ""
+        function yidao(e, obj) {
+
+            myTitle = obj.title;
+            obj.title = "";
+            var tooltip = "<div id='tooltip'style='width:350px;height:80px;;text-align:center' >" + myTitle + "</div>";   //创建DIV元素
+            $("#divMapTree").append(tooltip);  //追加到文档中
+            $("#tooltip").css({ "top": (e.pageY + y) + "px", "left": (e.pageX + x) + "px" }).show(); //设置X  Y坐标， 并且显示
+        }
+        function yidong(e) {
+            $("#tooltip").css({ "top": (e.pageY + y) + "px", "left": (e.pageX + x) + "px" });
+        }
+        function yichu(obj) {
+            obj.title = myTitle;
+            $("#tooltip").remove();    //移除
+        }
+    
+</script>
+</body>
+</html>
