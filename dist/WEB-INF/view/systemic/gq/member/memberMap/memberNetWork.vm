@@ -234,7 +234,6 @@
 						显示层数:<select id="cennum">
                             <option value="2">2层</option>
 							<option value="3" selected >3层</option>
-							<option value="4">4层</option>
                         </select>	
 						<input type="button" value="查询" onclick="javascript:doSearch();"/>
 						<input type="button" value="我的图谱" onclick="javascript:doSearchmy('$!{command.id}');"/>

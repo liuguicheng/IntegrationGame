@@ -9,9 +9,9 @@
 			<column name="member_id" length="32" />
 			<generator class="uuid.hex"></generator>
 		</id>
-		<many-to-one name="stock" class="com.systemic.gq.entity.Stock"
+		<many-to-one name="stock" class="com.systemic.gq.entity.Stock" 
 			cascade="none" outer-join="auto" update="false" insert="false"
-			access="property" column="productgrade_id" not-null="true" />
+			access="property" column="productgrade_id" not-null="true"  />
 		<!-- column 数据库对应的外键 -->
 		<property name="bsid" type="java.lang.String">
 			<column name="bsid" length="125" />
@@ -35,7 +35,7 @@
 			<column name="reference_name" length="125" />
 		</property>
 		<property name="productgradeId" type="java.lang.String">
-			<column name="productgrade_id" length="32" not-null="true" />
+			<column name="productgrade_id" length="32" not-null="false" />
 		</property>
 		<property name="goldAward" type="java.lang.Double">
 			<column name="goldAward" precision="22" scale="0" />

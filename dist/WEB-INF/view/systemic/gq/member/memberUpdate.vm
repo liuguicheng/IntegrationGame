@@ -73,7 +73,12 @@
     <tr>
       <td class="TdLabel" style="width:150px;">#requiredInput("级别")</td>
 	  <td>
-		 #lookUpDict($dicData.dicStockLevel "$!{command.stock.gradeNum}")
+		#if($!{command.stock})
+			#lookUpDict($dicData.dicStockLevel "$!{command.stock.gradeNum}")
+		#else
+			暂无级别
+		#end
+		 
 	  </td>
     </tr>
     <tr>

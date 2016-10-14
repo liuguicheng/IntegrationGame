@@ -5,10 +5,9 @@
   <script type="text/javascript" src="../script/validator.js"></script>
   <script type="text/javascript">
   validator.formName = "editForm";
-  validator.addNormalCheckPoint("gradeNum", "股权等级", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("money", "股权金额", "checkNotNull;checkNotEmpty;checkFloat");
-  validator.addNormalCheckPoint("stockMoney", "所持股权", "checkNotNull;checkNotEmpty;checkFloat");
-  validator.addNormalCheckPoint("cap", "投资封顶值", "checkNotNull;checkNotEmpty;checkFloat");
+  validator.addNormalCheckPoint("gradeNum", "积分等级", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("money", "所需积分", "checkNotNull;checkNotEmpty;checkFloat");
+  validator.addNormalCheckPoint("stockMoney", "所持积分", "checkNotNull;checkNotEmpty;checkFloat");
   validator.addNormalCheckPoint("istrue", "是否启用", "checkNotNull;checkNotEmpty");
   function doSave(){
     var e = document.editForm;
@@ -31,7 +30,7 @@
 </head>
 <body>
 <div class="PageHeader">
-  <div class="LeftBox Title">#if(!$!{command.id}) 添加 #else 修改   #end 股权种类 </div>
+  <div class="LeftBox Title">#if(!$!{command.id}) 添加 #else 修改   #end 积分种类 </div>
 </div>
 
 <div class="indieui-scroll">
@@ -42,7 +41,7 @@
   <input type="hidden" name="createTime" value="$!{command.createTime}" />
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:150px;">#requiredInput("股权等级")</td>
+      <td class="TdLabel" style="width:150px;">#requiredInput("积分等级")</td>
 	  <td>
 		#if(!${command.id}) 
 		#formSingleSelectDictionary("gradeNum" $!{command.gradeNum} ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
@@ -53,21 +52,15 @@
 	  </td>
     </tr>
     <tr>
-      <td class="TdLabel">#requiredInput("股权金额")</td>
+      <td class="TdLabel">#requiredInput("所需积分")</td>
       <td class="TdInput">
-    	  <input type="text" name="money" value="#showMoney($!{command.money})" style="width:30%" />(元)
+    	  <input type="text" name="money" value="$!{command.money}" style="width:30%" />
       </td>
     </tr>
 	<tr>
-      <td class="TdLabel">#requiredInput("所持股权")</td>
+      <td class="TdLabel">#requiredInput("所持积分")</td>
       <td class="TdInput">
-		<input type="text" name="stockMoney" value="$!{command.stockMoney}" style="width:30%;" />(股)
-      </td>
-    </tr>
-    <tr>
-      <td class="TdLabel">#requiredInput("投资封顶值")</td>
-      <td class="TdInput">
-		<input type="text" name="cap" value="#showMoney($!{command.cap})" style="width:30%;"/>(元)
+		<input type="text" name="stockMoney" value="$!{command.stockMoney}" style="width:30%;" />
       </td>
     </tr>
 	<tr>
@@ -87,18 +80,19 @@
     </tr>
   </table>
   <div class="PageHeader">
-  <div class="LeftBox Title">股权奖励  </div>
+  <div class="LeftBox Title">积分奖励  </div>
   </div>
   <table class="TbCommon">
 	    ##遍历字典表
 		#foreach($option in $dicData.dicBonusContent.entrySet())
-			<tr>
-				<td class="TdLabel" style="width:150px;">#requiredInput("${option.value.name}")</td>
-				<td class="TdInput">
-					##遍历股权奖励种类（所有）
+				##遍历积分奖励种类（所有）
 				  #foreach( $data in $bonuscontentlist )
 					##判断是否是同一类型
 					#if($!{data.bonusType}==${option.key})
+			<tr>
+				<td class="TdLabel" style="width:150px;">#requiredInput("${option.value.name}")</td>
+				<td class="TdInput">
+				
 						##判断是否添加 、还是修改
 						#if($!{userbonuscontentstr}!="[]")
 							##用户选择
@@ -119,10 +113,11 @@
 						#else
 							<input type="radio" id="$!{data.id}" name="bonuscontentstr_$!{data.bonusType}" value="$!{data.id}"/><label for="$!{data.bonusType}"  >$!{data.proportion}%</label>&nbsp;&nbsp;
 						#end
-					#end
-				  #end
+					
 				</td>
 			</tr>
+			#end
+		#end
         #end
   </table>
   

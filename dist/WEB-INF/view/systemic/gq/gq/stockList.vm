@@ -25,7 +25,7 @@
 </head>
 <body>
 <div class="PageHeader">
-  <div class="LeftBox Title">股权种类列表</div>
+  <div class="LeftBox Title">积分种类列表</div>
 </div>
 
 
@@ -46,10 +46,9 @@
       <th style="width:20px;" nowrap>
         <input type="checkbox" onclick="javascript:setCheckBoxValue('id', this.checked);">
       </th>
-      <th>股权等级</th>
-      <th>所需金额(元)</th>
-      <th>股权(股)</th>
-	  <th>投资封顶值(元)</th>
+      <th>积分等级</th>
+      <th>所需积分</th>
+      <th>获得积分</th>
 	  <th>是否开放</th>
     </tr>
   </thead>
@@ -58,9 +57,8 @@
     <tr>
       <td><input type="checkbox" name="id" value="$!{data.id}"></td>
       <td><a href="javascript:doEdit('$!{data.id}');;"> #lookUpDict($dicData.dicStockLevel "$!{data.gradeNum}") </a></td>
-      <td>#showMoney($!{data.money})(元)</td>
-      <td>$!{data.stockMoney}(股)</td>
-	  <td>#showMoney($!{data.cap})(元)</td>
+      <td>$!{data.money}</td>
+      <td>$!{data.stockMoney}</td>
 	  <td>#if($!{data.istrue} ==1) 已开放 #elseif($!{data.istrue}==0) 未开放   #end  </td>
 	  
     </tr>
