@@ -37,7 +37,7 @@
                               //var name = data;
                               //$(".fruit").html(data[0].memberId);
                               for(var i=0;i<data.length;i++){
-                                $(".fruit_"+j).html(data[i].memberId);
+                                $(".fruit_"+i).html(data[i].memberId);
                               } 
                           }
                     }     

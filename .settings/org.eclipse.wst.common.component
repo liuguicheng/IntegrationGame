@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="IntegrationGame">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/" source-path="/dist"/>
+        <wb-resource deploy-path="/" source-path="/dist/WEB-INF/config"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/dist/WEB-INF/config"/>
+        <property name="context-root" value="IntegrationGame"/>
+        <property name="java-output-path" value="/IntegrationGame/build/classes"/>
+    </wb-module>
+</project-modules>
