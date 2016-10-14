@@ -17,7 +17,7 @@
     <!--使用基本数据源的配置 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass"><value>com.mysql.jdbc.Driver</value></property>
-        <property name="jdbcUrl"><value>jdbc:mysql://127.0.0.1:3306/gqfp?useUnicode=true&amp;characterEncoding=UTF-8</value></property>
+        <property name="jdbcUrl"><value>jdbc:mysql://127.0.0.1:3306/integrationGame?useUnicode=true&amp;characterEncoding=UTF-8</value></property>
         <property name="user"><value>root</value></property>
         <property name="password"><value>cisoft</value></property>
         <!--连接池配置-->
