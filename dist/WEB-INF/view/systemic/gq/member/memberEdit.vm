@@ -6,17 +6,10 @@
   <script type="text/javascript">
   #if($message)alert("#javaScriptEscape($message)");#end
   validator.formName = "editForm";
-  validator.addNormalCheckPoint("userName", "会员登录名", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("userName", "玩家登录名", "checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("password", "密码", "checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("mbwt", "密保问题", "checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("mbwtDn", "密保答案", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("productgradeId", "级别", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("referenceId", "推荐人", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("note", "接点人", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("region", "区域", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("zsxm", "真实姓名", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("sfzhm", "身份证号码", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("lxdh", "联系电话", "checkNotNull;checkNotEmpty");
  function confirmPassword()
   {
     var e = document.editForm;
@@ -63,27 +56,7 @@
 	  alert("你输入的登录名已存在!");
       return false;
 	}
-	//验证推荐人
-	oncheckReference(e);
-	var errmesgreferenceId=$("#errmesgreferenceId").text();
-  	if(errmesgreferenceId!=""){
-	  alert("推荐人编号不存在,请核实!");
-      return false;
-	}
-	//验证接点人
-	oncheckNote(e);//
-	var errmesgnote=$("#errmesgnote").text();
-  	if(errmesgnote!=""){
-	  alert("接点人编号不存在,请核实!");
-      return false;
-	}
-	//验证 区域是否合法
-	onregion();
-	var errmesgregion=$("#errmesgregion").text();
-  	if(errmesgregion!=""){
-	  alert("接点人该区域已存在会员,不能重复放置!");
-      return false;
-	}
+	
 	
     if (e.submitFlag.value == "1") {
       alert("当前页面已经提交，请稍等!");
@@ -93,7 +66,7 @@
       return false;
     }
     
-    if (!confirm("您确定要保存人员资料吗？")) {
+    if (!confirm("您确定要保存玩家资料吗？")) {
       return false;
     }
     return true;
@@ -194,9 +167,14 @@
 <form name="editForm" method="post" action="#getRequestUri()" class="indieui-form">
   <input type="hidden" name="submitFlag" value="0" />
   <input type="hidden" name="id" value="$!{command.id}" />
+  <input type="hidden" name="isActivation" value="0"/>
+   <input type="hidden" name="stock.id" value="402881f057c249f80157c24ab6280001"/>
+   <input type="hidden" name="productgradeId" value="402881f057c249f80157c24ab6280001"/>
+   <input type="hidden" name="referenceId" value="$!{command.staffId}"/>
+   <input type="hidden" name="referenceName" value="$!{command.referenceName}"/>
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:150px;">#requiredInput("会员登录名")</td>
+      <td class="TdLabel" style="width:150px;">#requiredInput("玩家登录名")</td>
 	  <td>
 		<input type="text" name="userName" id="userName" value="" style="width:30%" onblur="oncheckLognUserName();" />
 	     <span style="color:red;" id="errmesg"></span>
@@ -246,69 +224,24 @@
       </td>
     </tr>
   </table>
-  
-  <div class="PageHeader">
-  <div class="LeftBox Title">网络资料</div>
-  </div>
-  <table class="TbCommon">
-    <tr>
-      <td class="TdLabel" style="width:150px;">#requiredInput("级别")</td>
-	  <td>
-		 #formSingleSelectStock("productgradeId" $!{command.productgradeId} ${dicData.dicStock} "style='width:120'" " ---- 请选择 ---- ")
-	  </td>
-    </tr>
-    <tr>
-      <td class="TdLabel">#requiredInput("推荐人编号")</td>
-      <td class="TdInput">
-    	  <input type="text" name="referenceId" value="$!{command.referenceId}" style="width:30%" />
-		  <span style="color:red;" id="errmesgreferenceId"></span>
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel">#requiredInput("接点人编号")</td>
-      <td class="TdInput">
-		<input type="text" name="note" value="$!{command.note}" style="width:30%;" />
-		<span style="color:red;" id="errmesgnote"></span>
-      </td>
-    </tr>
-    <tr>
-      <td class="TdLabel">#requiredInput("区域")</td>
-      <td class="TdInput">
-		#set($areanum=$!{rule.areaNumber})  
-		#set($id_x=$areanum - 1)  
-		#foreach($foo in [0..$id_x])
-		区域$!{velocityCount}&nbsp;<input type="radio" name="region" value="$foo" onchange="onregion()" />
-		#end
-        &nbsp;<span style="color:red;font-size:12px;">由左向右排列,例如区域1:代表左1</span>
-		<span style="color:red;" id="errmesgregion"></span>
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel">#requiredInput("是否激活")</td>
-      <td class="TdInput">
-		是<input type="radio" name="isActivation" value="1"  />
-		否<input type="radio" name="isActivation" value="0"checked/>
-      </td>
-    </tr>
-  </table>
   <div class="PageHeader">
   <div class="LeftBox Title">基本信息</div>
   </div>
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:150px;">#requiredInput("真实姓名")</td>
+      <td class="TdLabel" style="width:150px;">真实姓名</td>
 	  <td>
 		<input type="text" name="zsxm" value="" style="width:30%" />
 	  </td>
     </tr>
     <tr>
-      <td class="TdLabel">#requiredInput("身份证号码")</td>
+      <td class="TdLabel">身份证号码</td>
       <td class="TdInput">
     	  <input type="text" name="sfzhm" value="" style="width:30%" />
       </td>
     </tr>
 	<tr>
-      <td class="TdLabel">#requiredInput("联系电话")</td>
+      <td class="TdLabel">联系电话</td>
       <td class="TdInput">
 		<input type="text" name="lxdh" value="" style="width:30%;" />
       </td>
@@ -324,29 +257,6 @@
 	  <td>
 		<input type="text" name="email" value="" style="width:30%" />
 	  </td>
-    </tr>
-  </table>
-  <div class="PageHeader">
-  <div class="LeftBox Title">银行资料</div>
-  </div>
-  <table class="TbCommon">
-    <tr>
-      <td class="TdLabel" style="width:150px;">银行信息</td>
-	  <td>
-		#formSingleSelectDictionary("yhxx" $!{command.yhxx} ${dicData.dicBank} "style='width:120'" " ---- 请选择 ---- ")
-	  </td>
-    </tr>
-    <tr>
-      <td class="TdLabel">开户姓名</td>
-      <td class="TdInput">
-    	  <input type="text" name="khxm" value="" style="width:30%" />
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel">银行卡号</td>
-      <td class="TdInput">
-		<input type="text" name="yhkh" value="" style="width:30%;" />
-      </td>
     </tr>
   </table>
 </div>

@@ -118,8 +118,8 @@ public class ConUnit {
 		// }
 		// }
 	}
-
+    
 	public static void main(String[] args) {
-		CalculationTable(3, 3);
+		
 	}
 }

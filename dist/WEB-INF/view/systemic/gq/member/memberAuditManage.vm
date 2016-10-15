@@ -21,59 +21,26 @@
       f.submit();      
     }
   }
+  
 
-function activation(id,referenceId,referenceqRCodeContent){
-	    $("#staffId").val(id);
+function activation(id,referenceId,note){
+		$("#staffId").val(id);
 		$("#referenceId").val(referenceId);
-		$("#referenceqRCodeContent").val(referenceqRCodeContent);
+		$("#note").val(note);
 		var width = width || 800;
-	    var divobj = $("#apply");
+	    var divobj = $("#audit");
 	    if(divobj.is(":visible")) {
 	        divobj.searchBox("close");
 	    } else  {
-	        divobj.searchBox({title: "申请参与游戏", width: width });
+	        divobj.searchBox({title: "审核", width: width });
 	    }
 }
-function selectNote(){
- 	var note=$("#note").val();
-	if(note!=""){
-		$.ajax({
-        	url: '../member/memberAjax.do',
-       	 	type: 'POST',
-			data:"memberId="+note, 
-       	 	cache: false,
-        	success: function(result) {
-				var s=$.parseJSON(result);//内容
-				if(s.length>0){
-					if(s[0].code==1){
-						var str=s[0].message;
-				 		var res=str.split(",");
-				 		$("#noteqRCodeContent").val(res[0]);
-				 		$("#noteQRCodeImageUrl").val(res[1]);
-					}else{
-						alert("您输入的归属节点编号不存在!");
-						$("#noteqRCodeContent").val("");
-				 		$("#noteQRCodeImageUrl").val("");
-					}
-				}else{
-					alert("您输入的归属节点编号不存在!");
-					$("#noteqRCodeContent").val("");
-				 		$("#noteQRCodeImageUrl").val("");
-				}
-				
-        	}
-   		});
-	}
-	
-}
 
-function doapply(){
- 	var note=$("#note").val();
-	if(note!=""){
+function doaudit(){
 		$.ajax({
-        	url: '../member/activationMemberAjax.do',
+        	url: '../member/fauditMemberAjax.do',
        	 	type: 'POST',
-			data:$("#applyform").serialize(),// 你的formid
+			data:$("#auditform").serialize(),// 你的formid
        	 	cache: false,
         	success: function(result) {
 				var s=$.parseJSON(result);//内容
@@ -82,71 +49,64 @@ function doapply(){
 				location.reload(); 				
         	}
    		});
-	}else{
-		alert("归属节点不能为空!");
-	}
 	
 }
-
   </script>
 </head>
 <body>
 <div class="PageHeader">
-  <div class="LeftBox Title">未参加游戏玩家列表</div>
+  <div class="LeftBox Title">申请参与游戏玩家列表</div>
 </div>
 
 <div class="SearchBox" id="divSearch">
-<form name="queryForm" action="#getRequestUri()" method="post" class="indieui-form">
+<form name="auditForm" action="#getRequestUri()" method="post" class="indieui-form">
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:100px;">玩家编号:</td>
-      <td class="TdInput" colspan="3">
+      <td class="TdLabel" style="width:100px;">玩家编号：</td>
+      <td class="TdInput">
         <input type="text" name="staffId" value="" >
       </td>
-      
+      <td class="TdLabel" style="width:100px;">玩家姓名：</td>
+      <td class="TdInput">
+        <input type="text" name="zsxm" value="" >
+      </td>
     </tr>
   </table>
   <div class="CommandTool">
-    <input type="button" value="确 定" onClick="javascript:document.queryForm.submit();jQuery('body').processMask();"/>
+    <input type="button" value="确 定" onClick="javascript:document.auditForm.submit();jQuery('body').processMask();"/>
     <input type="button" value="清 空" onClick="javascript:clearQuery(document.queryForm);"/>
     <input type="button" value="取 消" onClick="javascript:showDiv('divSearch');">    
   </div>
 </form>
 </div>
 
-<div class="SearchBox" id="apply">
-<form name="applyForm" action="../member/activationMemberAjax.do" method="post" class="indieui-form" id="applyform">
+<div class="SearchBox" id="audit">
+<form name="queryForm" action="" method="post" class="indieui-form" id="auditform">
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:100px;">玩家编号:</td>
-      <td class="TdInput" colspan="3">
+      <td class="TdLabel" style="width:100px;">玩家编号：</td>
+      <td class="TdInput">
         <input type="text" name="staffId" value="" id="staffId" readonly >
       </td>
-    </tr>
-	<tr>
-      <td class="TdLabel" style="width:100px;">推荐点编号:</td>
+      <td class="TdLabel" style="width:100px;">推荐人编号：</td>
       <td class="TdInput">
         <input type="text" name="referenceId" value="" id="referenceId" readonly>
       </td>
-      <td class="TdLabel" style="width:100px;">推荐点推荐链接:</td>
-      <td class="TdInput">
-        <input type="text" value="" id="referenceqRCodeContent" readonly>
-      </td>
     </tr>
 	<tr>
-      <td class="TdLabel" style="width:100px;">#requiredInput("归属点编号:")</td>
+      <td class="TdLabel" style="width:100px;">归属人编号：</td>
       <td class="TdInput">
-        <input type="text" name="note" value="" id="note" onchange="selectNote(this);">
+        <input type="text" name="note" value="" id="note" readonly>
       </td>
-      <td class="TdLabel" style="width:100px;">#requiredInput("归属点推荐链接:")</td>
+      <td class="TdLabel" style="width:100px;">审核结果：</td>
       <td class="TdInput">
-        <input type="text" name="qRCodeContent" value="" id="noteqRCodeContent" >
-		<input type="hidden" name="noteQRCodeImageUrl" value="" id="noteQRCodeImageUrl" >
+		    <input type="radio" id="male" name="istrue" value="2"/><label for="male"  >同意</label>&nbsp;&nbsp;
+			<input type="radio" id="male" name="istrue" value="3" checked="checked"/><label for="male"  >拒绝</label>
       </td>
     </tr>
   </table>
   <div class="CommandTool">
-    <input type="button" value="提交" onclick="doapply();"/>
+    <input type="button" value="提交" onClick="doaudit();"/>
   </div>
 </form>
 </div>
@@ -172,9 +132,9 @@ function doapply(){
     ##  </th>
         <th >玩家编号</th>
         <th >级别</th>
-        <th >积分</th>  
-		<th >推荐人</th> 
-		<th >注册时间</th> 
+		<th >推荐人编号</th>
+		<th >归属人编号</th> 
+		<th >申请时间</th> 
 		<th >操作</th> 
     </tr>
   </thead>
@@ -183,10 +143,10 @@ function doapply(){
     <tr>
       <td>$!{data.staffId}</td>
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
-      <td>#showNumber($!{data.stock.money})</td>
 	  <td >$!{data.referenceId}</td>
+	    <td >$!{data.note}</td>
 	  <td >#formatTime(${data.createTime})</td>
-      <td ><a href="javascript:activation('$!{data.staffId}','$!{data.referenceId}','$!{data.referenceQRCodeContent}')">[申请加入游戏]</a></td>
+      <td ><a href="javascript:activation('$!{data.staffId}','$!{data.referenceId}','$!{data.note}')">[审核]</a></td>
     </tr>
   #end
   </tbody>   

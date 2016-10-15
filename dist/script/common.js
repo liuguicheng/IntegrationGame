@@ -70,6 +70,25 @@ function showDiv(DivId,width)  {
     }
 }
 
+
+function showDivTitle(DivId,width,titlestr)  {
+	/*
+	    divobj = eval(DivId);
+	    if(divobj.style.display =="none")  {
+	        divobj.style.display = "";
+	    } else  {
+	        divobj.style.display = "none";
+	    }
+	    */
+	    width = width || 800;
+	    var divobj = $("#" + DivId);
+	    if(divobj.is(":visible")) {
+	        divobj.searchBox("close");
+	    } else  {
+	        divobj.searchBox({title: titlestr, width: width });
+	    }
+	}
+
 /////////////////////////////////////////////////////
 //该函数用于将源列表框的选中项移到目标列表框                 //
 //source_list:源列表框                                   //

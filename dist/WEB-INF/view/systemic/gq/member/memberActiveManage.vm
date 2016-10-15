@@ -12,40 +12,20 @@
 
   function doDelete() {
     if (!hasCheckBoxSelect("memberId")) {
-      alert("请选择要删除的人员！");
+      alert("请选择要删除的玩家！");
       return;
     }
-    if (confirm("您确定要删除所选择的人员吗?")) {
+    if (confirm("您确定要删除所选择的玩家吗?")) {
       var f =  document.listForm;
       f.action = "../member/memberDelete.do";
       f.submit();      
     }
   }
   
-      jQuery(document).ready(function(){
-      var theUrl = "../member/memberListAjax.do";
-            jQuery.ajax({
-              url: theUrl,
-              cache: false,
-              type: 'POST',
-              error: function(r) {
-                alert("请求错误！");
-              },
-              success: function(result){
-                          if(result != ""){
-                              var data = eval("(" + result + ")");
-                              //var name = data;
-                              //$(".fruit").html(data[0].memberId);
-                              for(var i=0;i<data.length;i++){
-                                $(".fruit_"+i).html(data[i].memberId);
-                              } 
-                          }
-                    }     
-            });
-});
+  
 
 function frozen(id){
-	if(confirm("确认冻结会员？")){
+	if(confirm("确认冻结玩家账户？")){
 	   $.ajax({
         url: '../member/frozenMemberAjax.do',
         type: 'POST',
@@ -61,7 +41,7 @@ function frozen(id){
 }
 
 function thwa(id){
-	if(confirm("确认冻结会员？")){
+	if(confirm("确认解冻玩家账户？")){
 	   $.ajax({
         url: '../member/thwaMemberAjax.do',
         type: 'POST',
@@ -79,18 +59,18 @@ function thwa(id){
 </head>
 <body>
 <div class="PageHeader">
-  <div class="LeftBox Title">已激活列表</div>
+  <div class="LeftBox Title">已参与游戏玩家列表</div>
 </div>
 
 <div class="SearchBox" id="divSearch">
 <form name="queryForm" action="#getRequestUri()" method="post" class="indieui-form">
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:100px;">会员编号：</td>
+      <td class="TdLabel" style="width:100px;">玩家编号：</td>
       <td class="TdInput">
         <input type="text" name="staffId" value="" >
       </td>
-      <td class="TdLabel" style="width:100px;">会员姓名：</td>
+      <td class="TdLabel" style="width:100px;">玩家姓名：</td>
       <td class="TdInput">
         <input type="text" name="zsxm" value="" >
       </td>
@@ -107,7 +87,7 @@ function thwa(id){
 <div class="PageTool">
   <div class="LeftBox Tool">
     <input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
-    <input type="button" class="BtnAdd" value="会员注册"  title="新增" onclick="javascript:doEdit('');"/>
+   ## <input type="button" class="BtnAdd" value="玩家注册"  title="玩家注册" onclick="javascript:doEdit('');"/>
    ## <input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
   </div>
 </div>
@@ -122,39 +102,33 @@ function thwa(id){
      ## <th style="width:20px;" nowrap>
       ##  <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
     ##  </th>
-        <th >会员编号</th>
-        <th >真实姓名</th>
-        <th >联系电话</th>
-        <th >注册级别</th>
-        <th >注册金额</th>  
+        <th >玩家编号</th>
+        <th >级别</th>
 		<th >推荐人</th> 
-		<th >接点人</th> 
-		<th >电子币</th>
-		<th >奖金币</th>
-		<th >注册时间</th> 
+		<th >归属人</th> 
+		<th >总积分</th>
+		<th >送出积分</th>
+		<th >收到积分</th> 
 		<th >状态</th> 
-		<th >开通时间</th>
+		<th >注册时间</th> 
+		<th >参与时间</th>
 		<th >操作</th> 
     </tr>
   </thead>
   <tbody>
   #foreach( $data in $page.data )
-     #set($index = ($page.pageNumber - 1) * $page.pageSize + $velocityCount)
-            #if($velocityCount % 2 == 0) #set($css = "TrListEven") #else #set($css = "TrListOdd") #end
     <tr>
-      <td>$!{data.staffId}</td>
-      <td><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">$!{data.userName}</a></td>
-      <td>$!{data.lxdh}</td>
+      <td><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">$!{data.staffId}</a></td>
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
-      <td>$!{data.stock.money}</td>
-	  <td class="fruit_$index">$!{data.referenceId}</td>
-	  <td class="fruit_$index">$!{data.note}</td>
-	  <td class="fruit_$index">$!{data.electroniccurrency}</td>
-	  <td class="fruit_$index">$!{data.goldAward}</td>
-	  <td class="fruit_$index">#formatTime(${data.createTime})</td>
-	   <td class="fruit_$index">#if($!{data.isok}==1)正常 #else 冻结  #end</td>
-	    <td class="fruit_$index">#formatTime(${data.activationTime})</td>
-      <td class="fruit_$index"><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">[编辑]</a>
+	  <td >$!{data.referenceId}</td>
+	  <td >$!{data.note}</td>
+	  <td >$!{data.integral}</td>
+	  <td >$!{data.giveIntegral}</td>
+	  <td >$!{data.addIntegral}</td>
+	   <td >#if($!{data.isok}==1)正常 #else 冻结  #end</td>
+		<td >#formatTime(${data.createTime})</td>
+	    <td >#formatTime(${data.activationTime})</td>
+        <td ><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">[编辑]</a>
 		#if($!{data.isok}==1)
 			<a href="javascript:frozen('$!{data.memberId}')">[冻结]</a>
 		#else

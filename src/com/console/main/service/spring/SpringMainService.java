@@ -160,4 +160,17 @@ public class SpringMainService implements IMainService {
 	public Staff selectStaffById(String id) {
 		return (Staff) this.mainDao.load(Staff.class, id);
 	}
+
+	@Override
+	public void doFrozen(String userName) {
+		Staff staff = this.mainDao.selectStaff(userName);
+        if(staff !=null){
+            StaffSecurity ss = this.loadStaffSecurity(staff.getId());
+            ss.setFailedTimes(0);
+            ss.setFailedRecordTime(new Date());
+            ss.setTimes(0);
+            ss.setIsLock(ConsoleHelper.NO);
+            this.mainDao.save(ss);
+        }
+	}
 }

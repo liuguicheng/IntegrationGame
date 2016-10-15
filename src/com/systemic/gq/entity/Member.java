@@ -24,6 +24,9 @@ public class Member implements java.io.Serializable {
 	private String referenceId;
 	/** 推荐人 */
 	private String referenceName;
+	/** 推荐人 二维码*/
+	private String referenceQRCodeContent;//二维码内容（推广链接）
+	private String referenceQRCodeImageUrl;//二维码图片地址
 	/** 股权等级id */
 	private Stock stock;
 	/** 股权等级id */
@@ -32,12 +35,18 @@ public class Member implements java.io.Serializable {
 	private Double goldAward;
 	/** 电子币 */
 	private Double electroniccurrency;
+	/** 积分 */
+	private int integral;
+	/** 收到积分 */
+	private int addIntegral;
+	/** 送积分 */
+	private int giveIntegral;
 	/** 创建时间 */
 	private Date createTime;
 	/** 激活时间 */
 	private Date activationTime;
 	/**是否激活*/
-	private Integer isActivation;//0未激活  1 激活
+	private Integer isActivation;//0未参与 1申请中 2参与 
 	/** 是否正常 */
 	private Integer isok;
 	/** 删除标识 */
@@ -48,6 +57,9 @@ public class Member implements java.io.Serializable {
 	private String staffId;
 	/***节点*/
 	private String note;
+	/** 节点 二维码*/
+	private String noteQRCodeContent;//二维码内容（推广链接）
+	private String noteQRCodeImageUrl;//二维码图片地址
 	//密保问题
 	private String mbwt;
 	//密保问题答案
@@ -67,6 +79,13 @@ public class Member implements java.io.Serializable {
 	private String khxm;
 	//银行卡号
 	private String yhkh;
+	
+	/**
+	 * 二维码内容
+	 */
+	private String qRCodeContent;//二维码内容（推广链接）
+	private String qRCodeImageUrl;//二维码图片地址
+	
 	// Constructors
 
 	/** default constructor */
@@ -413,5 +432,131 @@ public class Member implements java.io.Serializable {
 		this.sfzhm = sfzhm;
 	}
 
+	/**
+	 * @return the qRCodeContent
+	 */
+	public String getqRCodeContent() {
+		return qRCodeContent;
+	}
+
+	/**
+	 * @param qRCodeContent the qRCodeContent to set
+	 */
+	public void setqRCodeContent(String qRCodeContent) {
+		this.qRCodeContent = qRCodeContent;
+	}
+
+	/**
+	 * @return the qRCodeImageUrl
+	 */
+	public String getqRCodeImageUrl() {
+		return qRCodeImageUrl;
+	}
+
+	/**
+	 * @param qRCodeImageUrl the qRCodeImageUrl to set
+	 */
+	public void setqRCodeImageUrl(String qRCodeImageUrl) {
+		this.qRCodeImageUrl = qRCodeImageUrl;
+	}
+
+	/**
+	 * @return the referenceQRCodeContent
+	 */
+	public String getReferenceQRCodeContent() {
+		return referenceQRCodeContent;
+	}
+
+	/**
+	 * @param referenceQRCodeContent the referenceQRCodeContent to set
+	 */
+	public void setReferenceQRCodeContent(String referenceQRCodeContent) {
+		this.referenceQRCodeContent = referenceQRCodeContent;
+	}
+
+	/**
+	 * @return the referenceQRCodeImageUrl
+	 */
+	public String getReferenceQRCodeImageUrl() {
+		return referenceQRCodeImageUrl;
+	}
+
+	/**
+	 * @param referenceQRCodeImageUrl the referenceQRCodeImageUrl to set
+	 */
+	public void setReferenceQRCodeImageUrl(String referenceQRCodeImageUrl) {
+		this.referenceQRCodeImageUrl = referenceQRCodeImageUrl;
+	}
+
+	/**
+	 * @return the noteQRCodeContent
+	 */
+	public String getNoteQRCodeContent() {
+		return noteQRCodeContent;
+	}
+
+	/**
+	 * @param noteQRCodeContent the noteQRCodeContent to set
+	 */
+	public void setNoteQRCodeContent(String noteQRCodeContent) {
+		this.noteQRCodeContent = noteQRCodeContent;
+	}
+
+	/**
+	 * @return the noteQRCodeImageUrl
+	 */
+	public String getNoteQRCodeImageUrl() {
+		return noteQRCodeImageUrl;
+	}
+
+	/**
+	 * @param noteQRCodeImageUrl the noteQRCodeImageUrl to set
+	 */
+	public void setNoteQRCodeImageUrl(String noteQRCodeImageUrl) {
+		this.noteQRCodeImageUrl = noteQRCodeImageUrl;
+	}
+
+	/**
+	 * @return the integral
+	 */
+	public int getIntegral() {
+		return integral;
+	}
+
+	/**
+	 * @param integral the integral to set
+	 */
+	public void setIntegral(int integral) {
+		this.integral = integral;
+	}
+
+	/**
+	 * @return the addIntegral
+	 */
+	public int getAddIntegral() {
+		return addIntegral;
+	}
+
+	/**
+	 * @param addIntegral the addIntegral to set
+	 */
+	public void setAddIntegral(int addIntegral) {
+		this.addIntegral = addIntegral;
+	}
+
+	/**
+	 * @return the giveIntegral
+	 */
+	public int getGiveIntegral() {
+		return giveIntegral;
+	}
+
+	/**
+	 * @param giveIntegral the giveIntegral to set
+	 */
+	public void setGiveIntegral(int giveIntegral) {
+		this.giveIntegral = giveIntegral;
+	}
+	
 
 }

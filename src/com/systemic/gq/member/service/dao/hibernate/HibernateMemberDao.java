@@ -25,14 +25,13 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 	public Page selectMeber(MemberInfo info) {
 		Object[] values = new Object[25];
 		int idx = 0;
-		StringBuffer select = new StringBuffer(" from ").append(PayInfo.class.getName()).append(" as me ");
+		StringBuffer select = new StringBuffer(" from ").append(Member.class.getName()).append(" as me where me.memberId!=1 ");
 		StringBuffer where = new StringBuffer(200);
 
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);
 		IQueryObject io = this.memberQueryStringUtil.getQueryObject(info, where.toString(), param);
-		select.append(" where ").append(io.getWhereClause());
-
+		select.append(" where me.memberId!=1").append(io.getWhereClause());
 		if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
 			List data = super.doQuery(select.toString(), io.getParam());
 			info.setNotPage(false);

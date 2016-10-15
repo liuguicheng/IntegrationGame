@@ -82,6 +82,11 @@ public class MemberEditInfo extends SpringlineCommand {
 	//银行卡号
 	private String yhkh;
 	/**
+	 * 二维码内容
+	 */
+	private String qRCodeContent;//二维码内容（推广链接）
+	private String qRCodeImageUrl;//二维码图片地址
+	/**
 	 * @return the id
 	 */
 	public String getId() {
@@ -428,6 +433,30 @@ public class MemberEditInfo extends SpringlineCommand {
 	 */
 	public void setYhkh(String yhkh) {
 		this.yhkh = yhkh;
+	}
+	/**
+	 * @return the qRCodeContent
+	 */
+	public String getqRCodeContent() {
+		return qRCodeContent;
+	}
+	/**
+	 * @param qRCodeContent the qRCodeContent to set
+	 */
+	public void setqRCodeContent(String qRCodeContent) {
+		this.qRCodeContent = qRCodeContent;
+	}
+	/**
+	 * @return the qRCodeImageUrl
+	 */
+	public String getqRCodeImageUrl() {
+		return qRCodeImageUrl;
+	}
+	/**
+	 * @param qRCodeImageUrl the qRCodeImageUrl to set
+	 */
+	public void setqRCodeImageUrl(String qRCodeImageUrl) {
+		this.qRCodeImageUrl = qRCodeImageUrl;
 	}
 	
 }

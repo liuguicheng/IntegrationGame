@@ -84,6 +84,11 @@ public interface IMainService {
     public Staff doUnlock(Staff staff) ;
     
     public Staff selectStaffById(String id);
+    /**
+     * ∂≥Ω·”√ªß
+     * @param userName
+     */
+	void doFrozen(String userName);
     
    
 }

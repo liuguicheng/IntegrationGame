@@ -342,7 +342,7 @@ a:hover {
 }
 .TdLeftMenu iframe{
 	width: 177px;
-	background:url(main/skins/leftop.gif) no-repeat;
+	/**background:url(main/skins/leftop.gif) no-repeat;*/
 	padding:0px;
 }
 .TdHandle {

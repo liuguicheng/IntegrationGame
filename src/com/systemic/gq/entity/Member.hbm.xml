@@ -97,5 +97,32 @@
 		<property name="isActivation" type="java.lang.Integer">
 			<column name="isActivation" />
 		</property>
+		<property name="qRCodeContent" type="java.lang.String">
+			<column name="qRCodeContent" length="250"/>
+		</property>
+		<property name="qRCodeImageUrl" type="java.lang.String">
+			<column name="qRCodeImageUrl" length="250"/>
+		</property>
+		<property name="referenceQRCodeContent" type="java.lang.String">
+			<column name="referenceQRCodeContent" length="250"/>
+		</property>
+		<property name="referenceQRCodeImageUrl" type="java.lang.String">
+			<column name="referenceQRCodeImageUrl" length="250"/>
+		</property>
+		<property name="noteQRCodeContent" type="java.lang.String">
+			<column name="noteQRCodeContent" length="250"/>
+		</property>
+		<property name="noteQRCodeImageUrl" type="java.lang.String">
+			<column name="noteQRCodeImageUrl" length="250"/>
+		</property>
+		<property name="integral" type="java.lang.Integer">
+			<column name="integral" />
+		</property>
+		<property name="addIntegral" type="java.lang.Integer">
+			<column name="addIntegral" />
+		</property>
+		<property name="giveIntegral" type="java.lang.Integer">
+			<column name="giveIntegral" />
+		</property>
 	</class>
 </hibernate-mapping>

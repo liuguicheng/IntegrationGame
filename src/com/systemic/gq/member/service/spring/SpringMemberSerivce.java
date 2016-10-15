@@ -102,6 +102,10 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			member.setCreateTime(new Date());
 			member.setRegion(info.getRegion());
 			member.setIsok(1);
+			//获取推荐人的推广链接和二维码
+			Member referenceMember= selectMemberByStaffid(info.getReferenceId());
+			member.setReferenceQRCodeContent(referenceMember.getqRCodeContent());
+			member.setReferenceQRCodeImageUrl(referenceMember.getqRCodeImageUrl());
 		} 
 		this.memberDao.save(member);
 		CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);

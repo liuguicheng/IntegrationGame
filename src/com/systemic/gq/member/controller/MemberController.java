@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +22,6 @@ import org.springline.web.filter.AuthenticationFilter;
 
 import com.console.ConsoleHelper;
 import com.console.entity.OperateLog;
-import com.console.entity.Role;
 import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,6 +31,7 @@ import com.systemic.gq.entity.Rule;
 import com.systemic.gq.member.command.MemberEditInfo;
 import com.systemic.gq.member.command.MemberInfo;
 import com.systemic.gq.member.service.ISpringMemberService;
+import com.systemic.unit.BarcodeFactory;
 import com.systemic.unit.ConUnit;
 import com.systemic.unit.ErrorDataMsg;
 
@@ -41,26 +40,124 @@ public class MemberController {
 	@Autowired
 	private ISpringMemberService springMemberService;
 
-	// private static Logger LOG = Logger.getLogger(MemberController.class);
+	/**
+	 * 管理员 玩家列表
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param info
+	 * @return
+	 */
 	@RequestMapping(value = "/member/memberManage.do")
 	public String memberManage(HttpServletRequest request, HttpServletResponse response, Model model, MemberInfo info) {
 		Page page;
-		String returnurl="";
-		
+		String returnurl = "";
+
 		try {
-			int isActivation=info.getIsActivation();
-			if(isActivation==0){
-				returnurl="gq/member/memberNotActiveManage";
-			}else if(isActivation==1){
-				returnurl="gq/member/memberActiveManage";
-			}else{
-				returnurl="gq/member/memberManage";
-			}
+			returnurl = "gq/member/memberManage";
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-			
-			if(!staff.getName().equals("系统管理员")){
+
+			if (!staff.getName().equals("系统管理员")) {
 				info.setReferenceId(staff.getId());
 			}
+			page = this.springMemberService.selectMeber(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("获取数据失败！请联系管理员！" + e.getMessage());
+		}
+		model.addAttribute("page", page);
+		model.addAttribute("message", request.getParameter("message"));
+		return returnurl;
+	}
+
+	/**
+	 * 未参与玩家列表
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param info
+	 * @return
+	 */
+	@RequestMapping(value = "/member/memberNotActiveManage.do")
+	public String memberNotActiveManage(HttpServletRequest request, HttpServletResponse response, Model model,
+			MemberInfo info) {
+		Page page;
+		String returnurl = "";
+		try {
+			returnurl = "gq/member/memberNotActiveManage";
+			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+
+			if (!staff.getName().equals("系统管理员")) {
+				info.setReferenceId(staff.getId());
+			}
+			info.setIsActivation(0);
+			page = this.springMemberService.selectMeber(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("获取数据失败！请联系管理员！" + e.getMessage());
+		}
+		model.addAttribute("page", page);
+		model.addAttribute("message", request.getParameter("message"));
+		return returnurl;
+	}
+
+	/**
+	 * 已参与玩家列表
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param info
+	 * @return
+	 */
+	@RequestMapping(value = "/member/memberActiveManage.do")
+	public String memberActiveManage(HttpServletRequest request, HttpServletResponse response, Model model,
+			MemberInfo info) {
+		Page page;
+		String returnurl = "";
+
+		try {
+			returnurl = "gq/member/memberActiveManage";
+			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+
+			if (!staff.getName().equals("系统管理员")) {
+				info.setReferenceId(staff.getId());
+			}
+			info.setIsActivation(2);
+			page = this.springMemberService.selectMeber(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("获取数据失败！请联系管理员！" + e.getMessage());
+		}
+		model.addAttribute("page", page);
+		model.addAttribute("message", request.getParameter("message"));
+		return returnurl;
+	}
+
+	/**
+	 * 
+	 * 申请参与玩家列表
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param info
+	 * @return
+	 */
+	@RequestMapping(value = "/member/memberAuditManage.do")
+	public String memberAuditManage(HttpServletRequest request, HttpServletResponse response, Model model,
+			MemberInfo info) {
+		Page page;
+		String returnurl = "";
+		try {
+			returnurl = "gq/member/memberAuditManage";
+			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+
+			if (!staff.getName().equals("系统管理员")) {
+				info.setReferenceId(staff.getId());
+			}
+			info.setIsActivation(1);
 			page = this.springMemberService.selectMeber(info);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +171,7 @@ public class MemberController {
 	@RequestMapping(value = "/member/memberEdit.do", method = RequestMethod.GET)
 	public String memberEdit(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
 			String memberId) {
-		String node=request.getParameter("node");
+		String node = request.getParameter("node");
 		MemberEditInfo command = new MemberEditInfo();
 		if (StringUtils.isNotBlank(memberId)) {
 			Member member = this.springMemberService.loadMermber(memberId);
@@ -86,7 +183,8 @@ public class MemberController {
 				Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 				command.setReferenceId(member.getStaffId());
 				command.setReferenceName(member.getUserName());
-				if(node!=null&&!"".equals(node)){
+				command.setStaffId(member.getStaffId());
+				if (node != null && !"".equals(node)) {
 					command.setNote(node);
 				}
 			} catch (Exception e) {
@@ -106,15 +204,7 @@ public class MemberController {
 	public String memberEditSave(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
 			MemberEditInfo info) {
 		try {
-			Member member=this.springMemberService.saveMermber(info);
-			// 是否激活
-			int isActivation = info.getIsActivation();
-			if (isActivation == 1) {
-				/**
-				 * 结算奖金
-				 */
-				SettlementHelper.doBonusSettlementForDisposable(member);
-			}
+			this.springMemberService.saveMermber(info);
 			model.addAttribute("message", "保存成功");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -156,7 +246,7 @@ public class MemberController {
 	@ResponseBody
 	public String ajaxreference(HttpServletRequest request, HttpServletResponse response) {
 		String referenceId = request.getParameter("referenceId");
-		Member member=springMemberService.selectMemberByStaffid(referenceId);
+		Member member = springMemberService.selectMemberByStaffid(referenceId);
 		String gsonString = "";
 		List list = new ArrayList();
 		ErrorDataMsg ed = new ErrorDataMsg();
@@ -180,7 +270,7 @@ public class MemberController {
 	@ResponseBody
 	public String ajaxnoteAjax(HttpServletRequest request, HttpServletResponse response) {
 		String note = request.getParameter("note");
-		Member member=springMemberService.selectMemberByStaffid(note);
+		Member member = springMemberService.selectMemberByStaffid(note);
 		String gsonString = "";
 		List list = new ArrayList();
 		ErrorDataMsg ed = new ErrorDataMsg();
@@ -214,7 +304,7 @@ public class MemberController {
 		ErrorDataMsg ed = new ErrorDataMsg();
 		Gson g = (new GsonBuilder()).create();
 		if (memberlist != null && !memberlist.isEmpty()) {
-			String error = "接点人,区域" + region + ",已存在会员";
+			String error = "接点人,区域" + region + ",已存在玩家";
 			ed.setCode(0);
 			ed.setMessage(error);
 
@@ -265,38 +355,35 @@ public class MemberController {
 		}
 		return gsonString;
 	}
-	
-	
-	
+
 	/**
 	 * 跳转查看个人资料页面
 	 * 
 	 */
-	@RequestMapping(value="/member/MemberInfo.do",method=RequestMethod.GET)
-	public String toMemberInfo(HttpServletRequest request,Model model,MemberInfo info){
-		Member member =null;
-		if(info.getMemberId()!=null&&!"".equals(info.getMemberId())){
-			member=this.springMemberService.selectMemberById(info.getMemberId());
-		}else{
+	@RequestMapping(value = "/member/MemberInfo.do", method = RequestMethod.GET)
+	public String toMemberInfo(HttpServletRequest request, Model model, MemberInfo info) {
+		Member member = null;
+		if (info.getMemberId() != null && !"".equals(info.getMemberId())) {
+			member = this.springMemberService.selectMemberById(info.getMemberId());
+		} else {
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-		    member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+			member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 		}
-		
+
 		Rule rule = ConsoleHelper.getInstance().getRuleService().selectRuleBY();
 		model.addAttribute("rule", rule);
 		model.addAttribute("command", member);
 		return "/gq/member/memberUpdate";
 	}
-	
-	
+
 	/**
 	 * 修改个人资料
 	 */
-	@RequestMapping(value="/member/MemberInfo.do",method=RequestMethod.POST)
-	public String doUpdateMember(HttpServletRequest request,Model model,MemberEditInfo info){
-		if(info!=null){
-			
-			Member member=this.springMemberService.selectMemberByStaffid(info.getStaffId());
+	@RequestMapping(value = "/member/MemberInfo.do", method = RequestMethod.POST)
+	public String doUpdateMember(HttpServletRequest request, Model model, MemberEditInfo info) {
+		if (info != null) {
+
+			Member member = this.springMemberService.selectMemberByStaffid(info.getStaffId());
 			member.setMbwt(info.getMbwt());
 			member.setMbwtDn(info.getMbwtDn());
 			member.setZsxm(info.getZsxm());
@@ -309,84 +396,215 @@ public class MemberController {
 			member.setYhkh(info.getYhkh());
 			this.springMemberService.updateMermberInfo(member);
 			model.addAttribute("message", "修改成功");
-			String logContent = "在IP为" +  ConsoleHelper.getUserIp() + "的机器上-修改个人资料";
-			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_UP_MEMBERINFO, member, logContent);
+			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-修改个人资料";
+			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_UP_MEMBERINFO,
+					member, logContent);
 		}
 		return "redirect:../member/MemberInfo.do";
 	}
-	
+
 	/**
-	 * 激活会员
+	 * 玩家冻结
 	 */
-	@RequestMapping(value="/member/activationMemberAjax.do",produces = "text/plain;charset=gbk")
+	@RequestMapping(value = "/member/frozenMemberAjax.do", produces = "text/plain;charset=gbk")
 	@ResponseBody
-	public String  activationMemberAjax(HttpServletRequest request,MemberInfo info){
-		String msg="";
-		ErrorDataMsg edm=new ErrorDataMsg();
-		edm.setMessage("激活失败");
-		Member member=this.springMemberService.selectMemberById(info.getMemberId());
-		if(member!=null){
-			member.setActivationTime(new Date());
-			member.setIsActivation(1);
-			this.springMemberService.updateMermberInfo(member);
-			edm.setMessage("激活成功");
-			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
-			String logContent = "在IP为" +  ConsoleHelper.getUserIp() + "的机器上-激活了会员编号为："+member.getStaffId();
-			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_ACTIVATION,loginmember, logContent);
-		    
-			/**
-			 * 结算奖金
-			 */
-			SettlementHelper.doBonusSettlementForDisposable(member);
-		}
-		msg=ConUnit.tojson(edm);
-		return msg;
-	}
-	
-	/**
-	 * 会员冻结
-	 */
-	@RequestMapping(value="/member/frozenMemberAjax.do",produces = "text/plain;charset=gbk")
-	@ResponseBody
-	public String frozenMemberAjax(HttpServletRequest request,MemberInfo info){
-		String msg="";
-		ErrorDataMsg edm=new ErrorDataMsg();
+	public String frozenMemberAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
 		edm.setMessage("冻结失败");
-		Member member=this.springMemberService.selectMemberById(info.getMemberId());
-		if(member!=null){
+		Member member = this.springMemberService.selectMemberById(info.getMemberId());
+		if (member != null) {
 			member.setIsok(0);
 			this.springMemberService.updateMermberInfo(member);
+			ConsoleHelper.getInstance().getMainService().doFrozen(member.getUserName());
 			edm.setMessage("冻结成功");
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
-			String logContent = "在IP为" +  ConsoleHelper.getUserIp() + "的机器上-冻结了会员编号为："+member.getStaffId();
-			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_FROZEN,loginmember, logContent);
+			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-冻结了玩家编号为：" + member.getStaffId();
+			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_FROZEN, loginmember,
+					logContent);
 		}
-		msg=ConUnit.tojson(edm);
+		msg = ConUnit.tojson(edm);
 		return msg;
 	}
-	
+
 	/**
-	 * 会员解冻
+	 * 玩家解冻
 	 */
-	@RequestMapping(value="/member/thwaMemberAjax.do",produces = "text/plain;charset=gbk")
+	@RequestMapping(value = "/member/thwaMemberAjax.do", produces = "text/plain;charset=gbk")
 	@ResponseBody
-	public String thwaMemberAjax(HttpServletRequest request,MemberInfo info){
-		String msg="";
-		ErrorDataMsg edm=new ErrorDataMsg();
+	public String thwaMemberAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
 		edm.setMessage("冻结解除失败");
-		Member member=this.springMemberService.selectMemberById(info.getMemberId());
-		if(member!=null){
+		Member member = this.springMemberService.selectMemberById(info.getMemberId());
+		if (member != null) {
 			member.setIsok(1);
 			this.springMemberService.updateMermberInfo(member);
+			Staff memberstaff = ConsoleHelper.getInstance().getMainService().selectStaff(member.getUserName());
+			ConsoleHelper.getInstance().getMainService().doUnlock(memberstaff);
 			edm.setMessage("冻结解除成功");
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
-			String logContent = "在IP为" +  ConsoleHelper.getUserIp() + "的机器上-冻结解除了会员编号为："+member.getStaffId();
-			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_THAW,loginmember, logContent);
+			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-冻结解除了,玩家编号为：" + member.getStaffId();
+			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_THAW, loginmember,
+					logContent);
 		}
-		msg=ConUnit.tojson(edm);
+		msg = ConUnit.tojson(edm);
 		return msg;
 	}
+
+	/**
+	 * 申请参与游戏
+	 */
+	@RequestMapping(value = "/member/activationMemberAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String activationMemberAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		edm.setMessage("申请失败");
+		Member member = this.springMemberService.selectMemberByStaffid(info.getStaffId());
+		if (member != null) {
+			String region = queryRegion(info.getNote());
+			if (region.equals("-1")) {
+				edm.setMessage("申请失败,当前您输入的归属节点下无空位可放,请重新输入归属节点编号!");
+			} else {
+				member.setRegion(region);
+				member.setNoteQRCodeContent(info.getNoteQRCodeContent());
+				member.setNote(info.getNote());
+				member.setNoteQRCodeImageUrl(info.getNoteQRCodeImageUrl());
+				member.setActivationTime(new Date());
+				member.setIsActivation(1);
+				this.springMemberService.updateMermberInfo(member);
+				edm.setMessage("申请成功");
+				edm.setCode(1);
+				// 添加日志
+				Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+				Member loginmember = ConsoleHelper.getInstance().getManageService()
+						.selectMemberByStaffId(staff.getId());
+				String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-申请参与游戏,玩家编号为：" + member.getStaffId();
+				ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_ACTIVATION,
+						loginmember, logContent);
+
+				// 添加提醒记录
+				
+			}
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+
+	/**
+	 * 根据节点查询 节点 下方可放节点
+	 * @param note
+	 * @return
+	 */
+	private String queryRegion(String note) {
+		String region = "";
+		// 查询归属节点信息
+		List<Member> noteMember = this.springMemberService.selectMemberListByNode(note);
+		if (noteMember != null && !noteMember.isEmpty()) {
+			int regoin = 0;
+			if (noteMember.size() == 3) {
+				region = "-1";
+			} else {
+				for (Member member2 : noteMember) {
+					regoin += Integer.parseInt(member2.getRegion());
+				}
+				if (regoin == 0) {
+					region = "1";
+				} else if (regoin == 1) {
+					region = "2";
+				}
+			}
+		} else {
+			region = "0";
+		}
+		return region;
+	}
+
+	/**
+	 * 审核 --申请参加游戏
+	 */
+	@RequestMapping(value = "/member/fauditMemberAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String auditMemberAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setMessage("审核失败");
+		edm.setCode(0);
+		String istrue = request.getParameter("istrue");
+		Member member = this.springMemberService.selectMemberByStaffid(info.getStaffId());
+		if (member != null) {
+			if (istrue.equals("2")) {
+				// 审核同意 计算积分
+
+				// 生成二维码
+				String qRCodeContent = BarcodeFactory.qRCodeContent + member.getMemberId();
+				String qRCodeImageUrl = BarcodeFactory.path + member.getStaffId() + ".png";
+				String logourl = BarcodeFactory.logoImgUrl;
+				BarcodeFactory.encode(qRCodeContent, 300, 300, logourl, qRCodeImageUrl);
+
+				member.setqRCodeContent(qRCodeContent);
+				member.setqRCodeImageUrl(qRCodeImageUrl);
+			}
+			member.setIsActivation(Integer.parseInt(istrue));
+			this.springMemberService.updateMermberInfo(member);
+			edm.setMessage("审核成功");
+			edm.setCode(1);
+			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-审核了玩家编号为：" + member.getStaffId() + "参与游戏的申请";
+			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_FROZEN, loginmember,
+					logContent);
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+
+	/**
+	 * 根据编号查询玩家信息
+	 */
+	@RequestMapping(value = "/member/memberAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String memberAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		Member member = this.springMemberService.selectMemberByStaffid(info.getMemberId());
+		if (member != null) {
+			edm.setCode(1);
+			edm.setMessage(member.getqRCodeContent() + "," + member.getqRCodeImageUrl());
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+
+	/**
+	 * 手动生成二维码
+	 */
+
+	@RequestMapping(value = "/member/memberQRCodeAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String memberQRCodeAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		Member member = this.springMemberService.selectMemberById(info.getMemberId());
+		if (member != null) {
+			// 生成二维码
+			String qRCodeContent = BarcodeFactory.qRCodeContent + member.getMemberId();
+			String qRCodeImageUrl = BarcodeFactory.path + member.getStaffId() + ".png";
+			String logourl = BarcodeFactory.logoImgUrl;
+			BarcodeFactory.encode(qRCodeContent, 300, 300, logourl, qRCodeImageUrl);
+			member.setqRCodeContent(qRCodeContent);
+			member.setqRCodeImageUrl(qRCodeImageUrl);
+			this.springMemberService.updateMermberInfo(member);
+			edm.setCode(1);
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+
 }
