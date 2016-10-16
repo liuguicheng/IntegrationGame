@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  #headInclude()
+  <script type="text/javascript" src="../script/validator.js"></script>
+  <script type="text/javascript">
+  validator.formName = "editForm";
+  validator.addNormalCheckPoint("v1_zdtype", "等级名称", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("v1_type", "等级代号", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("v1_upgrade_num", "升级所需个数", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("v1_upgrade_tj", "升级审核匹配向上层数", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("v1_bonus_num", "奖励数量", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("v1_bonus_content", "奖励内容", "checkNotNull;checkNotEmpty");
+  function doSave(){
+    var e = document.editForm;
+    if (checkInput(e)) {
+      e.submitFlag.value = "1";
+      e.submit();
+    }
+  }
+  function checkInput(e) {
+    if (e.submitFlag.value == "1") {
+      alert("当前页面已经提交，请稍等！");
+      return false;
+    }
+    return validator.checkAll();
+  }
+  function doReturn() {
+    document.location.href = "../level/levelList.do?token=$!{token}";
+  }
+  </script>
+</head>
+<body>
+<div class="PageHeader">
+  <div class="LeftBox Title">#if(!$!{command.id}) 添加 #else 修改   #end 玩家等级 </div>
+</div>
+
+<div class="indieui-scroll">
+<form name="editForm" method="post" action="#getRequestUri()" class="indieui-form">
+  <input type="hidden" name="token" value="$!{token}" />
+  <input type="hidden" name="submitFlag" value="0" />
+  <input type="hidden" name="id" value="$!{command.id}" />
+  <table class="TbCommon">
+    <tr>
+      <td class="TdLabel" style="width:150px;">#requiredInput("等级名称")</td>
+	  <td>
+		#formSingleSelectDictionary("v1_zdtype" $!{command.v1_zdtype} ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
+	  </td>
+    </tr>
+    <tr>
+      <td class="TdLabel">#requiredInput("等级代号")</td>
+      <td class="TdInput">
+    	  <input type="text" name="v1_type" value="$!{command.v1_type}" style="width:30%" />
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel">#requiredInput("升级所需个数")</td>
+      <td class="TdInput">
+		<input type="text" name="v1_upgrade_num" value="$!{command.v1_upgrade_num}" style="width:30%;" />个#formSingleSelectDictionary("" $!{command.v1_zdtype} ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel">#requiredInput("升级审核匹配向上层数")</td>
+      <td class="TdInput">
+		<input type="text" name="v1_upgrade_tj" value="$!{command.v1_upgrade_tj}" style="width:30%;" />层
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel">#requiredInput("奖励数量")</td>
+      <td class="TdInput">
+		<input type="text" name="v1_bonus_num" value="$!{command.v1_bonus_num}" style="width:30%;" />个
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel">#requiredInput("奖励内容")</td>
+      <td class="TdInput">
+		#formSingleSelectDictionary("v1_bonus_content" $!{command.v1_bonus_content} ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
+      </td>
+    </tr>
+  </table>
+  
+  
+</div>
+</form>
+</div>
+
+<div class="CommandTool indieui-form">
+  <input type="button" id="btnconfirm" value="保存" onclick="javascript:doSave();"/>
+  <input type="button" id="btnback" value="返回" onclick="javascript:doReturn();"/>
+</div>
+</body>
+</html>

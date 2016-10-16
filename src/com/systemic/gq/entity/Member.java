@@ -27,9 +27,9 @@ public class Member implements java.io.Serializable {
 	/** 推荐人 二维码*/
 	private String referenceQRCodeContent;//二维码内容（推广链接）
 	private String referenceQRCodeImageUrl;//二维码图片地址
-	/** 股权等级id */
+	/** 股权等级id 这个项目不用*/
 	private Stock stock;
-	/** 股权等级id */
+	/** 玩家等级id */
 	private String productgradeId;
 	/** 奖金币 */
 	private Double goldAward;

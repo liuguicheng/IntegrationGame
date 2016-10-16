@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  #headInclude()
+    <script type="text/javascript" src="../script/validator.js"></script>
+    <script type="text/javascript">
+  	#if($message)alert("#javaScriptEscape($message)");#end
+    </script>
+</head>
+<body>
+<div class="PageHeader">
+  <div class="LeftBox Title">规则设置</div>
+</div>
+
+<div class="indieui-scroll">
+<form name="editForm" method="post" action="#getRequestUri()" class="indieui-form">
+  <input type="hidden" name="token" value="$!{token}" />
+  <input type="hidden" name="submitFlag" value="0" />
+  <input type="hidden" name="id" value="$!{command.id}" />
+  <table class="TbCommon">
+	<tr>
+      <td class="TdLabel" style="width:150px;">#requiredInput("前台开关")</td>
+      <td class="TdInput" >
+			#formSingleSelectDictionary("front_switch" $!{command.front_switch} ${dicData.dicIsopen} "style='width:120'" " ---- 请选择 ---- ")
+	  </td>
+	  <td class="TdLabel" style="width:150px;">#requiredInput("网络图开关")</td>
+      <td class="TdInput" >
+			#formSingleSelectDictionary("network_diagram_switch" $!{command.network_diagram_switch} ${dicData.dicIsopen} "style='width:120'" " ---- 请选择 ---- ")
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel" style="width:150px;">#requiredInput("关闭说明")</td>
+      <td class="TdInput" colspan="3">
+		<input type="text" name="front_switch_content" value="$!{command.front_switch_content}" style="width:100%;" />
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel" style="width:150px;">#requiredInput("区域")</td>
+      <td class="TdInput" colspan="3">
+		<input type="text" name="areaNumber" value="$!{command.areaNumber}" style="width:100%;" />
+      </td>
+    </tr>
+    <tr>
+      <td class="TdLabel">#requiredInput("玩家网络图显示层数")</td>
+      <td class="TdInput" >
+    	  <input type="text" name="network_diagram_number" value="$!{command.network_diagram_number}" />
+      </td>
+	  <td class="TdLabel">#requiredInput("玩家专属编号位数")</td>
+      <td class="TdInput" >
+    	  <input type="text" name="registerLoginNameNum" value="$!{command.registerLoginNameNum}" />位
+      </td>
+    </tr>
+	<tr>
+     <td class="TdLabel">#requiredInput("注册审核时间")</td>
+      <td class="TdInput" >
+    	  <input type="text" name="registerAuditTime" value="$!{command.registerAuditTime}" />小时
+      </td>
+	  <td class="TdLabel">#requiredInput("升级审核时间")</td>
+      <td class="TdInput" >
+    	  <input type="text" name="upgradeAuditTime" value="$!{command.upgradeAuditTime}" />小时
+      </td>
+    </tr>
+  </table>
+</form>
+</div>
+
+<div class="CommandTool indieui-form">
+  <input type="button" id="btnconfirm" value="保存" onclick="javascript:doSave();"/>
+</div>
+
+
+<script type="text/javascript">
+  validator.formName = "editForm";
+  validator.addNormalCheckPoint("front_switch_content", "关闭说明", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("areaNumber", "区域", "checkNotNull;checkNotEmpty;checkInt");
+  validator.addNormalCheckPoint("network_diagram_number", "玩家网络图显示层数", "checkNotNull;checkNotEmpty;checkInt");
+  validator.addNormalCheckPoint("registerLoginNameNum", "玩家专属编号位数", "checkNotNull;checkNotEmpty;checkInt");
+  validator.addNormalCheckPoint("registerAuditTime", "注册审核时间", "checkNotNull;checkInt");
+  validator.addNormalCheckPoint("upgradeAuditTime", "升级审核时间", "checkNotNull;checkNotEmpty;checkInt");
+
+  function doSave(){
+    var e = document.editForm;
+    if (checkInput(e)) {
+      e.submitFlag.value = "1";
+      e.submit();
+    }
+  }
+  function checkInput(e) {
+    if (e.submitFlag.value == "1") {
+      alert("当前页面已经提交，请稍等！");
+      return false;
+    }
+    return validator.checkAll();
+  }
+
+  </script>
+</body>
+</html>

@@ -141,7 +141,7 @@
         <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
       </th>
         <th >玩家编号</th>
-		<th >二维码</th> 
+		<th width="150px">二维码</th> 
         <th >级别</th>
         <th >总积分</th>  
 		<th >推荐人编号</th> 
@@ -181,11 +181,11 @@
 				锁定
 			#end
 		</td>
-	  <td ><a href="">[修改级别]</a> 
+	  <td ><a href="">[修改级别]</a> <br/>
 		#if($!{data.isActivation}==0)
-			<a href="javascript:activation('$!{data.memberId}','$!{data.referenceId}','$!{data.referenceQRCodeContent}')">[申请加入游戏]</a> 
+			<a href="javascript:activation('$!{data.memberId}','$!{data.referenceId}','$!{data.referenceQRCodeContent}')">[申请加入游戏]</a> <br/>
 		#elseif($!{data.isActivation}==1)
-			<a href="javascript:audit('$!{data.memberId}','$!{data.referenceId}','$!{data.note}')">[审核]</a> 
+			<a href="javascript:audit('$!{data.memberId}','$!{data.referenceId}','$!{data.note}')">[审核]</a> <br/>
 		#elseif($!{data.isActivation}==2)
 			<a href="javascript:doQRCode('$!{data.memberId}')">[生成二维码]</a> 
 		#end	

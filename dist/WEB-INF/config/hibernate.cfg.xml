@@ -104,6 +104,10 @@
                   <value>com/systemic/gq/entity/SystemAccount.hbm.xml</value>
                   <!-- 拨比记录 -->
                   <value>com/systemic/gq/entity/DialOutRatio.hbm.xml</value>
+                  <!-- 积分游戏规则 -->
+                  <value>com/systemic/gq/entity/IntegrationGameRule.hbm.xml</value>
+                  <!--玩家等级  -->
+                  <value>com/systemic/gq/entity/Level.hbm.xml</value>
             </list>
         </property>
     </bean>

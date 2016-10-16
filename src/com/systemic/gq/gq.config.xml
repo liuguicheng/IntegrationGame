@@ -14,6 +14,8 @@
   <import resource="classpath:com/systemic/gq/stock/rule.config.xml"/>
   <!-- 奖金管理 -->
   <import resource="classpath:com/systemic/gq/bonus/bonus.config.xml"/>
-  
-  
+  <!-- 积分游戏规则管理 -->
+  <import resource="classpath:com/systemic/gq/stock/integrationGameRule.config.xml"/>
+  <!-- 玩家等级管理 -->
+  <import resource="classpath:com/systemic/gq/stock/level.config.xml"/>
 </beans>

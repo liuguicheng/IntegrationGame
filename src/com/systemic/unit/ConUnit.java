@@ -101,7 +101,7 @@ public class ConUnit {
 	public static void CalculationTable(int qy, int cen) {
 		// 传回x的y次幂值 求出最大个数 ：区域的层次幂
 		double totalTd = Math.pow(qy, (cen - 1));
-		// System.out.println("当前区域：" + qy + ",一共" + cen + "层。最大格数：" + totalTd);
+		 System.out.println("当前区域：" + qy + ",一共" + cen + "层。最大格数：" + totalTd);
 		// 去除前端页面table循环次数（层数*区域减去最后一层）
 		//int num = (cen * 2 - 1);
 		// System.out.println("table 循环tr行数：" + num);
@@ -117,9 +117,10 @@ public class ConUnit {
 		// ",格数：" + Math.pow(qy, (i - 1)));
 		// }
 		// }
+		
 	}
     
 	public static void main(String[] args) {
-		
+		CalculationTable(3,6);
 	}
 }

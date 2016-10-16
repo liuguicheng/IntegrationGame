@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  #headInclude()
+  <script type="text/javascript">
+  #if($message)alert("#javaScriptEscape($message)");#end
+
+  function doEdit(operateId) {
+    var url = "../level/levelEdit.do?token=$!{command.token}&id=" + operateId;
+    document.location.href = url;
+  }
+
+  function doDelete() {
+    if (!hasCheckBoxSelect("id")) {
+      alert("请选择要删除的玩家等级！");
+      return;
+    }
+    if (confirm("您确定要删除所选择的玩家等级吗?")) {
+      var f =  document.listForm;
+      f.action = "../level/levelDel.do";
+      f.submit();      
+    }
+  }
+  </script>
+</head>
+<body>
+<div class="PageHeader">
+  <div class="LeftBox Title">玩家等级列表</div>
+</div>
+
+
+
+<div class="PageTool">
+  <div class="LeftBox Tool">
+    <input type="button" class="BtnAdd" value="新增"  title="新增" onclick="javascript:doEdit('');"/>
+	  <input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
+  </div>
+</div>
+
+<div class="PageContainer indieui-scroll">
+<form name="listForm" method="post">
+<input type="hidden" name="submitFlag" value="0">
+<input type="hidden" name="token" value="$!{command.token}">
+<table class="TbList">
+  <thead> 
+    <tr>
+      <th style="width:20px;" nowrap>
+        <input type="checkbox" onclick="javascript:setCheckBoxValue('id', this.checked);">
+      </th>
+	  <th>等级名称</th>
+      <th>等级代号</th>
+      <th>升级所需数量</th>
+      <th>升级审核匹配向上层数</th>
+	  <th>奖励数量/奖励内容</th>
+    </tr>
+  </thead>
+  <tbody>
+  #foreach( $data in $page.data )
+    <tr>
+      <td><input type="checkbox" name="id" value="$!{data.id}"></td>
+      <td><a href="javascript:doEdit('$!{data.id}');;">#lookUpDict($dicData.dicStockLevel "$!{data.v1_zdtype}")</a></td>
+      <td>$!{data.v1_type}</td>
+      <td>$!{data.v1_upgrade_num}个 #lookUpDict($dicData.dicStockLevel "$!{data.v1_zdtype}")</td>
+	  <td>$!{data.v1_upgrade_tj}</td>
+	  <td>$!{data.v1_bonus_num}/#lookUpDict($dicData.dicStockLevel "$!{data.v1_bonus_content}")</td>
+    </tr>
+  #end
+  </tbody>   
+</table>
+</form>
+</div>
+
+<div data-options="region:'south'" style="overflow-y:hidden"> 
+#pageDirector($page "#getRequestUri()" "")
+</div>
+</body>
+</html>
