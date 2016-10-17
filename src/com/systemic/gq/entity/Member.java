@@ -50,12 +50,20 @@ public class Member implements java.io.Serializable {
 	private int giveIntegral;
 	/** 创建时间 */
 	private Date createTime;
-	/** 激活时间 */
+	/** 参与游戏时间 */
 	private Date activationTime;
+	/**申请参与游戏时间 */
+	private Date applyTime;
+	/**申请升级时间 */
+	private Date applyUpgradeTime;
+	/**已收到所需升级数量*/
+	private Integer applyUpgradeNum;
+	/**修改个人资料次数*/
+	private Integer updateInfoNum;
 	/**是否激活*/
 	private Integer isActivation;//0未参与 1申请中 2参与 
 	/** 是否正常 */
-	private Integer isok;
+	private Integer isok; //1正常 0永久封号 2半永久封号
 	/** 删除标识 */
 	private Integer isdel;
 	/** 所在区域 */
@@ -683,6 +691,38 @@ public class Member implements java.io.Serializable {
 	 */
 	public void setNoteUsername(String noteUsername) {
 		this.noteUsername = noteUsername;
+	}
+
+	public Date getApplyTime() {
+		return applyTime;
+	}
+
+	public void setApplyTime(Date applyTime) {
+		this.applyTime = applyTime;
+	}
+
+	public Date getApplyUpgradeTime() {
+		return applyUpgradeTime;
+	}
+
+	public void setApplyUpgradeTime(Date applyUpgradeTime) {
+		this.applyUpgradeTime = applyUpgradeTime;
+	}
+
+	public Integer getApplyUpgradeNum() {
+		return applyUpgradeNum;
+	}
+
+	public void setApplyUpgradeNum(Integer applyUpgradeNum) {
+		this.applyUpgradeNum = applyUpgradeNum;
+	}
+
+	public Integer getUpdateInfoNum() {
+		return updateInfoNum;
+	}
+
+	public void setUpdateInfoNum(Integer updateInfoNum) {
+		this.updateInfoNum = updateInfoNum;
 	}
 	
 

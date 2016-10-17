@@ -148,5 +148,18 @@
 		<property name="noteUsername" type="java.lang.String">
 			<column name="noteUsername" length="250"/>
 		</property>
+		
+		<property name="applyTime" type="java.util.Date">
+			<column name="applyTime" length="10" />
+		</property>
+			<property name="applyUpgradeTime" type="java.util.Date">
+			<column name="applyUpgradeTime" length="10" />
+		</property>
+		<property name="applyUpgradeNum" type="java.lang.Integer">
+			<column name="applyUpgradeNum" />
+		</property>
+		<property name="updateInfoNum" type="java.lang.Integer">
+			<column name="updateInfoNum" />
+		</property>
 	</class>
 </hibernate-mapping>

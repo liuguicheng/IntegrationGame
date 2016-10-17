@@ -35,6 +35,7 @@ import com.systemic.gq.entity.Rule;
 import com.systemic.gq.entity.Stock;
 import com.systemic.gq.member.command.MemberEditInfo;
 import com.systemic.gq.member.command.MemberInfo;
+import com.systemic.gq.member.quartz.MemberQuartz;
 import com.systemic.gq.member.service.ISpringMemberService;
 import com.systemic.unit.BarcodeFactory;
 import com.systemic.unit.ConUnit;
@@ -66,6 +67,7 @@ public class MemberController {
 			if (!staff.getName().equals("系统管理员")) {
 				info.setReferenceId(staff.getId());
 			}
+			info.setIsdel(1);
 			page = this.springMemberService.selectMeber(info);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,6 +100,7 @@ public class MemberController {
 				info.setReferenceId(staff.getId());
 			}
 			info.setIsActivation(0);
+			info.setIsdel(1);
 			page = this.springMemberService.selectMeber(info);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -131,6 +134,7 @@ public class MemberController {
 				info.setReferenceId(staff.getId());
 			}
 			info.setIsActivation(2);
+			info.setIsdel(1);
 			page = this.springMemberService.selectMeber(info);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,6 +168,7 @@ public class MemberController {
 				info.setReferenceId(staff.getId());
 			}
 			info.setIsActivation(1);
+			info.setIsdel(1);
 			page = this.springMemberService.selectMeber(info);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -199,8 +204,6 @@ public class MemberController {
 			}
 			model.addAttribute("command", command);
 		}
-		Rule rule = ConsoleHelper.getInstance().getRuleService().selectRuleBY();
-		model.addAttribute("rule", rule);
 		model.addAttribute("token", token);
 
 		return "gq/member/memberEdit";
@@ -210,8 +213,11 @@ public class MemberController {
 	public String memberEditSave(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
 			MemberEditInfo info) {
 		try {
-			String bh = queryBh();
+			// 系统设置
+			IntegrationGameRule rule = MemberQuartz.queryRule();
+			String bh = queryBh(rule);
 			info.setUserName(bh);
+			info.setUpdateInfoNum(0);
 			this.springMemberService.saveMermber(info);
 			model.addAttribute("message", "保存成功");
 		} catch (Exception e) {
@@ -221,18 +227,13 @@ public class MemberController {
 		model.addAttribute("command", info);
 		model.addAttribute("token", token);
 
-		// return "redirect:../member/memberManage.do";
 		return "redirect:../member/memberManage.do?isActivation=0";
 	}
 
-	public String queryBh() {
-		// 系统设置
-		IntegrationGameRule rule = ConsoleHelper.getInstance().getIntegrationGameRuleService()
-				.selectIntegrationGameRule();
-		if (rule == null || rule.getRegisterLoginNameNum() == null || "".equals(rule.getRegisterLoginNameNum())) {
-			throw new RuntimeException("系统设置无效");
-		}
-		// 玩家编号 8位随机数字
+	
+	
+	// 玩家编号 8位随机数字
+	public String queryBh(IntegrationGameRule rule) {
 		String bh = se(rule);
 		return bh;
 	}
@@ -428,17 +429,20 @@ public class MemberController {
 	@RequestMapping(value = "/member/MemberInfo.do", method = RequestMethod.GET)
 	public String toMemberInfo(HttpServletRequest request, Model model, MemberInfo info) {
 		Member member = null;
+		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		String view="/gq/member/memberUpdate";
 		if (info.getMemberId() != null && !"".equals(info.getMemberId())) {
 			member = this.springMemberService.selectMemberById(info.getMemberId());
 		} else {
-			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 		}
+		if (staff.getName().equals("系统管理员")) {
+			view="/gq/member/memberUpdatefomanage";
+		}
+		
 
-//		Rule rule = ConsoleHelper.getInstance().getRuleService().selectRuleBY();
-//		model.addAttribute("rule", rule);
 		model.addAttribute("command", member);
-		return "/gq/member/memberUpdate";
+		return view;
 	}
 
 	/**
@@ -448,11 +452,11 @@ public class MemberController {
 	public String doUpdateMember(HttpServletRequest request, Model model, MemberEditInfo info) {
 		if (info != null) {
 			Member member = this.springMemberService.selectMemberById(info.getId());
-			member.setBsid(info.getBsid());
 			member.setMbwt(info.getMbwt());
 			member.setMbwtDn(info.getMbwtDn());
 			member.setLan(info.getLan());
 			member.setYong(info.getYong());
+			member.setUpdateInfoNum(1);
 			this.springMemberService.updateMermberInfo(member);
 			model.addAttribute("message", "修改成功");
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-修改个人资料";
@@ -525,7 +529,7 @@ public class MemberController {
 		edm.setMessage("申请失败");
 		Member member = this.springMemberService.selectMemberByStaffid(info.getStaffId());
 		if (member != null) {
-			String region = queryRegion(info.getNote());
+			String region = queryRegion(info.getNoteUsername());
 			if (region.equals("-1")) {
 				edm.setMessage("申请失败,当前您输入的归属节点下无空位可放,请重新输入归属节点编号!");
 			} else {
@@ -536,7 +540,7 @@ public class MemberController {
 				member.setNoteUsername(notemember.getUserName());
 				member.setNote(notemember.getStaffId());
 				notemember=null;
-				member.setActivationTime(new Date());
+				member.setApplyTime(new Date());
 				member.setIsActivation(1);
 				this.springMemberService.updateMermberInfo(member);
 				edm.setMessage("申请成功");
@@ -566,7 +570,7 @@ public class MemberController {
 	private String queryRegion(String note) {
 		String region = "";
 		// 查询归属节点信息
-		List<Member> noteMember = this.springMemberService.selectMemberListByNode(note);
+		List<Member> noteMember = this.springMemberService.selectMemberListByNodeUsername(note);
 		if (noteMember != null && !noteMember.isEmpty()) {
 			int regoin = 0;
 			if (noteMember.size() == 3) {
@@ -611,8 +615,10 @@ public class MemberController {
 
 				member.setqRCodeContent(qRCodeContent);
 				member.setqRCodeImageUrl(qRCodeImageUrl);
+				member.setActivationTime(new Date());
 			}
 			member.setIsActivation(Integer.parseInt(istrue));
+			
 			this.springMemberService.updateMermberInfo(member);
 			edm.setMessage("审核成功");
 			edm.setCode(1);

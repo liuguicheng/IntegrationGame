@@ -36,7 +36,7 @@ public abstract class ConsoleHelper extends Observable {
 	public static final String YES = "1";
 	/** 否 */
 	public static final String NO = "0";
-	/** 否 */
+	/** 半永久封 */
 	public static final String LUCK = "2";
 	public static final String APP_DEPARTMENT = "216";// 行政审批大厅
 

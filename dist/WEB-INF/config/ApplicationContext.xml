@@ -34,7 +34,7 @@
 		</property>
 		<!-- cron表达式 -->
 		<property name="cronExpression">
-			<value>0 0 1 30 * ?</value><!-- 30号凌晨1点 ? -->
+			<value>0 * */1 * * ?</value><!-- 每小时触发一次 -->
 		</property>
 	</bean>
 

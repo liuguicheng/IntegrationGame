@@ -152,7 +152,7 @@ function doaudit(){
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
 	  <td >$!{data.referenceName}</td>
 	    <td >$!{data.noteUsername}</td>
-	  <td >#formatTime(${data.createTime})</td>
+	  <td >#formatTime(${data.applyTime})</td>
       <td ><a href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[…Û∫À]</a></td>
     </tr>
   #end

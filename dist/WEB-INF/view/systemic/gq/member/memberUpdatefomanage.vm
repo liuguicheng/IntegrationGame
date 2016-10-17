@@ -136,31 +136,23 @@
     <tr>
       <td class="TdLabel" style="width:150px;">'廉'通道</td>
 	  <td>
-		#if($!{command.updateInfoNum}==1)
-			$!{command.lan}
-	    #else
 			<textarea name="lan" cols=40 rows=4>
 			#if(${command.lan})
 				$!{command.lan}
 			#end
 		</textarea>
-		#end
 		
 	  </td>
     </tr>
     <tr>
       <td class="TdLabel">'勇'通道</td>
       <td class="TdInput">
-		#if($!{command.updateInfoNum}==1)
-			$!{command.yong}
-	    #else
 		<textarea name="yong" cols=40 rows=4>
 			#if(${command.yong})
 				$!{command.yong}
 			#end	
 				
 		</textarea>
-		#end
       </td>
     </tr>
   </table>

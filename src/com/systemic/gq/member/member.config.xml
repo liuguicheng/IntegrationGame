@@ -9,11 +9,12 @@
     <bean id="memberQueryStringUtil" class="org.springline.beans.dataquery.support.SimpleQueryMethod">
         <property name="valueObjectClassName"><value>com.systemic.gq.entity.Member</value></property>
         <property name="tableAlias"><value>me</value></property>
-        <property name="orderByClause"><value>memberId asc</value></property>
+        <property name="orderByClause"><value>createTime desc</value></property>
        <property name="queryParam">
             <list>
               <value>stock,stock,LIKE</value>
               <value>isActivation,isActivation,EQU</value>
+              <value>isdel,isdel,EQU</value>
               <value>referenceId,referenceId,EQU</value>
               <value>staffId,staffId,LIKE</value>
                <value>bsid,bsid,LIKE</value>

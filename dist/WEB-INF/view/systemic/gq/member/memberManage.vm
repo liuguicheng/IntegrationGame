@@ -167,7 +167,7 @@
 		<th >推荐人编号</th> 
 		<th >归属人编号</th> 
 		<th >注册时间</th> 
-		<th >参与游戏时间</th> 
+		<th >参与游戏时间</th>
 		<th >状态</th>
 		<th >操作</th> 
     </tr>
@@ -203,8 +203,10 @@
 		</td>
 		<td >#if(${data.isok}==1)
 				正常
+			#elseif(${data.isok}==2)
+				半永久封号
 			#else
-				锁定
+				永久封号
 			#end
 		</td>
 	  <td > 

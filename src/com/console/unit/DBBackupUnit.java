@@ -21,10 +21,10 @@ public class DBBackupUnit {
 
 	// 数据库备份
 	public static String dbbackup() {
-		String hostIP = "192.168.1.133";
+		String hostIP = "127.0.0.1";
 		String userName = "root";
 		String password = "cisoft";
-		String databaseName = "jeecms";
+		String databaseName = "integrationgame";
 		String savePath = "E:/file/";
 		String fileName = "";
 		String returnstr = "";

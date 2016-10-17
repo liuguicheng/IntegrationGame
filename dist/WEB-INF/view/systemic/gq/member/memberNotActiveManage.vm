@@ -144,6 +144,7 @@ function doapply(){
 	<tr>
       <td class="TdLabel" style="width:100px;">#requiredInput("πÈ Ùµ„±‡∫≈:")</td>
       <td class="TdInput">
+		
         <input type="text" name="noteUsername" value="" id="applynote" onchange="selectNote();">
       </td>
       <td class="TdLabel" style="width:100px;">#requiredInput("πÈ Ùµ„'¡Æ'Õ®µ¿:")</td>

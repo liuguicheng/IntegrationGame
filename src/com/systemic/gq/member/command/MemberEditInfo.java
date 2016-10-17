@@ -100,6 +100,20 @@ public class MemberEditInfo extends SpringlineCommand {
 	private String notelan;
 	/** 归属点 勇通道*/
 	private String noteyong;
+	/**申请参与游戏时间 */
+	private Date applyTime;
+	/**申请升级时间 */
+	private Date applyUpgradeTime;
+	/**已收到所需升级数量*/
+	private Integer applyUpgradeNum;
+	/**修改个人资料次数*/
+	private Integer updateInfoNum;
+	public Integer getUpdateInfoNum() {
+		return updateInfoNum;
+	}
+	public void setUpdateInfoNum(Integer updateInfoNum) {
+		this.updateInfoNum = updateInfoNum;
+	}
 	/**
 	 * @return the id
 	 */
@@ -567,6 +581,24 @@ public class MemberEditInfo extends SpringlineCommand {
 	 */
 	public void setNoteUsername(String noteUsername) {
 		this.noteUsername = noteUsername;
+	}
+	public Date getApplyTime() {
+		return applyTime;
+	}
+	public void setApplyTime(Date applyTime) {
+		this.applyTime = applyTime;
+	}
+	public Date getApplyUpgradeTime() {
+		return applyUpgradeTime;
+	}
+	public void setApplyUpgradeTime(Date applyUpgradeTime) {
+		this.applyUpgradeTime = applyUpgradeTime;
+	}
+	public Integer getApplyUpgradeNum() {
+		return applyUpgradeNum;
+	}
+	public void setApplyUpgradeNum(Integer applyUpgradeNum) {
+		this.applyUpgradeNum = applyUpgradeNum;
 	}
 	
 }

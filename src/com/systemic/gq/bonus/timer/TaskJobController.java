@@ -12,9 +12,9 @@ public class TaskJobController  {
 	
     public void aTask(){
     	try{
-         SettlementHelper.settlementStaticBonus();  
+        
          DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");    
-         System.out.println(sdf.format(new Date())+"*********每月30号结算发放静态奖");   
+         System.out.println(sdf.format(new Date())+"*********每小时检测申请审核时间限制限制");   
     	}catch(Exception e){
     		System.out.println(e.getMessage());
     	}

@@ -112,12 +112,15 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			member.setCreateTime(new Date());
 			member.setRegion(info.getRegion());
 			member.setIsok(1);
+			member.setIsdel(1);
 			//获取推荐人的推广链接和二维码 廉通道、勇通道
 			Member referenceMember= selectMemberByStaffid(info.getReferenceId());
 			member.setReferenceQRCodeContent(referenceMember.getqRCodeContent());
 			member.setReferenceQRCodeImageUrl(referenceMember.getqRCodeImageUrl());
 			member.setReferencelan(referenceMember.getLan());
 			member.setReferenceyong(referenceMember.getYong());
+			//修改次数
+			member.setUpdateInfoNum(info.getUpdateInfoNum());
 		} 
 		this.memberDao.save(member);
 		CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);
@@ -129,17 +132,20 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			for (String id :ids ) {
 				Member member = this.loadMermber(id);
 				if(member != null){
-					this.memberDao.delete(member);
+					ConsoleHelper.getInstance().notifyObservers(member);
+					try {
+						ConsoleHelper.getInstance().getManageService().deleteStaff(member.getStaffId());
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out.println("删除会员出错");
+						throw new RuntimeException("删除会员出错!请联系技术人员!"+this.getClass());
+					}
+					member.setIsdel(0);
+					this.memberDao.save(member);
+					CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);
 				}
-				try {
-					ConsoleHelper.getInstance().getManageService().deleteStaff(member.getStaffId());
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("删除会员出错");
-					throw new RuntimeException("删除会员出错!请联系技术人员!"+this.getClass());
-				}
+				
 			}
-			// TODO: Animate this.group instead 
 	}
 
 	@Override
@@ -238,6 +244,16 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	@Override
 	public Member selectMemberByUserName(String userName) {
 		return memberDao.selectMemberByUserName(userName);
+	}
+
+	@Override
+	public List<Member> selectMemberListByNodeUsername(String note) {
+		return memberDao.selectMemberListByNodeUsername(note);
+	}
+
+	@Override
+	public List<Member> selectMemberByAuditTime(MemberInfo info, int timenum) {
+		return memberDao.selectMemberByAuditTime(info,timenum);
 	}
 
 	

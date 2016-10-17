@@ -204,4 +204,43 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		return null;
 	}
 
+	@Override
+	public List<Member> selectMemberListByNodeUsername(String note) {
+		Object[] values = new Object[5];
+		int idx = 0;
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.noteUsername =? ");
+		values[idx++] = note;
+		Object[] param = new Object[idx];
+		System.arraycopy(values, 0, param, 0, idx);
+		List list = super.doQuery(queryStr.toString(), param);
+		if (!list.isEmpty()) {
+			return  list;
+		}
+		return null;
+	}
+
+	@Override
+	public List<Member> selectMemberByAuditTime(MemberInfo info, int timenum) {
+		Object[] values = new Object[5];
+		int idx = 0;
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where 1=1 ");
+		if (info != null) {
+			if (info.getApplyTime() != null) {
+					queryStr.append(" and datediff(NOW(),m.applyTime)>="+timenum);
+			}
+			if (info.getApplyUpgradeTime() != null) {
+				queryStr.append(" and datediff(NOW(),m.applyUpgradeTime)>="+timenum);
+			}
+		}
+		Object[] param = new Object[idx];
+		System.arraycopy(values, 0, param, 0, idx);
+		List list = super.doQuery(queryStr.toString(), param);
+		if (!list.isEmpty()) {
+			return list;
+		}
+		return null;
+	}
+
 }
