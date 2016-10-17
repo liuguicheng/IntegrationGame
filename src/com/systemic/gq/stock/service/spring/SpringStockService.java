@@ -64,4 +64,9 @@ public class SpringStockService implements IStockService {
 		
 	}
 
+	@Override
+	public Stock selectStockBygradeNum(String v1_zdtype) {
+		return stockDao.selectStockBygradeNum(v1_zdtype);
+	}
+
 }

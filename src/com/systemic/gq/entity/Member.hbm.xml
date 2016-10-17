@@ -37,6 +37,9 @@
 		<property name="productgradeId" type="java.lang.String">
 			<column name="productgrade_id" length="32" not-null="false" />
 		</property>
+		<property name="levleId" type="java.lang.String">
+			<column name="levleId" length="32" not-null="false" />
+		</property>
 		<property name="goldAward" type="java.lang.Double">
 			<column name="goldAward" precision="22" scale="0" />
 		</property>
@@ -123,6 +126,27 @@
 		</property>
 		<property name="giveIntegral" type="java.lang.Integer">
 			<column name="giveIntegral" />
+		</property>
+		<property name="lan" type="java.lang.String">
+			<column name="lan" length="250"/>
+		</property>
+		<property name="yong" type="java.lang.String">
+			<column name="yong" length="250"/>
+		</property>
+		<property name="referencelan" type="java.lang.String">
+			<column name="referencelan" length="250"/>
+		</property>
+		<property name="referenceyong" type="java.lang.String">
+			<column name="referenceyong" length="250"/>
+		</property>
+		<property name="notelan" type="java.lang.String">
+			<column name="notelan" length="250"/>
+		</property>
+		<property name="noteyong" type="java.lang.String">
+			<column name="noteyong" length="250"/>
+		</property>
+		<property name="noteUsername" type="java.lang.String">
+			<column name="noteUsername" length="250"/>
 		</property>
 	</class>
 </hibernate-mapping>

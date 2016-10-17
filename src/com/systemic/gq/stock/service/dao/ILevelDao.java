@@ -13,4 +13,6 @@ public interface ILevelDao extends ICommonDao {
 	List<Level> selectAllLevel();
 	
 	Page selectPageLevel(LevelInfo level);
+
+	Level selectlevelByzdtype(String memberlevleId);
 }

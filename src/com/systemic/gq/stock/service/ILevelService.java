@@ -19,4 +19,6 @@ public interface ILevelService {
 	void insertlevel(LevelEdit leveledit);
 
 	void deletelevel(String[] idstr);
+
+	Level selectlevelByzdtype(String memberlevleId);
 }

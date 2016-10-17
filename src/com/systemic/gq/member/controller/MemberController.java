@@ -1,5 +1,7 @@
 package com.systemic.gq.member.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,8 +28,11 @@ import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.systemic.gq.bonus.settlement.SettlementHelper;
+import com.systemic.gq.entity.IntegrationGameRule;
+import com.systemic.gq.entity.Level;
 import com.systemic.gq.entity.Member;
 import com.systemic.gq.entity.Rule;
+import com.systemic.gq.entity.Stock;
 import com.systemic.gq.member.command.MemberEditInfo;
 import com.systemic.gq.member.command.MemberInfo;
 import com.systemic.gq.member.service.ISpringMemberService;
@@ -139,6 +144,7 @@ public class MemberController {
 	/**
 	 * 
 	 * 申请参与玩家列表
+	 * 
 	 * @param request
 	 * @param response
 	 * @param model
@@ -204,6 +210,8 @@ public class MemberController {
 	public String memberEditSave(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
 			MemberEditInfo info) {
 		try {
+			String bh = queryBh();
+			info.setUserName(bh);
 			this.springMemberService.saveMermber(info);
 			model.addAttribute("message", "保存成功");
 		} catch (Exception e) {
@@ -215,6 +223,63 @@ public class MemberController {
 
 		// return "redirect:../member/memberManage.do";
 		return "redirect:../member/memberManage.do?isActivation=0";
+	}
+
+	public String queryBh() {
+		// 系统设置
+		IntegrationGameRule rule = ConsoleHelper.getInstance().getIntegrationGameRuleService()
+				.selectIntegrationGameRule();
+		if (rule == null || rule.getRegisterLoginNameNum() == null || "".equals(rule.getRegisterLoginNameNum())) {
+			throw new RuntimeException("系统设置无效");
+		}
+		// 玩家编号 8位随机数字
+		String bh = se(rule);
+		return bh;
+	}
+
+	private String se(IntegrationGameRule rule) {
+		// 玩家编号 8位随机数字
+		String bh = ConUnit.uid(rule.getRegisterLoginNameNum());
+		boolean fa = this.springMemberService.selectMemberByUsername(bh);
+		if(fa==true){
+			return bh;
+		}else{
+			return se(rule);
+		}
+	}
+
+	/**
+	 * 验证昵称是否存在
+	 */
+	@RequestMapping(value = "/member/nicknameAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String ajaxNicknameAjax(HttpServletRequest request, HttpServletResponse response, MemberEditInfo infos) {
+		MemberInfo info = new MemberInfo();
+		try {
+			infos.setBsid(URLDecoder.decode(infos.getBsid(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		info.setBsid(infos.getBsid());
+		List<Member> memberlist = this.springMemberService.selectMemberBy(info);
+		String gsonString = "";
+		List list = new ArrayList();
+		ErrorDataMsg ed = new ErrorDataMsg();
+		Gson g = (new GsonBuilder()).create();
+		if (memberlist != null && !memberlist.isEmpty()) {
+			String error = "昵称『" + infos.getBsid() + "』已被使用！";
+			ed.setCode(0);
+			ed.setMessage(error);
+
+		} else {
+			ed.setCode(1);
+		}
+
+		list.add(ed);
+		gsonString = g.toJson(list);
+		System.out.println(gsonString);
+		return gsonString;
 	}
 
 	@RequestMapping(value = "/member/loginUsernameAjax.do", produces = "text/plain;charset=gbk")
@@ -370,8 +435,8 @@ public class MemberController {
 			member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 		}
 
-		Rule rule = ConsoleHelper.getInstance().getRuleService().selectRuleBY();
-		model.addAttribute("rule", rule);
+//		Rule rule = ConsoleHelper.getInstance().getRuleService().selectRuleBY();
+//		model.addAttribute("rule", rule);
 		model.addAttribute("command", member);
 		return "/gq/member/memberUpdate";
 	}
@@ -382,25 +447,19 @@ public class MemberController {
 	@RequestMapping(value = "/member/MemberInfo.do", method = RequestMethod.POST)
 	public String doUpdateMember(HttpServletRequest request, Model model, MemberEditInfo info) {
 		if (info != null) {
-
-			Member member = this.springMemberService.selectMemberByStaffid(info.getStaffId());
+			Member member = this.springMemberService.selectMemberById(info.getId());
+			member.setBsid(info.getBsid());
 			member.setMbwt(info.getMbwt());
 			member.setMbwtDn(info.getMbwtDn());
-			member.setZsxm(info.getZsxm());
-			member.setSfzhm(info.getSfzhm());
-			member.setLxdh(info.getLxdh());
-			member.setLxdz(info.getLxdz());
-			member.setEmail(info.getEmail());
-			member.setKhxm(info.getKhxm());
-			member.setYhxx(info.getYhxx());
-			member.setYhkh(info.getYhkh());
+			member.setLan(info.getLan());
+			member.setYong(info.getYong());
 			this.springMemberService.updateMermberInfo(member);
 			model.addAttribute("message", "修改成功");
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-修改个人资料";
 			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_UP_MEMBERINFO,
 					member, logContent);
 		}
-		return "redirect:../member/MemberInfo.do";
+		return "redirect:../member/MemberInfo.do?memberId="+info.getId();
 	}
 
 	/**
@@ -471,9 +530,12 @@ public class MemberController {
 				edm.setMessage("申请失败,当前您输入的归属节点下无空位可放,请重新输入归属节点编号!");
 			} else {
 				member.setRegion(region);
-				member.setNoteQRCodeContent(info.getNoteQRCodeContent());
-				member.setNote(info.getNote());
-				member.setNoteQRCodeImageUrl(info.getNoteQRCodeImageUrl());
+				Member notemember=this.springMemberService.selectMemberByUserName(info.getNoteUsername());
+				member.setNotelan(notemember.getNotelan());
+				member.setNoteyong(notemember.getNoteyong());
+				member.setNoteUsername(notemember.getUserName());
+				member.setNote(notemember.getStaffId());
+				notemember=null;
 				member.setActivationTime(new Date());
 				member.setIsActivation(1);
 				this.springMemberService.updateMermberInfo(member);
@@ -488,7 +550,7 @@ public class MemberController {
 						loginmember, logContent);
 
 				// 添加提醒记录
-				
+
 			}
 		}
 		msg = ConUnit.tojson(edm);
@@ -497,6 +559,7 @@ public class MemberController {
 
 	/**
 	 * 根据节点查询 节点 下方可放节点
+	 * 
 	 * @param note
 	 * @return
 	 */
@@ -572,10 +635,10 @@ public class MemberController {
 		String msg = "";
 		ErrorDataMsg edm = new ErrorDataMsg();
 		edm.setCode(0);
-		Member member = this.springMemberService.selectMemberByStaffid(info.getMemberId());
+		Member member = this.springMemberService.selectMemberByUserName(info.getUserName());
 		if (member != null) {
 			edm.setCode(1);
-			edm.setMessage(member.getqRCodeContent() + "," + member.getqRCodeImageUrl());
+			edm.setMessage(member.getLan() + "," + member.getYong());
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;
@@ -607,4 +670,37 @@ public class MemberController {
 		return msg;
 	}
 
+	
+	/**
+	 * 修改玩家级别（后台管理员）
+	 */
+	@RequestMapping(value = "/member/upLevelMemberAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String upLevelMemberAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		edm.setMessage("修改失败");
+		Member member = this.springMemberService.selectMemberById(info.getMemberId());
+		if (member != null) {
+				String memberlevleId=request.getParameter("memberlevleId");
+				Level level= ConsoleHelper.getInstance().getIlevelService().selectlevelByzdtype(memberlevleId);
+				Stock stock=ConsoleHelper.getInstance().getStockService().selectStockBygradeNum(level.getV1_zdtype());
+				member.setLevleId(level.getId());
+				member.setStock(stock);
+				member.setProductgradeId(stock.getId());
+				this.springMemberService.updateMermberInfo(member);
+				edm.setMessage("修改成功");
+				edm.setCode(1);
+				// 添加日志
+				Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+				Member loginmember = ConsoleHelper.getInstance().getManageService()
+						.selectMemberByStaffId(staff.getId());
+				String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-修改玩家级别,玩家编号为：" + member.getStaffId();
+				ConsoleHelper.getInstance().getLogService().saveOperateLogForMember("修改玩家级别",
+						loginmember, logContent);
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
 }

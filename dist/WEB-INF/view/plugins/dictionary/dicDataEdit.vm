@@ -8,7 +8,7 @@
   validator.addNormalCheckPoint("typeCode","◊÷µ‰¿‡–Õ","checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("dataCode","±‡¬Î","checkNotNull;checkNotEmpty;checkEnglish");
   validator.addNormalCheckPoint("dataName","√˚≥∆","checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("dataSort","≈≈–Ú","checkInt");
+  validator.addNormalCheckPoint("dataSort","≈≈–Ú","checkNotNull;checkNotEmpt");
 function doSave(){
     var e = document.editForm;
   var nI = strlen(e.dataCode.value);

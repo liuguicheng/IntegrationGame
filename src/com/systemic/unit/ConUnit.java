@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,9 +103,9 @@ public class ConUnit {
 	public static void CalculationTable(int qy, int cen) {
 		// 传回x的y次幂值 求出最大个数 ：区域的层次幂
 		double totalTd = Math.pow(qy, (cen - 1));
-		 System.out.println("当前区域：" + qy + ",一共" + cen + "层。最大格数：" + totalTd);
+		System.out.println("当前区域：" + qy + ",一共" + cen + "层。最大格数：" + totalTd);
 		// 去除前端页面table循环次数（层数*区域减去最后一层）
-		//int num = (cen * 2 - 1);
+		// int num = (cen * 2 - 1);
 		// System.out.println("table 循环tr行数：" + num);
 		// 第一层、第二层的td 跨度基本固定，不用计算
 		// System.out.println("第1层td跨度：" + totalTd + ",格数：1");
@@ -117,10 +119,25 @@ public class ConUnit {
 		// ",格数：" + Math.pow(qy, (i - 1)));
 		// }
 		// }
-		
+
 	}
-    
+
+	public static String uid(int num) {
+		StringBuilder str = new StringBuilder();// 定义变长字符串
+		Random random = new Random();
+		// 随机生成数字，并添加到字符串
+		for (int i = 0; i < num; i++) {
+			str.append(random.nextInt(10));
+		}
+		// 将字符串转换为数字并输出
+		String retnum = str.toString();
+		return retnum;
+	}
+
 	public static void main(String[] args) {
-		CalculationTable(3,6);
+		for (int i = 0; i < 100; i++) {
+			System.out.println(uid(10));
+		}
+		
 	}
 }

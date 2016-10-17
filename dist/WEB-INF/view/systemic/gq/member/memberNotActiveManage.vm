@@ -22,10 +22,12 @@
     }
   }
 
-function activation(id,referenceId,referenceqRCodeContent){
-	    $("#staffId").val(id);
-		$("#referenceId").val(referenceId);
-		$("#referenceqRCodeContent").val(referenceqRCodeContent);
+/**弹出申请加入游戏 页面 */
+function activation(id,userName,referenceName,referencelan){
+	    $("#applystaffId").val(id);
+		$("#referenceName").val(referenceName);
+		$("#userName").val(userName);
+		$("#referencelan").val(referencelan);
 		var width = width || 800;
 	    var divobj = $("#apply");
 	    if(divobj.is(":visible")) {
@@ -34,31 +36,32 @@ function activation(id,referenceId,referenceqRCodeContent){
 	        divobj.searchBox({title: "申请参与游戏", width: width });
 	    }
 }
+//动态获取用户输入的归属点编号 的廉通道信息
 function selectNote(){
- 	var note=$("#note").val();
+ 	var note=$("#applynote").val();
 	if(note!=""){
 		$.ajax({
         	url: '../member/memberAjax.do',
        	 	type: 'POST',
-			data:"memberId="+note, 
+			data:"userName="+note, 
        	 	cache: false,
         	success: function(result) {
 				var s=$.parseJSON(result);//内容
 				if(s.length>0){
 					if(s[0].code==1){
 						var str=s[0].message;
-				 		var res=str.split(",");
-				 		$("#noteqRCodeContent").val(res[0]);
-				 		$("#noteQRCodeImageUrl").val(res[1]);
+						var res=str.split(",");
+				 		$("#notelan").val(res[0]);
+				 		$("#noteyong").val(res[1]);
 					}else{
 						alert("您输入的归属节点编号不存在!");
-						$("#noteqRCodeContent").val("");
-				 		$("#noteQRCodeImageUrl").val("");
+							$("#notelan").val("");
+				 		$("#noteyong").val("");
 					}
 				}else{
-					alert("您输入的归属节点编号不存在!");
-					$("#noteqRCodeContent").val("");
-				 		$("#noteQRCodeImageUrl").val("");
+					    alert("您输入的归属节点编号不存在!");
+				 		$("#notelan").val("");
+				 		$("#noteyong").val("");
 				}
 				
         	}
@@ -66,7 +69,7 @@ function selectNote(){
 	}
 	
 }
-
+//申请加入游戏
 function doapply(){
  	var note=$("#note").val();
 	if(note!=""){
@@ -100,10 +103,13 @@ function doapply(){
   <table class="TbCommon">
     <tr>
       <td class="TdLabel" style="width:100px;">玩家编号:</td>
-      <td class="TdInput" colspan="3">
-        <input type="text" name="staffId" value="" >
+      <td class="TdInput" >
+        <input type="text" name="userName" value="" >
       </td>
-      
+      <td class="TdLabel" style="width:100px;">玩家昵称:</td>
+      <td class="TdInput" >
+        <input type="text" name="bsid" value="" >
+      </td>
     </tr>
   </table>
   <div class="CommandTool">
@@ -114,34 +120,36 @@ function doapply(){
 </form>
 </div>
 
+<!--申请参与游戏div开始 -->
 <div class="SearchBox" id="apply">
 <form name="applyForm" action="../member/activationMemberAjax.do" method="post" class="indieui-form" id="applyform">
   <table class="TbCommon">
     <tr>
       <td class="TdLabel" style="width:100px;">玩家编号:</td>
       <td class="TdInput" colspan="3">
-        <input type="text" name="staffId" value="" id="staffId" readonly >
+        <input type="hidden" name="staffId" value="" id="applystaffId" readonly >
+		<input type="text" name="userName" value="" id="userName" readonly >
       </td>
     </tr>
 	<tr>
       <td class="TdLabel" style="width:100px;">推荐点编号:</td>
       <td class="TdInput">
-        <input type="text" name="referenceId" value="" id="referenceId" readonly>
+        <input type="text" name="referenceName" value="" id="referenceName" readonly>
       </td>
-      <td class="TdLabel" style="width:100px;">推荐点推荐链接:</td>
+      <td class="TdLabel" style="width:100px;">推荐点'廉'通道:</td>
       <td class="TdInput">
-        <input type="text" value="" id="referenceqRCodeContent" readonly>
+        <input type="text" value="" id="referencelan" readonly>
       </td>
     </tr>
 	<tr>
       <td class="TdLabel" style="width:100px;">#requiredInput("归属点编号:")</td>
       <td class="TdInput">
-        <input type="text" name="note" value="" id="note" onchange="selectNote(this);">
+        <input type="text" name="noteUsername" value="" id="applynote" onchange="selectNote();">
       </td>
-      <td class="TdLabel" style="width:100px;">#requiredInput("归属点推荐链接:")</td>
+      <td class="TdLabel" style="width:100px;">#requiredInput("归属点'廉'通道:")</td>
       <td class="TdInput">
-        <input type="text" name="qRCodeContent" value="" id="noteqRCodeContent" >
-		<input type="hidden" name="noteQRCodeImageUrl" value="" id="noteQRCodeImageUrl" >
+        <input type="text" name="notelan" value="" id="notelan" readonly >
+			  <input type="hidden" name="noteyong" value="" id="noteyong" >
       </td>
     </tr>
   </table>
@@ -150,6 +158,7 @@ function doapply(){
   </div>
 </form>
 </div>
+<!--申请参与游戏div结束 -->
 
 
 <div class="PageTool">
@@ -171,8 +180,8 @@ function doapply(){
       ##  <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
     ##  </th>
         <th >玩家编号</th>
+		<th >玩家昵称</th>
         <th >级别</th>
-        <th >积分</th>  
 		<th >推荐人</th> 
 		<th >注册时间</th> 
 		<th >操作</th> 
@@ -181,12 +190,12 @@ function doapply(){
   <tbody>
   #foreach( $data in $page.data )
     <tr>
-      <td>$!{data.staffId}</td>
+      <td>$!{data.userName}</td>
+	  <td>$!{data.bsid}</td>
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
-      <td>#showNumber($!{data.stock.money})</td>
-	  <td >$!{data.referenceId}</td>
+	  <td >$!{data.referenceName}</td>
 	  <td >#formatTime(${data.createTime})</td>
-      <td ><a href="javascript:activation('$!{data.staffId}','$!{data.referenceId}','$!{data.referenceQRCodeContent}')">[申请加入游戏]</a></td>
+      <td ><a href="javascript:activation('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.referencelan}')">[申请加入游戏]</a> <br/></td>
     </tr>
   #end
   </tbody>   

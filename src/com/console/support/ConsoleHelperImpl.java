@@ -26,7 +26,10 @@ import com.systemic.gq.entity.Stock;
 import com.systemic.gq.member.service.ISpringMemberService;
 import com.systemic.gq.pay.service.ISpringPayLogService;
 import com.systemic.gq.stock.service.IBonusContentService;
+import com.systemic.gq.stock.service.IIntegrationGameRuleService;
+import com.systemic.gq.stock.service.ILevelService;
 import com.systemic.gq.stock.service.IRuleService;
+import com.systemic.gq.stock.service.IStockService;
 
 /**
  * @description
@@ -78,6 +81,10 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 	private IBonusRecordServcie bonusRecordService;
 	
 	private IRuleService ruleService;
+	
+	private IIntegrationGameRuleService integrationGameRuleService;
+	private ILevelService ilevelService;
+	private IStockService stockService;
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
@@ -279,7 +286,57 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 	public void setRuleService(IRuleService ruleService) {
 		this.ruleService = ruleService;
 	}
-	
+
+	@Override
+	public IIntegrationGameRuleService getIntegrationGameRuleService() {
+		// TODO Auto-generated method stub
+		if(integrationGameRuleService==null){
+			throw new RuntimeException("ConsoleHeler无法提供integrationGameRuleService接口！");
+		}
+		return integrationGameRuleService;
+	}
+
+	/**
+	 * @param integrationGameRuleService the integrationGameRuleService to set
+	 */
+	public void setIntegrationGameRuleService(IIntegrationGameRuleService integrationGameRuleService) {
+		this.integrationGameRuleService = integrationGameRuleService;
+	}
+
+
+	/**
+	 * @return the ilevelService
+	 */
+	public ILevelService getIlevelService() {
+		if(ilevelService==null){
+			throw new RuntimeException("ConsoleHeler无法提供ilevelService接口！");
+		}
+		return ilevelService;
+	}
+
+	/**
+	 * @param ilevelService the ilevelService to set
+	 */
+	public void setIlevelService(ILevelService ilevelService) {
+		this.ilevelService = ilevelService;
+	}
+
+	/**
+	 * @return the stockService
+	 */
+	public IStockService getStockService() {
+		if(stockService==null){
+			throw new RuntimeException("ConsoleHeler无法提供stockService接口！");
+		}
+		return stockService;
+	}
+
+	/**
+	 * @param stockService the stockService to set
+	 */
+	public void setStockService(IStockService stockService) {
+		this.stockService = stockService;
+	}
 	
 	
 	

@@ -23,10 +23,12 @@
   }
   
 
-function activation(id,referenceId,note){
-		$("#staffId").val(id);
-		$("#referenceId").val(referenceId);
-		$("#note").val(note);
+//弹出审核申请加入游戏 弹出框
+function audit(id,userName,referenceName,noteUsername){
+		$("#auditstaffId").val(id);
+		$("#audituserName").val(userName);
+		$("#auditreferenceName").val(referenceName);
+		$("#auditnoteUsername").val(noteUsername);
 		var width = width || 800;
 	    var divobj = $("#audit");
 	    if(divobj.is(":visible")) {
@@ -35,7 +37,7 @@ function activation(id,referenceId,note){
 	        divobj.searchBox({title: "审核", width: width });
 	    }
 }
-
+//提交审核申请加入游戏
 function doaudit(){
 		$.ajax({
         	url: '../member/fauditMemberAjax.do',
@@ -64,11 +66,11 @@ function doaudit(){
     <tr>
       <td class="TdLabel" style="width:100px;">玩家编号：</td>
       <td class="TdInput">
-        <input type="text" name="staffId" value="" >
+        <input type="text" name="userName" value="" >
       </td>
-      <td class="TdLabel" style="width:100px;">玩家姓名：</td>
+      <td class="TdLabel" style="width:100px;">玩家昵称：</td>
       <td class="TdInput">
-        <input type="text" name="zsxm" value="" >
+        <input type="text" name="bsid" value="" >
       </td>
     </tr>
   </table>
@@ -80,23 +82,25 @@ function doaudit(){
 </form>
 </div>
 
+<!--审核申请参与游戏div开始 -->
 <div class="SearchBox" id="audit">
-<form name="queryForm" action="" method="post" class="indieui-form" id="auditform">
+<form name="dForm" action="" method="post" class="indieui-form" id="auditform">
   <table class="TbCommon">
     <tr>
       <td class="TdLabel" style="width:100px;">玩家编号：</td>
       <td class="TdInput">
-        <input type="text" name="staffId" value="" id="staffId" readonly >
+        <input type="hidden" name="staffId" value="" id="auditstaffId" readonly >
+			<input type="text" name="userName" value="" id="audituserName" readonly >
       </td>
       <td class="TdLabel" style="width:100px;">推荐人编号：</td>
       <td class="TdInput">
-        <input type="text" name="referenceId" value="" id="referenceId" readonly>
+        <input type="text" name="referenceName" value="" id="auditreferenceName" readonly>
       </td>
     </tr>
 	<tr>
       <td class="TdLabel" style="width:100px;">归属人编号：</td>
       <td class="TdInput">
-        <input type="text" name="note" value="" id="note" readonly>
+        <input type="text" name="noteUsername" value="" id="auditnoteUsername" readonly>
       </td>
       <td class="TdLabel" style="width:100px;">审核结果：</td>
       <td class="TdInput">
@@ -110,6 +114,7 @@ function doaudit(){
   </div>
 </form>
 </div>
+<!--审核申请参与游戏div结束 -->
 
 
 <div class="PageTool">
@@ -131,6 +136,7 @@ function doaudit(){
       ##  <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
     ##  </th>
         <th >玩家编号</th>
+		<th >玩家昵称</th>
         <th >级别</th>
 		<th >推荐人编号</th>
 		<th >归属人编号</th> 
@@ -141,12 +147,13 @@ function doaudit(){
   <tbody>
   #foreach( $data in $page.data )
     <tr>
-      <td>$!{data.staffId}</td>
+      <td>$!{data.userName}</td>
+	   <td >$!{data.bsid}</td>
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
-	  <td >$!{data.referenceId}</td>
-	    <td >$!{data.note}</td>
+	  <td >$!{data.referenceName}</td>
+	    <td >$!{data.noteUsername}</td>
 	  <td >#formatTime(${data.createTime})</td>
-      <td ><a href="javascript:activation('$!{data.staffId}','$!{data.referenceId}','$!{data.note}')">[审核]</a></td>
+      <td ><a href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[审核]</a></td>
     </tr>
   #end
   </tbody>   

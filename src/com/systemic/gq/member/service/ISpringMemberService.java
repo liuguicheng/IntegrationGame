@@ -54,4 +54,12 @@ public interface ISpringMemberService {
 	 */
 	Member selectMemberByNode(String staffId,String region);
 	List<Member> selectMemberListByNode(String staffId);
+	/**
+	 * 根据登陆账号查询用户是否存在
+	 * @param bh
+	 * @return
+	 */
+	boolean selectMemberByUsername(String bh);
+	
+	Member selectMemberByUserName(String userName);
 }

@@ -17,11 +17,13 @@ import com.console.entity.Role;
 import com.console.entity.Staff;
 import com.console.entity.StaffSecurity;
 import com.plugins.sn.service.SNHelper;
+import com.systemic.gq.entity.IntegrationGameRule;
 import com.systemic.gq.entity.Member;
 import com.systemic.gq.member.command.MemberEditInfo;
 import com.systemic.gq.member.command.MemberInfo;
 import com.systemic.gq.member.service.ISpringMemberService;
 import com.systemic.gq.member.service.dao.IMemberDao;
+import com.systemic.unit.ConUnit;
 
 public class SpringMemberSerivce implements ISpringMemberService {
 	private IMemberDao memberDao;
@@ -52,18 +54,26 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			Staff staff = new Staff();
 			staff.setId(SNHelper.getSNService().getSerialNumber(
 					Staff.class.getName(), "id", false));
-			staff.setName(info.getUserName());
-			
+			staff.setName(info.getBsid());
 			// 判断登录名是否被使用
-			Staff tmp = ConsoleHelper.getInstance().getMainService().selectAllStaff(info.getUserName());
-			if (tmp != null && !tmp.getId().equals(info.getId())) {
-				throw new RuntimeException("登录名『"
-						+ info.getUserName() + "』已被使用！");
+//			Staff tmp = ConsoleHelper.getInstance().getMainService().selectAllStaff(info.getUserName());
+//			if (tmp != null && !tmp.getId().equals(info.getId())) {
+//				throw new RuntimeException("登录名『"
+//						+ info.getUserName() + "』已被使用！");
+//			}
+			//判断昵称是否被占用
+			MemberInfo einfo=new MemberInfo();
+			einfo.setBsid(info.getBsid());
+			List<Member> memberlist= selectMemberBy(einfo);
+			if(memberlist!=null&&!memberlist.isEmpty()){
+				throw new RuntimeException("昵称『"
+						+ info.getBsid() + "』已被使用！");
+				
 			}
 			BeanUtils.copyProperties(info, staff, new String[] { "id",
 					"password" });
 			BeanUtils.copyProperties(info, member, new String[] { "memberId" });
-			staff.setLoginName(info.getUserName());//登录名
+			staff.setLoginName(member.getUserName());//登录名
 			staff.setPassword(info.getPassword());//密码
 			// 设置密码，并加密
 			if (info.getPassword() != null
@@ -88,7 +98,7 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			                .md5Encoding(info.getPasswordThree()));
 			}
 			Set<Role> set = new HashSet<Role>();
-			Role role = (Role) this.memberDao.load(Role.class, "21");//21为会员角色ID
+			Role role = (Role) this.memberDao.load(Role.class, "21");//21为玩家角色ID
 			set.add(role);
 			staff.setSystemRole(set);
 			staff.setDepartment(ConsoleHelper.getInstance().getMainService().selectDepartment("1"));
@@ -102,10 +112,12 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			member.setCreateTime(new Date());
 			member.setRegion(info.getRegion());
 			member.setIsok(1);
-			//获取推荐人的推广链接和二维码
+			//获取推荐人的推广链接和二维码 廉通道、勇通道
 			Member referenceMember= selectMemberByStaffid(info.getReferenceId());
 			member.setReferenceQRCodeContent(referenceMember.getqRCodeContent());
 			member.setReferenceQRCodeImageUrl(referenceMember.getqRCodeImageUrl());
+			member.setReferencelan(referenceMember.getLan());
+			member.setReferenceyong(referenceMember.getYong());
 		} 
 		this.memberDao.save(member);
 		CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);
@@ -216,6 +228,16 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	@Override
 	public List<Member> selectMemberListByNode(String staffId) {
 		return memberDao.selectMemberListByNode(staffId);
+	}
+
+	@Override
+	public boolean selectMemberByUsername(String bh) {
+		return memberDao.selectMemberByUsername(bh);
+	}
+
+	@Override
+	public Member selectMemberByUserName(String userName) {
+		return memberDao.selectMemberByUserName(userName);
 	}
 
 	

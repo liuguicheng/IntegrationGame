@@ -14,4 +14,6 @@ public interface IStockDao extends ICommonDao {
 	List<Stock> selectAllStock();
 	
 	Page selectPageStock(StockInfo stock);
+
+	Stock selectStockBygradeNum(String v1_zdtype);
 }

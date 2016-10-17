@@ -30,6 +30,8 @@ public class MemberEditInfo extends SpringlineCommand {
 	private Stock stock;
 	/** 股权等级id */
 	private String productgradeId;
+	/** 玩家等级id */
+	private String levleId;
 	/** 奖金币 */
 	private Double goldAward;
 	/** 电子币 */
@@ -62,6 +64,8 @@ public class MemberEditInfo extends SpringlineCommand {
 	private String staffId;
 	/***节点*/
 	private String note;
+	//归属节点编号
+		private String noteUsername;
 	//密保问题
 	private String mbwt;
 	//密保问题答案
@@ -86,6 +90,16 @@ public class MemberEditInfo extends SpringlineCommand {
 	 */
 	private String qRCodeContent;//二维码内容（推广链接）
 	private String qRCodeImageUrl;//二维码图片地址
+	private String lan;//廉通道
+	private String yong;//勇通道
+	/** 推荐人 廉通道*/
+	private String referencelan;
+	/** 推荐人 勇通道*/
+	private String referenceyong;
+	/** 归属点 廉通道*/
+	private String notelan;
+	/** 归属点 勇通道*/
+	private String noteyong;
 	/**
 	 * @return the id
 	 */
@@ -457,6 +471,102 @@ public class MemberEditInfo extends SpringlineCommand {
 	 */
 	public void setqRCodeImageUrl(String qRCodeImageUrl) {
 		this.qRCodeImageUrl = qRCodeImageUrl;
+	}
+	/**
+	 * @return the lan
+	 */
+	public String getLan() {
+		return lan;
+	}
+	/**
+	 * @param lan the lan to set
+	 */
+	public void setLan(String lan) {
+		this.lan = lan;
+	}
+	/**
+	 * @return the yong
+	 */
+	public String getYong() {
+		return yong;
+	}
+	/**
+	 * @param yong the yong to set
+	 */
+	public void setYong(String yong) {
+		this.yong = yong;
+	}
+	/**
+	 * @return the levleId
+	 */
+	public String getLevleId() {
+		return levleId;
+	}
+	/**
+	 * @param levleId the levleId to set
+	 */
+	public void setLevleId(String levleId) {
+		this.levleId = levleId;
+	}
+	/**
+	 * @return the referencelan
+	 */
+	public String getReferencelan() {
+		return referencelan;
+	}
+	/**
+	 * @param referencelan the referencelan to set
+	 */
+	public void setReferencelan(String referencelan) {
+		this.referencelan = referencelan;
+	}
+	/**
+	 * @return the referenceyong
+	 */
+	public String getReferenceyong() {
+		return referenceyong;
+	}
+	/**
+	 * @param referenceyong the referenceyong to set
+	 */
+	public void setReferenceyong(String referenceyong) {
+		this.referenceyong = referenceyong;
+	}
+	/**
+	 * @return the notelan
+	 */
+	public String getNotelan() {
+		return notelan;
+	}
+	/**
+	 * @param notelan the notelan to set
+	 */
+	public void setNotelan(String notelan) {
+		this.notelan = notelan;
+	}
+	/**
+	 * @return the noteyong
+	 */
+	public String getNoteyong() {
+		return noteyong;
+	}
+	/**
+	 * @param noteyong the noteyong to set
+	 */
+	public void setNoteyong(String noteyong) {
+		this.noteyong = noteyong;
+	}
+	/**
+	 * @return the noteUsername
+	 */
+	public String getNoteUsername() {
+		return noteUsername;
+	}
+	/**
+	 * @param noteUsername the noteUsername to set
+	 */
+	public void setNoteUsername(String noteUsername) {
+		this.noteUsername = noteUsername;
 	}
 	
 }

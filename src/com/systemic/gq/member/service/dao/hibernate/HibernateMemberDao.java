@@ -25,13 +25,13 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 	public Page selectMeber(MemberInfo info) {
 		Object[] values = new Object[25];
 		int idx = 0;
-		StringBuffer select = new StringBuffer(" from ").append(Member.class.getName()).append(" as me where me.memberId!=1 ");
+		StringBuffer select = new StringBuffer(" from ").append(Member.class.getName()).append(" as me  ");
 		StringBuffer where = new StringBuffer(200);
 
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);
 		IQueryObject io = this.memberQueryStringUtil.getQueryObject(info, where.toString(), param);
-		select.append(" where me.memberId!=1").append(io.getWhereClause());
+		select.append(" where ").append(io.getWhereClause());
 		if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
 			List data = super.doQuery(select.toString(), io.getParam());
 			info.setNotPage(false);
@@ -73,6 +73,10 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 					queryStr.append(" and datediff(NOW(),m.createTime)>30 ");
 				}
 				
+			}
+			if(info.getBsid()!=null&&!"".equals(info.getBsid())){
+				queryStr.append(" and m.bsid = ? ");
+				values[idx++] = info.getBsid();
 			}
 
 		}
@@ -164,6 +168,38 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		List list = super.doQuery(queryStr.toString(), param);
 		if (!list.isEmpty()) {
 			return  list;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean selectMemberByUsername(String bh) {
+		Object[] values = new Object[5];
+		int idx = 0;
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.userName =? ");
+		values[idx++] = bh;
+		Object[] param = new Object[idx];
+		System.arraycopy(values, 0, param, 0, idx);
+		List list = super.doQuery(queryStr.toString(), param);
+		if (!list.isEmpty()) {
+			return  false;
+		}
+		return true;
+	}
+
+	@Override
+	public Member selectMemberByUserName(String userName) {
+		Object[] values = new Object[5];
+		int idx = 0;
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.userName =? ");
+		values[idx++] = userName;
+		Object[] param = new Object[idx];
+		System.arraycopy(values, 0, param, 0, idx);
+		List list = super.doQuery(queryStr.toString(), param);
+		if (!list.isEmpty()) {
+			return  (Member) list.get(0);
 		}
 		return null;
 	}

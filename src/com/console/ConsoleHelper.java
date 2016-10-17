@@ -21,7 +21,10 @@ import com.systemic.gq.bonus.service.IBonusRecordServcie;
 import com.systemic.gq.member.service.ISpringMemberService;
 import com.systemic.gq.pay.service.ISpringPayLogService;
 import com.systemic.gq.stock.service.IBonusContentService;
+import com.systemic.gq.stock.service.IIntegrationGameRuleService;
+import com.systemic.gq.stock.service.ILevelService;
 import com.systemic.gq.stock.service.IRuleService;
+import com.systemic.gq.stock.service.IStockService;
 
 public abstract class ConsoleHelper extends Observable {
 
@@ -33,7 +36,8 @@ public abstract class ConsoleHelper extends Observable {
 	public static final String YES = "1";
 	/** 否 */
 	public static final String NO = "0";
-
+	/** 否 */
+	public static final String LUCK = "2";
 	public static final String APP_DEPARTMENT = "216";// 行政审批大厅
 
 	/**
@@ -190,4 +194,7 @@ public abstract class ConsoleHelper extends Observable {
 	public abstract IBonusRecordServcie getBonusRecordService();
 	
 	public abstract IRuleService getRuleService();
+	public abstract IIntegrationGameRuleService getIntegrationGameRuleService();
+	public abstract ILevelService getIlevelService();
+	public abstract IStockService getStockService();
 }

@@ -37,4 +37,14 @@ public class HinbernateLevelDao extends HibernateCommonDao implements ILevelDao 
 				level.getPageNumber(), level.getPageSize());
 	}
 
+	@Override
+	public Level selectlevelByzdtype(String memberlevleId) {
+		List levelList = super.doQuery("from " + Level.class.getName()
+				+ " as l where l.v1_zdtype="+memberlevleId); 
+		if (levelList.isEmpty()) {
+			return null;
+		}
+		return (Level) levelList.get(0);
+	}
+
 }

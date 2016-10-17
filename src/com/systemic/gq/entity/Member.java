@@ -10,7 +10,7 @@ public class Member implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -1948363514837972869L;
 	private String memberId;
-	/** 标识id */
+	/**昵称 */
 	private String bsid;
 	/** 用户名 */
 	private String userName;
@@ -25,12 +25,19 @@ public class Member implements java.io.Serializable {
 	/** 推荐人 */
 	private String referenceName;
 	/** 推荐人 二维码*/
-	private String referenceQRCodeContent;//二维码内容（推广链接）
-	private String referenceQRCodeImageUrl;//二维码图片地址
+	private String referenceQRCodeContent;//推荐人二维码内容（推广链接）
+	private String referenceQRCodeImageUrl;//推荐人二维码图片地址
+	/** 推荐人 廉通道*/
+	private String referencelan;
+	/** 推荐人 勇通道*/
+	private String referenceyong;
+	/** 推荐人 勇通道*/
 	/** 股权等级id 这个项目不用*/
 	private Stock stock;
-	/** 玩家等级id */
+	/** 股权等级id */
 	private String productgradeId;
+	/** 玩家等级id */
+	private String levleId;
 	/** 奖金币 */
 	private Double goldAward;
 	/** 电子币 */
@@ -57,9 +64,15 @@ public class Member implements java.io.Serializable {
 	private String staffId;
 	/***节点*/
 	private String note;
+	//归属节点编号
+	private String noteUsername;
 	/** 节点 二维码*/
-	private String noteQRCodeContent;//二维码内容（推广链接）
-	private String noteQRCodeImageUrl;//二维码图片地址
+	private String noteQRCodeContent;//归属点二维码内容（推广链接）
+	private String noteQRCodeImageUrl;//归属点二维码图片地址
+	/** 归属点 廉通道*/
+	private String notelan;
+	/** 归属点 勇通道*/
+	private String noteyong;
 	//密保问题
 	private String mbwt;
 	//密保问题答案
@@ -85,6 +98,8 @@ public class Member implements java.io.Serializable {
 	 */
 	private String qRCodeContent;//二维码内容（推广链接）
 	private String qRCodeImageUrl;//二维码图片地址
+	private String lan;//廉通道
+	private String yong;//勇通道
 	
 	// Constructors
 
@@ -556,6 +571,118 @@ public class Member implements java.io.Serializable {
 	 */
 	public void setGiveIntegral(int giveIntegral) {
 		this.giveIntegral = giveIntegral;
+	}
+
+	/**
+	 * @return the lan
+	 */
+	public String getLan() {
+		return lan;
+	}
+
+	/**
+	 * @param lan the lan to set
+	 */
+	public void setLan(String lan) {
+		this.lan = lan;
+	}
+
+	/**
+	 * @return the yong
+	 */
+	public String getYong() {
+		return yong;
+	}
+
+	/**
+	 * @param yong the yong to set
+	 */
+	public void setYong(String yong) {
+		this.yong = yong;
+	}
+
+	/**
+	 * @return the levleId
+	 */
+	public String getLevleId() {
+		return levleId;
+	}
+
+	/**
+	 * @param levleId the levleId to set
+	 */
+	public void setLevleId(String levleId) {
+		this.levleId = levleId;
+	}
+
+	/**
+	 * @return the referencelan
+	 */
+	public String getReferencelan() {
+		return referencelan;
+	}
+
+	/**
+	 * @param referencelan the referencelan to set
+	 */
+	public void setReferencelan(String referencelan) {
+		this.referencelan = referencelan;
+	}
+
+	/**
+	 * @return the referenceyong
+	 */
+	public String getReferenceyong() {
+		return referenceyong;
+	}
+
+	/**
+	 * @param referenceyong the referenceyong to set
+	 */
+	public void setReferenceyong(String referenceyong) {
+		this.referenceyong = referenceyong;
+	}
+
+	/**
+	 * @return the notelan
+	 */
+	public String getNotelan() {
+		return notelan;
+	}
+
+	/**
+	 * @param notelan the notelan to set
+	 */
+	public void setNotelan(String notelan) {
+		this.notelan = notelan;
+	}
+
+	/**
+	 * @return the noteyong
+	 */
+	public String getNoteyong() {
+		return noteyong;
+	}
+
+	/**
+	 * @param noteyong the noteyong to set
+	 */
+	public void setNoteyong(String noteyong) {
+		this.noteyong = noteyong;
+	}
+
+	/**
+	 * @return the noteUsername
+	 */
+	public String getNoteUsername() {
+		return noteUsername;
+	}
+
+	/**
+	 * @param noteUsername the noteUsername to set
+	 */
+	public void setNoteUsername(String noteUsername) {
+		this.noteUsername = noteUsername;
 	}
 	
 

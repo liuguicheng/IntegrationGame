@@ -169,7 +169,7 @@ public class SpringMainService implements IMainService {
             ss.setFailedTimes(0);
             ss.setFailedRecordTime(new Date());
             ss.setTimes(0);
-            ss.setIsLock(ConsoleHelper.NO);
+            ss.setIsLock(ConsoleHelper.LUCK);
             this.mainDao.save(ss);
         }
 	}

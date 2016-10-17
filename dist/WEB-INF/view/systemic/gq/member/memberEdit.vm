@@ -6,8 +6,8 @@
   <script type="text/javascript">
   #if($message)alert("#javaScriptEscape($message)");#end
   validator.formName = "editForm";
-  validator.addNormalCheckPoint("userName", "玩家登录名", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("password", "密码", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("bsid", "昵称", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("password", "登陆密码", "checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("mbwt", "密保问题", "checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("mbwtDn", "密保答案", "checkNotNull;checkNotEmpty");
  function confirmPassword()
@@ -37,14 +37,6 @@
       alert('两次输入密码不一样,请重新输入!');
       return false;
     }
-	if (e.passwodTwo.value != e.con_passwodTwo.value) {
-      alert('两次输入二级密码不一样,请重新输入!');
-      return false;
-    }
-	if (e.passwordThree.value != e.con_passwordThree.value) {
-      alert('两次输入三级密码不一样,请重新输入!');
-      return false;
-    }
    
     return true;
   }
@@ -53,7 +45,7 @@
   function checkInput(e) {
   	var errmsg=$("#errmesg").text();
   	if(errmsg!=""){
-	  alert("你输入的登录名已存在!");
+	  alert("你输入的昵称已存在!");
       return false;
 	}
 	
@@ -86,10 +78,11 @@
   }
   
   function oncheckLognUserName(){
+  console.log($("#bsid").val());
   $.ajax({
-        url: '../member/loginUsernameAjax.do',
+        url: '../member/nicknameAjax.do',
         type: 'POST',
-		data:"userName="+$("#userName").val(),// 你的formid
+		data:"bsid="+encodeURI(encodeURI($("#bsid").val())),// 你的formid
         cache: false,
         success: function(result) {
 				var s=$.parseJSON(result);
@@ -103,65 +96,12 @@
    		 });
 		 
 	}
-	 function oncheckReference(e){
-  		$.ajax({
-        url: '../member/referenceAjax.do',
-        type: 'POST',
-		data:"referenceId="+e.referenceId.value,// 你的formid
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-				if(s[0].code==0){
-					alert(s[0].message);
-					$("#errmesgreferenceId").text(s[0].message);
-				}else{
-					$("#errmesgreferenceId").text("");
-				}
-        	}
-   		 });
-		 
-	}
-	
-	 function oncheckNote(e){
-  		$.ajax({
-        url: '../member/noteAjax.do',
-        type: 'POST',
-		data:"note="+e.note.value,// 你的formid
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-				if(s[0].code==0){
-					alert(s[0].message);
-					$("#errmesgnote").text(s[0].message);
-				}else{
-					$("#errmesgnote").text("");
-				}
-        	}
-   		 });
-		 
-	}
-	function onregion(){
-	$.ajax({
-        url: '../member/regionAjax.do',
-        type: 'POST',
-		data:"note="+document.editForm.note.value+"&region="+document.editForm.region.value,// 你的formid
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-				if(s[0].code==0){
-					alert(s[0].message);
-					$("#errmesgregion").text("["+s[0].message+"]");
-				}else{
-					$("#errmesgregion").text("");
-				}
-        	}
-   		 });
-	}
+	 
   </script>
 </head>
 <body>
 <div class="PageHeader">
-  <div class="LeftBox Title">登陆资料</div>
+  <div class="LeftBox Title">玩家资料</div>
 </div>
 <div class="indieui-scroll">
 <form name="editForm" method="post" action="#getRequestUri()" class="indieui-form">
@@ -170,50 +110,27 @@
   <input type="hidden" name="isActivation" value="0"/>
    <input type="hidden" name="stock.id" value="402881f057c249f80157c24ab6280001"/>
    <input type="hidden" name="productgradeId" value="402881f057c249f80157c24ab6280001"/>
+   <input type="hidden" name="levleId" value="402881ea57cdeb0f0157cdebac970001"/>
    <input type="hidden" name="referenceId" value="$!{command.staffId}"/>
    <input type="hidden" name="referenceName" value="$!{command.referenceName}"/>
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:150px;">#requiredInput("玩家登录名")</td>
+      <td class="TdLabel" style="width:150px;">#requiredInput("昵称")</td>
 	  <td>
-		<input type="text" name="userName" id="userName" value="" style="width:30%" onblur="oncheckLognUserName();" />
+		<input type="text" name="bsid" id="bsid" value="" style="width:30%" onblur="oncheckLognUserName();" />
 	     <span style="color:red;" id="errmesg"></span>
 	  </td>
     </tr>
     <tr>
-      <td class="TdLabel">#requiredInput("一级密码")</td>
+      <td class="TdLabel">#requiredInput("登陆密码")</td>
       <td class="TdInput">
     	  <input type="password" name="password" value="" style="width:30%" />
       </td>
     </tr>
 	<tr>
-      <td class="TdLabel">#requiredInput("确认一级密码")</td>
+      <td class="TdLabel">#requiredInput("确认登陆密码")</td>
       <td class="TdInput">
 		<input type="password" name="con_password" value="" style="width:30%;" />
-      </td>
-    </tr>
-    <tr>
-      <td class="TdLabel">#requiredInput("二级密码")</td>
-      <td class="TdInput">
-		<input type="password" name="passwodTwo" value="" style="width:30%;"/>
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel">#requiredInput("确认二级密码")</td>
-      <td class="TdInput">
-		<input type="password" name="con_passwodTwo" value="" style="width:30%;"/>
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel">#requiredInput("三级密码")</td>
-      <td class="TdInput">
-		<input type="password" name="passwordThree" value="" style="width:30%;"/>
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel">#requiredInput("确认三级密码")</td>
-      <td class="TdInput">
-		<input type="password" name="con_passwordThree" value="" style="width:30%;"/>
       </td>
     </tr>
 	<tr>
@@ -229,34 +146,18 @@
   </div>
   <table class="TbCommon">
     <tr>
-      <td class="TdLabel" style="width:150px;">真实姓名</td>
+      <td class="TdLabel" style="width:150px;">'廉'通道</td>
 	  <td>
-		<input type="text" name="zsxm" value="" style="width:30%" />
+		<textarea name="lan" cols=40 rows=4>
+		</textarea>
 	  </td>
     </tr>
     <tr>
-      <td class="TdLabel">身份证号码</td>
+      <td class="TdLabel">'勇'通道</td>
       <td class="TdInput">
-    	  <input type="text" name="sfzhm" value="" style="width:30%" />
+		<textarea name="yong" cols=40 rows=4>
+		</textarea>
       </td>
-    </tr>
-	<tr>
-      <td class="TdLabel">联系电话</td>
-      <td class="TdInput">
-		<input type="text" name="lxdh" value="" style="width:30%;" />
-      </td>
-    </tr>
-    <tr>
-      <td class="TdLabel">联系地址</td>
-      <td class="TdInput">
-		<input type="text" name="lxdz" value="" style="width:30%;"/>
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel" style="width:150px;">电子邮箱</td>
-	  <td>
-		<input type="text" name="email" value="" style="width:30%" />
-	  </td>
     </tr>
   </table>
 </div>

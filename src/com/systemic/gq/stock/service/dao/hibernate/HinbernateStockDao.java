@@ -41,4 +41,16 @@ public class HinbernateStockDao extends HibernateCommonDao implements IStockDao 
 				stock.getPageNumber(), stock.getPageSize());
 	}
 
+
+
+	@Override
+	public Stock selectStockBygradeNum(String v1_zdtype) {
+		List stockList = super.doQuery("from " + Stock.class.getName()
+				+ " as s where s.gradeNum="+v1_zdtype); 
+		if (stockList.isEmpty()) {
+			return null;
+		}
+		return (Stock) stockList.get(0);
+	}
+
 }

@@ -116,6 +116,11 @@ public class MainController extends SpringlineMultiActionController {
                     }else{
                         afterfailTime = true;
                     }
+            }else if(ss.getIsLock()!= null
+                    && ss.getIsLock().equals(ConsoleHelper.LUCK)){
+            	model.put("message", "您的账号已经被锁定,请在联系客服人员！");
+                model.put("loginName", loginName);
+                return index(request, response, model);
             }
         }
 

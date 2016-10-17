@@ -16,7 +16,8 @@
               <value>isActivation,isActivation,EQU</value>
               <value>referenceId,referenceId,EQU</value>
               <value>staffId,staffId,LIKE</value>
-               <value>zsxm,zsxm,LIKE</value>
+               <value>bsid,bsid,LIKE</value>
+                <value>userName,userName,EQU</value>
             </list>
         </property>
     </bean>

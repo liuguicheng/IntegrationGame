@@ -58,5 +58,10 @@ public class SpringLevelService implements ILevelService {
 		}
 	}
 
+	@Override
+	public Level selectlevelByzdtype(String memberlevleId) {
+		return levelDao.selectlevelByzdtype(memberlevleId);
+	}
+
 	
 }

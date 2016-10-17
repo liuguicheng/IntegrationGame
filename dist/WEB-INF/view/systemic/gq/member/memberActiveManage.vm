@@ -24,37 +24,7 @@
   
   
 
-function frozen(id){
-	if(confirm("确认冻结玩家账户？")){
-	   $.ajax({
-        url: '../member/frozenMemberAjax.do',
-        type: 'POST',
-		data:"memberId="+id,
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-					alert(s[0].message);
-					 location.reload()
-				}
-   		 });
-	}
-}
 
-function thwa(id){
-	if(confirm("确认解冻玩家账户？")){
-	   $.ajax({
-        url: '../member/thwaMemberAjax.do',
-        type: 'POST',
-		data:"memberId="+id,
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-					alert(s[0].message);
-					 location.reload()
-				}
-   		 });
-	}
-}
   </script>
 </head>
 <body>
@@ -68,11 +38,11 @@ function thwa(id){
     <tr>
       <td class="TdLabel" style="width:100px;">玩家编号：</td>
       <td class="TdInput">
-        <input type="text" name="staffId" value="" >
+        <input type="text" name="userName" value="" >
       </td>
-      <td class="TdLabel" style="width:100px;">玩家姓名：</td>
+      <td class="TdLabel" style="width:100px;">玩家昵称：</td>
       <td class="TdInput">
-        <input type="text" name="zsxm" value="" >
+        <input type="text" name="bsid" value="" >
       </td>
     </tr>
   </table>
@@ -103,12 +73,10 @@ function thwa(id){
       ##  <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
     ##  </th>
         <th >玩家编号</th>
+		<th >玩家昵称</th>
         <th >级别</th>
 		<th >推荐人</th> 
 		<th >归属人</th> 
-		<th >总积分</th>
-		<th >送出积分</th>
-		<th >收到积分</th> 
 		<th >状态</th> 
 		<th >注册时间</th> 
 		<th >参与时间</th>
@@ -118,22 +86,15 @@ function thwa(id){
   <tbody>
   #foreach( $data in $page.data )
     <tr>
-      <td><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">$!{data.staffId}</a></td>
+      <td><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">$!{data.userName}</a></td>
+	  <td>$!{data.bsid}</td>
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
-	  <td >$!{data.referenceId}</td>
-	  <td >$!{data.note}</td>
-	  <td >$!{data.integral}</td>
-	  <td >$!{data.giveIntegral}</td>
-	  <td >$!{data.addIntegral}</td>
+	  <td >$!{data.referenceName}</td>
+	  <td >$!{data.noteUsername}</td>
 	   <td >#if($!{data.isok}==1)正常 #else 冻结  #end</td>
 		<td >#formatTime(${data.createTime})</td>
 	    <td >#formatTime(${data.activationTime})</td>
-        <td ><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">[编辑]</a>
-		#if($!{data.isok}==1)
-			<a href="javascript:frozen('$!{data.memberId}')">[冻结]</a>
-		#else
-			<a href="javascript:thwa('$!{data.memberId}')">[解除]</a>
-		#end
+        <td >
 		</td>
       
     </tr>

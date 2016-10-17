@@ -20,4 +20,6 @@ public interface IStockService {
 	void insertStock(StockEdit stockedit);
 
 	void deleteStock(String[] idstr);
+
+	Stock selectStockBygradeNum(String v1_zdtype);
 }
