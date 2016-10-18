@@ -277,7 +277,7 @@ button:active {
 	font-size: 12px;
 	font-weight: normal;
 	text-shadow: 0 1px 3px rgba(0,0,0,.2);
-	display:none;
+	/*display:none;*/
 }
 
 .Connect a {

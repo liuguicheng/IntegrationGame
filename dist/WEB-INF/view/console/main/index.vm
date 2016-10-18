@@ -122,12 +122,13 @@ function  change(){
         </div>
 		<img id="image" src="../colourCode.jsp" alt="暂无图片"  width="80" height="30" style="margin-top:21px;float:left;margin-left: 5px;" onClick="change()"/>
         <input class="Txt code" style="width:145px;margin-left: 32px;" name="code" type="text" placeholder="验证码" />
+      
 		<button type="submit">登录</button>
         <div class="Error"><span>×</span></div>
     </form>
      </div>
     <div class="Connect">
-        <p><a href="#">忘记密码</a><a href="#">使用帮助</a></p>
+        <p><a href="../main/toForgetPassword.action">忘记密码</a><a href="javascript:alert('正在研发中...');">使用帮助</a></p>
     </div>
 
     </div>
