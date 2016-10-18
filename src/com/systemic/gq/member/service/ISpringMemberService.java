@@ -63,5 +63,5 @@ public interface ISpringMemberService {
 	
 	Member selectMemberByUserName(String userName);
 	List<Member> selectMemberListByNodeUsername(String note);
-	List<Member> selectMemberByAuditTime(MemberInfo info, int timenum);
+	List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum);
 }

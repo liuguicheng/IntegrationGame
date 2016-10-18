@@ -145,7 +145,7 @@
 <div class="PageTool">
   <div class="LeftBox Tool">
     <input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
-    <input type="button" class="BtnAdd" value="玩家注册"  title="新增" onclick="javascript:doEdit('');"/>
+    ##<input type="button" class="BtnAdd" value="玩家注册"  title="新增" onclick="javascript:doEdit('');"/>
     <input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
   </div>
 </div>
@@ -319,14 +319,14 @@ function selectNote(){
         	success: function(result) {
 				var s=$.parseJSON(result);//内容
 				if(s.length>0){
+					var str=s[0].message;
 					if(s[0].code==1){
-						var str=s[0].message;
 						var res=str.split(",");
 				 		$("#notelan").val(res[0]);
 				 		$("#noteyong").val(res[1]);
 					}else{
-						alert("您输入的归属节点编号不存在!");
-							$("#notelan").val("");
+						alert(str);
+						$("#notelan").val("");
 				 		$("#noteyong").val("");
 					}
 				}else{

@@ -212,7 +212,15 @@ public class MemberController {
 	@RequestMapping(value = "/member/memberEdit.do", method = RequestMethod.POST)
 	public String memberEditSave(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
 			MemberEditInfo info) {
+		String url="gq/member/memberEdit";
 		try {
+			
+			//验证推荐人状态是否正常
+			boolean fa=VerificationReferenceMemberStatus(info.getReferenceId());
+			if(fa==false){
+				model.addAttribute("message", "推荐人状态异常,注册失败!");
+				return url;
+			}
 			// 系统设置
 			IntegrationGameRule rule = MemberQuartz.queryRule();
 			String bh = queryBh(rule);
@@ -227,7 +235,16 @@ public class MemberController {
 		model.addAttribute("command", info);
 		model.addAttribute("token", token);
 
-		return "redirect:../member/memberManage.do?isActivation=0";
+		return url;
+	}
+
+	private boolean  VerificationReferenceMemberStatus(String referenceId) {
+		boolean fa=true;
+		Member referencemember=this.springMemberService.selectMemberByStaffid(referenceId);
+		if(referencemember.getIsok()!=1){
+			return false;
+		}
+		return fa;
 	}
 
 	
@@ -641,10 +658,16 @@ public class MemberController {
 		String msg = "";
 		ErrorDataMsg edm = new ErrorDataMsg();
 		edm.setCode(0);
+		edm.setMessage("归属点不存在,请重新输入归属点编号!");
 		Member member = this.springMemberService.selectMemberByUserName(info.getUserName());
 		if (member != null) {
-			edm.setCode(1);
-			edm.setMessage(member.getLan() + "," + member.getYong());
+			if(member.getIsok()!=1){
+				edm.setMessage("归属点账号异常,不能放置玩家,请重新输入归属点编号!");
+			}else{
+				edm.setCode(1);
+				edm.setMessage(member.getLan() + "," + member.getYong());
+			}
+			
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;

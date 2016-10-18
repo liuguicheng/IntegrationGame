@@ -252,8 +252,8 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	}
 
 	@Override
-	public List<Member> selectMemberByAuditTime(MemberInfo info, int timenum) {
-		return memberDao.selectMemberByAuditTime(info,timenum);
+	public List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum) {
+		return memberDao.selectMemberByAuditTime(info,applynum,timenum);
 	}
 
 	

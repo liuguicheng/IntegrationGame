@@ -23,6 +23,7 @@ import com.console.entity.Department;
 import com.console.entity.Power;
 import com.console.entity.Staff;
 import com.console.support.MenuManager;
+import com.systemic.gq.entity.Member;
 
 /**
  * @description url访问过滤器
@@ -73,6 +74,23 @@ public class PowerFilter  extends HttpServlet implements Filter {
                     if(url != null && url.length() > 0){
                        Power power = ConsoleHelper.getInstance().getManageService().selectPowerByUrl(url);
                        if(power !=null){
+                    	   //验证是否被半永久锁定
+                    	   Member member=ConsoleHelper.getInstance().getSpringMemberService().selectMemberByStaffid(staff.getId());
+                    	   if(member!=null){
+                    		   if(member.getIsok()==2){
+                    			   //排除反馈意见url
+                    			   if(url.equals("../plugins/messageEmailList.do")
+                    					   ||url.equals("../plugins/addEmailMessage.do")
+                    					   ||url.equals("../plugins/toaddEmailMessage.do")){
+                    			   }else{
+                    				   redirectURl="/main/goPromptPage.do";
+                      			   	 // 过滤器经过过滤后，过滤链继续传递请求和响应   
+                      			     String path = req.getContextPath()+redirectURl;
+                      			    ((HttpServletResponse) response).sendRedirect(path);
+                    			   }
+                    			    
+                    		   }
+                    	   }
                     	   //验证是否需要高级密码
                     	   boolean isadv= MenuManager.isAdvancedPassword(advancedPassword, threePassword, power);
                     	   if(isadv){

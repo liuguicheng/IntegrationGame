@@ -21,7 +21,7 @@ public class DBBackupUnit {
 
 	// 数据库备份
 	public static String dbbackup() {
-		String hostIP = "127.0.0.1";
+		String hostIP = "112.74.105.229";
 		String userName = "root";
 		String password = "cisoft";
 		String databaseName = "integrationgame";

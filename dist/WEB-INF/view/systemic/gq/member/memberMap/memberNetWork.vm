@@ -197,7 +197,7 @@
 			$(document).ready(function(){
 			   onmynode();
 			})
-			//根据输入会员id查询
+			//根据输入玩家id查询
 			function doSearch(){
 			   onmynode();
 			}
@@ -206,7 +206,7 @@
 			   $("#staffId").val(id);
 			   onmynode();
 			}
-			//点击会员节点
+			//点击玩家节点
 			function clickBIN(id){
 				 $("#staffId").val(id);
 			   onmynode();
@@ -228,7 +228,7 @@
 		<div class="indieui-form">
 			<table class="TbCommon">
 				<tr >
-					<td width="8%" align="left" class="TdLabel">#requiredInput("会员编号")：</td>
+					<td width="8%" align="left" class="TdLabel">#requiredInput("玩家编号")：</td>
 					<td  align="left" class="TdInput" colspan="5">
 						<input type="text" id="staffId" value="$!{command.id}" >
 						显示层数:<select id="cennum">

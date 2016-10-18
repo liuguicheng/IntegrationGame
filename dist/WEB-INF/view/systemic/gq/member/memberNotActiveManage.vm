@@ -48,13 +48,13 @@ function selectNote(){
         	success: function(result) {
 				var s=$.parseJSON(result);//内容
 				if(s.length>0){
+					var str=s[0].message;
 					if(s[0].code==1){
-						var str=s[0].message;
 						var res=str.split(",");
 				 		$("#notelan").val(res[0]);
 				 		$("#noteyong").val(res[1]);
 					}else{
-						alert("您输入的归属节点编号不存在!");
+						alert(str);
 							$("#notelan").val("");
 				 		$("#noteyong").val("");
 					}

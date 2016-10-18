@@ -447,7 +447,14 @@ public class MainController extends SpringlineMultiActionController {
 		 model.put("url", url);
 		 return new ModelAndView("main/passwrodView", model);
     }
-     
+     /**
+      * 跳转验证高级密码页面
+      * @param request
+      * @param response
+      * @param model
+      * @return
+      * @throws Exception
+      */
      public ModelAndView goVerifyAdvancedPasswrod(HttpServletRequest request,
              HttpServletResponse response, HashMap model) throws Exception {
     	 String url=request.getParameter("url");
@@ -455,5 +462,13 @@ public class MainController extends SpringlineMultiActionController {
     	 model.put("level", level);
 		 model.put("url", url);
     	 return new ModelAndView("main/passwrodView", model);
+     }
+     
+     /**
+      * 提示无权限访问页面
+      */
+     public ModelAndView goPromptPage(HttpServletRequest request,
+             HttpServletResponse response, HashMap model) throws Exception {
+    	 return new ModelAndView("main/promptPage", model);
      }
 }

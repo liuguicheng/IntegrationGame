@@ -8,12 +8,11 @@ import com.systemic.gq.entity.IntegrationGameRule;
 import com.systemic.gq.entity.Member;
 import com.systemic.gq.member.command.MemberInfo;
 
-
+/**
+ * 定时任务
+ */
 public class MemberQuartz {
-	
-	/**
-	 * 玩家相关的定时任务
-	 */
+
 	
 	/**
 	 * 检查申请加入游戏审核超时用户
@@ -21,14 +20,28 @@ public class MemberQuartz {
 	 */
 	public static void doRegisterApplyAudit(){
 		IntegrationGameRule rule=queryRule();
-		int timenum=rule.getRegisterAuditTime();
+		int applynum=rule.getRegisterAuditTime();
+		int timenum=rule.getUpgradeAuditTime();
 		MemberInfo info=new MemberInfo();
 		info.setApplyTime(new Date());
-		List<Member> overtimememberlist= ConsoleHelper.getInstance().getSpringMemberService().selectMemberByAuditTime(info,timenum);
+		String logContent=",由于审核人未在规定时间审核,目前双方账号已被半永久锁定";
+		String logname="";
+		List<Member> overtimememberlist= ConsoleHelper.getInstance().getSpringMemberService().selectMemberByAuditTime(info,applynum,timenum);
 		if(overtimememberlist!=null&&!overtimememberlist.isEmpty()){
 			for (Member member : overtimememberlist) {
 				member.setIsok(Integer.parseInt(ConsoleHelper.LUCK));
 				ConsoleHelper.getInstance().getSpringMemberService().updateMermber(member);
+				
+				//获取推荐人信息
+				Member regmember=ConsoleHelper.getInstance().getSpringMemberService().selectMemberByStaffid(member.getReferenceId());
+				regmember.setIsok(Integer.parseInt(ConsoleHelper.LUCK));
+				ConsoleHelper.getInstance().getSpringMemberService().updateMermber(regmember);
+				
+				//添加日志
+				logname="[申请人编号:"+member.getUserName()+"]-[审核人编号:"+regmember.getUserName()+"]";
+				logContent=logname+logContent;
+				ConsoleHelper.getInstance().getLogService().saveOperateLogForMember("账号半永久锁定",
+						member, logContent);
 			}
 		}
 	}

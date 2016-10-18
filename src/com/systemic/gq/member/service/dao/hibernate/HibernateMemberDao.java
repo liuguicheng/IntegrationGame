@@ -221,17 +221,15 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 	}
 
 	@Override
-	public List<Member> selectMemberByAuditTime(MemberInfo info, int timenum) {
+	public List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum) {
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where 1=1 ");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where m.memberId!='1' and m.isActivation=1 and m.isok=1");
 		if (info != null) {
 			if (info.getApplyTime() != null) {
-					queryStr.append(" and datediff(NOW(),m.applyTime)>="+timenum);
-			}
-			if (info.getApplyUpgradeTime() != null) {
-				queryStr.append(" and datediff(NOW(),m.applyUpgradeTime)>="+timenum);
+					queryStr.append(" and (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(m.applyTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>="+applynum);
+					queryStr.append(" ) or ((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(m.applyUpgradeTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>="+timenum+"))");
 			}
 		}
 		Object[] param = new Object[idx];
