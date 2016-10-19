@@ -20,6 +20,7 @@ import com.console.operate.service.IOperateService;
 import com.console.operatelog.service.IOperateLogService;
 import com.console.power.service.IPowerService;
 import com.console.role.service.IRoleService;
+import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.bonus.service.IBonusRecordServcie;
 import com.systemic.gq.entity.Member;
 import com.systemic.gq.entity.Stock;
@@ -85,6 +86,8 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 	private IIntegrationGameRuleService integrationGameRuleService;
 	private ILevelService ilevelService;
 	private IStockService stockService;
+	private IMsgService msgService;
+
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
@@ -338,6 +341,15 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 		this.stockService = stockService;
 	}
 	
-	
+	public IMsgService getMsgService() {
+		if(msgService==null){
+			throw new RuntimeException("ConsoleHeler无法提供msgService接口！");
+		}
+		return msgService;
+	}
+
+	public void setMsgService(IMsgService msgService) {
+		this.msgService = msgService;
+	}
 	
 }

@@ -17,7 +17,7 @@ import com.plugins.msg.service.IMsgService;
 public class MessageHelpQueryController extends PaginationQueryController {
 	
 	/**
-	 * 公告信息
+	 * 系统帮助信息
 	 */
 	
     private IMsgService msgService;

@@ -257,15 +257,15 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	}
 
 	@Override
-	public void upRole(Staff staff) {
+	public void updateRole(Staff staff) {
 		Set<Role> set = new HashSet<Role>();
-		Role role = (Role) this.memberDao.load(Role.class, "23");//21为玩家角色ID 23 游客id
+		Role role = (Role) this.memberDao.load(Role.class, "21");//21为玩家角色ID 23 游客id
 		set.add(role);
 		staff.setDepartment(ConsoleHelper.getInstance().getMainService().selectDepartment("1"));
 		staff.setValid(ConsoleHelper.YES);
 		staff.setSysTemplate(ConsoleHelper.YES);
 		staff.setSystemRole(set);
-		this.memberDao.save(staff);
+		this.memberDao.update(staff);
 		CacheHelper.getInstance().dispatchRefreshEvent(Staff.SIMPLE_DIC_IDENTIFICATION);
 	}
 

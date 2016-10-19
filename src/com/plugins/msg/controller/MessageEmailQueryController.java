@@ -19,7 +19,7 @@ import com.systemic.gq.entity.Member;
 public class MessageEmailQueryController extends PaginationQueryController {
 	
 	/**
-	 * 公告信息
+	 * 邮件信息
 	 */
 	
     private IMsgService msgService;

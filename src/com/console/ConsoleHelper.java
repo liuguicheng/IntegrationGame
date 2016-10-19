@@ -17,6 +17,7 @@ import com.console.operate.service.IOperateService;
 import com.console.operatelog.service.IOperateLogService;
 import com.console.power.service.IPowerService;
 import com.console.role.service.IRoleService;
+import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.bonus.service.IBonusRecordServcie;
 import com.systemic.gq.member.service.ISpringMemberService;
 import com.systemic.gq.pay.service.ISpringPayLogService;
@@ -197,4 +198,5 @@ public abstract class ConsoleHelper extends Observable {
 	public abstract IIntegrationGameRuleService getIntegrationGameRuleService();
 	public abstract ILevelService getIlevelService();
 	public abstract IStockService getStockService();
+	public abstract IMsgService getMsgService();
 }

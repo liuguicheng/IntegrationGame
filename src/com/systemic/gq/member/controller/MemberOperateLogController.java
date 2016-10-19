@@ -34,7 +34,7 @@ public class MemberOperateLogController {
 			throws Exception {
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 		Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
-		info.setOperatorName(member.getUserName());
+		info.setOperatorName(member.getBsid());
 		Page page = this.operateLogService.selectOperateLogList(info);
 		model.addAttribute("page", page);
 		return "/gq/member/memberoperateLogList";

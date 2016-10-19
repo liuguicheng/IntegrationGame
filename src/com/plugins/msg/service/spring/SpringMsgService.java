@@ -208,8 +208,8 @@ public class SpringMsgService implements IMsgService {
 		SysMessage msg = new SysMessage();
 		msg.setContent(content);
 		msg.setSendTime(new Date());
-		msg.setSendMan(sendman); // 
-		msg.setSendManId(memberId);
+		msg.setSendMan(memberId); // 
+		msg.setSendManId(sendman);
 		msg.setMessageTitel(title);
 		msg.setIsReaded(ConsoleHelper.NO);
 		msg.setMessageType(string);

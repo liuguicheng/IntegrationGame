@@ -587,11 +587,11 @@ public class MemberController {
 			returnurl = "gq/member/memberApplyError";
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member member = this.springMemberService.selectMemberByStaffid(staff.getId());
-			if(member.getIsActivation()==0){
+			if (member.getIsActivation() == 0) {
 				model.addAttribute("command", member);
 				returnurl = "gq/member/memberApply";
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("获取数据失败！请联系管理员！" + e.getMessage());
@@ -640,7 +640,10 @@ public class MemberController {
 							loginmember, logContent);
 
 					// 添加提醒记录
-
+					String title = "新玩家申请加入游戏提醒";
+					String content = "玩家昵称"+member.getBsid()+"申请加入游戏,是否通过审核";
+					sendMsg(member,member.getReferenceName(),title,content);
+					sendMsg(member,member.getNoteUsername(),title,content);
 				}
 			}
 		}
@@ -648,6 +651,19 @@ public class MemberController {
 		return msg;
 	}
 
+	/**
+	 * 添加邮件
+	 * @param member 發送者
+	 * @param receiveMan 接受者
+	 * @param title 標題
+	 * @param content 内容
+	 */
+	private void sendMsg(Member member,String receiveMan,String title,String content ) {
+		ConsoleHelper.getInstance().getMsgService().insertMessageForEmail(receiveMan, content, title, "4",
+				member.getBsid(), member.getUserName());
+	}
+
+	
 	/**
 	 * 根据节点查询 节点 下方可放节点
 	 * 
@@ -707,13 +723,20 @@ public class MemberController {
 				member.setActivationTime(new Date());
 				// 修改角色 游客-》玩家
 				Staff mestaff = ConsoleHelper.getInstance().getMainService().selectStaffById(member.getStaffId());
-				ConsoleHelper.getInstance().getSpringMemberService().upRole(mestaff);
+				this.springMemberService.updateRole(mestaff);
+
+				//添加消息
+				String title = "新玩家注册提醒";
+				String content = "有编号"+member.getUserName()+"新玩家加入,推荐点编号"+member.getReferenceName()+",归属点编号"+member.getNoteUsername()+",请知悉";
+				sendMsg(member,member.getReferenceName(),title,content);
+				sendMsg(member,member.getNoteUsername(),title,content);
 			} else {
 				// 封号 双方
 				// 申请人
 				member.setIsok(Integer.parseInt(ConsoleHelper.LUCK));
 				// 推荐人
 				Member refmember = this.springMemberService.selectMemberByUserName(member.getReferenceName());
+				// 如果是管理员 就不封号
 				if (!refmember.getUserName().equals("99999999")) {
 					refmember.setIsok(Integer.parseInt(ConsoleHelper.LUCK));
 					this.springMemberService.updateMermberInfo(refmember);
@@ -845,6 +868,11 @@ public class MemberController {
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-申请升级,玩家编号为：" + member.getStaffId();
 			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember("申请升级", loginmember, logContent);
+			
+			// 添加提醒记录
+			String title = "玩家升级提醒";
+			String content = "有"+member.getStock().getGradeNum()+"级编号为"+member.getUserName()+"的玩家申请升级为("+(Integer.parseInt(member.getStock().getGradeNum())+1)+")级，是否通过请审核";
+			sendMsg(member,auditGradeUserName,title,content);
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;

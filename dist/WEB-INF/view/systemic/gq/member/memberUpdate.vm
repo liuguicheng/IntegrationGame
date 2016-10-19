@@ -162,7 +162,20 @@
 		
 	  </td>
     </tr>
-	
+	<tr>
+      <td class="TdLabel">'ÓÂ'Í¨µÀ</td>
+      <td class="TdInput">
+		#if($!{command.updateInfoNum}==1)
+			$!{command.yong}
+	    #else
+		<textarea name="yong" cols=40 rows=4>
+			#if(${command.yong})
+				$!{command.yong}
+			#end	
+		</textarea>
+		#end
+      </td>
+    </tr>
   </table>
 </div>
 </form>
