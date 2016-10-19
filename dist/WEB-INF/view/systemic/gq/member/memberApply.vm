@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  #headInclude()
+  <script type="text/javascript" src="../script/validator.js"></script>
+  <script type="text/javascript">
+  #if($message)alert("#javaScriptEscape($message)");#end
+
+function doapply(){
+	  if(confirm("是否确定赠送1个V1?")){
+	
+ 		var note=$("#note").val();
+		if(note!=""){
+			$.ajax({
+        	url: '../member/activationMemberAjax.do',
+       	 	type: 'POST',
+			data:$("#applyform").serialize(),// 你的formid
+       	 	cache: false,
+        	success: function(result) {
+				var s=$.parseJSON(result);//内容
+				var str=s[0].message;
+				alert(str);
+				location.reload(); 				
+        	}
+   			});
+		}else{
+		alert("归属节点不能为空!");
+		}
+	}
+	
+}
+//动态获取用户输入的归属点编号 的廉通道信息
+function selectNote(){
+ 	var note=$("#applynote").val();
+	if(note!=""){
+		$.ajax({
+        	url: '../member/memberAjax.do',
+       	 	type: 'POST',
+			data:"userName="+note, 
+       	 	cache: false,
+        	success: function(result) {
+				var s=$.parseJSON(result);//内容
+				if(s.length>0){
+					var str=s[0].message;
+					if(s[0].code==1){
+						var res=str.split(",");
+				 		$("#notelan").val(res[0]);
+				 		$("#noteyong").val(res[1]);
+					}else{
+						alert(str);
+						$("#notelan").val("");
+				 		$("#noteyong").val("");
+					}
+				}else{
+					    alert("您输入的归属节点编号不存在!");
+				 		$("#notelan").val("");
+				 		$("#noteyong").val("");
+				}
+				
+        	}
+   		});
+	}
+	
+}
+
+  function doReturn() {
+    location.href = history.go(-1);
+  }
+  
+	 
+  </script>
+</head>
+<body>
+<div class="PageHeader">
+  <div class="LeftBox Title">申请加入游戏</div>
+</div>
+<div class="indieui-scroll">
+<form name="applyForm" action="" method="post" class="indieui-form" id="applyform">
+  <table class="TbCommon">
+    <tr>
+      <td class="TdLabel" style="width:100px;">玩家编号:</td>
+      <td class="TdInput" colspan="3">
+        <input type="hidden" name="staffId" value="$!{command.staffId}" id="applystaffId" readonly >
+		<input type="text" name="userName" value="$!{command.userName}" id="userName" readonly >
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel" style="width:100px;">推荐点编号:</td>
+      <td class="TdInput">
+        <input type="text" name="referenceName" value="$!{command.referenceName}" id="referenceName" readonly>
+      </td>
+      <td class="TdLabel" style="width:100px;">推荐点'廉'通道:</td>
+      <td class="TdInput">
+        <input type="text" value="$!{command.referencelan}" id="referencelan" readonly>
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel" style="width:100px;">#requiredInput("归属点编号:")</td>
+      <td class="TdInput">
+        <input type="text" name="noteUsername" value="" id="applynote" onchange="selectNote();">
+      </td>
+      <td class="TdLabel" style="width:100px;">#requiredInput("归属点'廉'通道:")</td>
+      <td class="TdInput">
+        <input type="text" name="notelan" value="" id="notelan" readonly >
+			  <input type="hidden" name="noteyong" value="" id="noteyong" >
+      </td>
+    </tr>
+  </table>
+</form>
+</div>
+
+<div class="CommandTool indieui-form">
+  <input type="button" id="btnconfirm" value="提交" onclick="javascript:doapply();"/>
+  <input type="button" id="btnback" value="返回" onclick="javascript:doReturn();"/>
+</div>
+</body>
+</html>

@@ -42,6 +42,24 @@
         <input type="text" name="bsid" value="" >
       </td>
     </tr>
+    <tr>
+	<td class="TdLabel" style="width:100px;">推荐人编号：</td>
+	<td class="TdInput">
+    <input type="text" name="referenceName" value="" >
+	</td>	
+	 <td class="TdLabel" style="width:100px;">人品积分类型：</td>
+	 <td class="TdInput">
+		#formSingleSelectDictionary("stock.gradeNum" "" ${dicData.dicStockLevel} "style='width:140'" " ---- 请选择 ---- ")
+	 </td>
+	</tr>
+	<tr>
+    <td class="TdLabel" style="width:100px;">注册时间：</td>
+    <td class="TdInput" colspan="3">
+        <input type="text" name="create_time" value="#customFormatDate($!{command.create_time} 'yyyy-MM-dd')" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+        至
+        <input type="text" name="end_time" value="#customFormatDate($!{command.end_time} 'yyyy-MM-dd')" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+    </td>
+</tr>
   </table>
   <div class="CommandTool">
     <input type="button" value="确 定" onClick="javascript:document.queryForm.submit();jQuery('body').processMask();"/>
@@ -124,7 +142,6 @@
 </div>
 <!--审核申请参与游戏div结束 -->
 <!--修改级别  开始-->
-
 <div class="SearchBox" id="uplevel">
 <form name="uplevelForm" action="" method="post" class="indieui-form" id="uplevelform">
   <table class="TbCommon">
@@ -142,6 +159,36 @@
 </form>
 </div>
 <!--修改级别 结束 -->
+
+<!--升级审核  开始-->
+<div class="SearchBox" id="gradeAudit">
+<form name="gradeAuditForm" action="" method="post" class="indieui-form" id="gradeAuditform">
+  <table class="TbCommon">
+    <tr>
+      <td class="TdLabel" style="width:100px;">玩家编号：</td>
+      <td class="TdInput" >
+		<input type="text" id="gradeAudit_username" name="userName" readonly />
+      </td>
+	  <td class="TdLabel" style="width:100px;">升级：</td>
+      <td class="TdInput" >
+		从<input type="text" id="gradeAudit_1" readonly width="20px"/> -><input type="text" id="gradeAudit_2"  readonly  width="20px"/>
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel" style="width:100px;">审核结果：</td>
+      <td class="TdInput" colspan="3">
+		 <input type="radio" id="male" name="istrue" value="2"/><label for="male"  >同意</label>&nbsp;&nbsp;
+			<input type="radio" id="male" name="istrue" value="3" checked="checked"/><label for="male"  >拒绝</label>
+      </td>
+    </tr>
+  </table>
+  <div class="CommandTool">
+    <input type="button" value="提交" onClick="upgradeAudit();"/>
+  </div>
+</form>
+</div>
+<!--升级审核 结束 -->
+
 <div class="PageTool">
   <div class="LeftBox Tool">
     <input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
@@ -163,9 +210,11 @@
         <th >玩家编号</th>
 		<th >玩家昵称</th>
 		<th width="150px">二维码</th> 
-        <th >级别</th>
+        <th >目前认证人品面</th>
 		<th >推荐人编号</th> 
 		<th >归属人编号</th> 
+		<th >“廉”通道</th> 
+		<th >“勇”通道</th> 
 		<th >注册时间</th> 
 		<th >参与游戏时间</th>
 		<th >状态</th>
@@ -194,6 +243,8 @@
 			$!{data.noteUsername}
 		#end
 		</td>
+		<td >${data.lan}</td>
+		<td >${data.yong}</td>
       <td >#formatTime(${data.createTime})</td>
 	  <td >#if(!${data.activationTime})
 			暂未参加
@@ -224,6 +275,13 @@
 		#else
 			<a href="javascript:thwa('$!{data.memberId}')">[解除]</a>
 		#end	
+		#if(${data.isok}==1)
+			#if($!{data.upgradeState}==1)
+				<a href="javascript:gradelevel('$!{data.memberId}')">[申请升级]</a>
+			#elseif($!{data.upgradeState}==2)	
+				<a href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a>
+			#end
+		#end
 		</td>
     </tr>
   #end
@@ -342,6 +400,7 @@ function selectNote(){
 }
 //申请加入游戏
 function doapply(){
+	if(confirm("是否确定赠送1个V1?")){
  	var note=$("#note").val();
 	if(note!=""){
 		$.ajax({
@@ -359,7 +418,7 @@ function doapply(){
 	}else{
 		alert("归属节点不能为空!");
 	}
-	
+	}
 }
 
 /** 弹出修改级别窗口*/
@@ -421,6 +480,54 @@ function thwa(id){
    		 });
 	}
 }	
+
+//升级申请
+function gradelevel(id){
+	if(confirm("确认申请升级？")){
+		$.ajax({
+        url: '../member/applyGradeLevelAjax.do',
+        type: 'POST',
+		data:"memberId="+id,
+        cache: false,
+        success: function(result) {
+				var s=$.parseJSON(result);
+					alert(s[0].message);
+					 location.reload()
+				}
+   		 });
+	}
+}
+
+//升级申请审核div
+function gradeAuditDiv(username,le1){
+		var le2=parseInt(le1)+1;
+		$("#gradeAudit_username").val(username);
+		$("#gradeAudit_1").val("V"+le1);
+		$("#gradeAudit_2").val("V"+le2);
+		var width = width || 800;
+	    var divobj = $("#gradeAudit");
+	    if(divobj.is(":visible")) {
+	        divobj.searchBox("close");
+	    } else  {
+	        divobj.searchBox({title: "升级审核", width: width });
+	    }
+}
+//升级申请审核
+function upgradeAudit(){
+
+	$.ajax({
+        	url: '../member/upgradeAudit.do',
+       	 	type: 'POST',
+			data:$("#gradeAuditform").serialize(),// 你的formid
+       	 	cache: false,
+        	success: function(result) {
+				var s=$.parseJSON(result);//内容
+				var str=s[0].message;
+				alert(str);
+				location.reload(); 				
+        	}
+   		});
+}
 </script>
 </body>
 </html>

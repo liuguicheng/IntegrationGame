@@ -133,8 +133,22 @@
   <div class="LeftBox Title">基本信息</div>
   </div>
   <table class="TbCommon">
+	#if($!{command.isActivation}==2)
     <tr>
-      <td class="TdLabel" style="width:150px;">'廉'通道</td>
+      <td class="TdLabel" style="width:150px;">当前人品认证</td>
+      <td class="TdInput">
+		#lookUpDict($dicData.dicStockLevel "$!{command.stock.gradeNum}")
+      </td>
+    </tr>
+	<tr>
+	 <td class="TdLabel" style="width:150px;">认证标识</td>
+      <td class="TdInput">
+		孝
+      </td>
+	</tr>
+	#end
+    <tr>
+      <td class="TdLabel">'廉'通道</td>
 	  <td>
 			<textarea name="lan" cols=40 rows=4>
 			#if(${command.lan})
@@ -155,6 +169,7 @@
 		</textarea>
       </td>
     </tr>
+	
   </table>
 </div>
 </form>

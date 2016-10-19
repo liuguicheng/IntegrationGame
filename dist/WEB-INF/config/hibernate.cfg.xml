@@ -25,8 +25,10 @@
         <property name="initialPoolSize"><value>10</value></property>
         <property name="minPoolSize"><value>10</value></property>
         <property name="maxPoolSize"><value>500</value></property>
-        <property name="idleConnectionTestPeriod"><value>18000</value></property>
-        <property name="maxIdleTime"><value>25000</value></property>
+        <property name="maxIdleTime"><value>1800</value></property>
+        <property name="preferredTestQuery" value="SELECT 1"/>  
+		<property name="idleConnectionTestPeriod" value="18000"/>  
+		<property name="testConnectionOnCheckout" value="true"/>  
     </bean>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

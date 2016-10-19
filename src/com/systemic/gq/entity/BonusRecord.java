@@ -19,6 +19,8 @@ public class BonusRecord  implements java.io.Serializable {
 	private Integer isSend;//是否发放 0未发放 1已发放
 	private Date send_time;//发放时间
 	private String remark;//备注
+	private Integer num;//数量
+	private String content;//奖励内容
 	public BonusRecord() {
 		// TODO Auto-generated constructor stub
 	}
@@ -129,6 +131,34 @@ public class BonusRecord  implements java.io.Serializable {
 	 */
 	public void setSend_time(Date send_time) {
 		this.send_time = send_time;
+	}
+
+	/**
+	 * @return the num
+	 */
+	public Integer getNum() {
+		return num;
+	}
+
+	/**
+	 * @param num the num to set
+	 */
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	

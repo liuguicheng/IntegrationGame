@@ -8,23 +8,23 @@
     </head>
     <body>
         <div class="PageHeader">
-            <div class="LeftBox Title">奖金列表</div>
+            <div class="LeftBox Title">人品积分管理</div>
         </div>
         <div class="SearchBox" id="divSearch">
             <form name="queryForm" action="#getRequestUri()" method="post" class="indieui-form">
                 <table class="TbCommon">
                     <tr>
-                        <td class="TdLabel" style="width:100px;">股东姓名：</td>
+                        <td class="TdLabel" style="width:100px;">玩家编号：</td>
                         <td class="TdInput">
-                            <input type="text" name="userid" value="#htmlEscape($!{command.username})" >
+                            <input type="text" name="userid" value="#htmlEscape($!{command.userid})" >
 </td>
-<td class="TdLabel" style="width:100px;">奖金类型：</td>
+<td class="TdLabel" style="width:100px;">人品积分类型：</td>
 <td class="TdInput">
-    #formSingleSelectDictionary("bonustype" $!{command.bonustype} ${dicData.dicBonusContent} "style='width:140'" " ---- 请选择 ---- ")
+    #formSingleSelectDictionary("bonustype" $!{command.bonustype} ${dicData.dicStockLevel} "style='width:140'" " ---- 请选择 ---- ")
 </td>
 </tr>
 <tr>
-    <td class="TdLabel" style="width:100px;">发放时间：</td>
+    <td class="TdLabel" style="width:100px;">获得时间：</td>
     <td class="TdInput" colspan="3">
         <input type="text" name="create_time" value="#customFormatDate($!{command.create_time} 'yyyy-MM-dd')" style="width:30%;" dateFormat="yyyy-MM-dd"/>
         至
@@ -51,36 +51,23 @@
                 <table class="TbList">
                     <thead>
                         <tr>
-                            <th style="width:20px;" nowrap>
-                                ##<input type="checkbox" onclick="javascript:setCheckBoxValue('id', this.checked);">
-</th>
-<th>股东姓名</th>
-<th>奖金金额</th>
-<th>奖金类型</th>
-<th>奖金比例</th>
-<th>结算时间</th>
-<th>是否发放</th>
-<th>发放时间</th>
-<th>备注</th>
+<th>玩家编号</th>
+<th>数量</th>
+<th>人品积分类型</th>
+<th >日期</th>
+<th width="40%">备注</th>
 </tr>
 </thead>
 <tbody>
     #foreach( $data in $page.data )
         <tr>
-            <td>
-                ##<input type="checkbox" name="id" value="$!{data.id}">
-</td>
-<td>$!{data.username}</td>
-<td>#showMoney($!{data.money})</td>
+<td>$!{data.userid}</td>
+<td>$!{data.num}</td>
 <td>
-    <a href="javascript:doEdit('$!{data.id}');;"> #lookUpDict($dicData.dicBonusContent "$!{data.bonustype}") </a>
+    #lookUpDict($dicData.dicStockLevel "$!{data.bonustype}")
 </td>
-<td>$!{data.proportion}%</td>
-<td>$!{data.create_time}</td>
-<td>#if($!{data.isSend}==0) <span style='color:red;'>未发放</span>
-        #else  已发放   #end </td>
-        <td>$!{data.send_time}</td>
-        <td>$!{data.remark}</td>
+<td>#formatTime($!{data.create_time})</td>
+<td>$!{data.remark}</td>
 </tr>
     #end
 </tbody>

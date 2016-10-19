@@ -58,6 +58,12 @@ public class Member implements java.io.Serializable {
 	private Date applyUpgradeTime;
 	/**已收到所需升级数量*/
 	private Integer applyUpgradeNum;
+	/**升级状态 */
+	private Integer upgradeState; // 0不可升级 1 可升级 2申请中
+	//升级审核时间
+	private Date  auditGradeTime;
+	//申请升级指定审核人
+	private String auditGradeUserName;
 	/**修改个人资料次数*/
 	private Integer updateInfoNum;
 	/**是否激活*/
@@ -725,5 +731,47 @@ public class Member implements java.io.Serializable {
 		this.updateInfoNum = updateInfoNum;
 	}
 	
+	/**
+	 * @return the upgradeState
+	 */
+	public Integer getUpgradeState() {
+		return upgradeState;
+	}
 
+	/**
+	 * @param upgradeState the upgradeState to set
+	 */
+	public void setUpgradeState(Integer upgradeState) {
+		this.upgradeState = upgradeState;
+	}
+
+	/**
+	 * @return the auditGradeTime
+	 */
+	public Date getAuditGradeTime() {
+		return auditGradeTime;
+	}
+
+	/**
+	 * @param auditGradeTime the auditGradeTime to set
+	 */
+	public void setAuditGradeTime(Date auditGradeTime) {
+		this.auditGradeTime = auditGradeTime;
+	}
+
+	/**
+	 * @return the auditGradeUserName
+	 */
+	public String getAuditGradeUserName() {
+		return auditGradeUserName;
+	}
+
+	/**
+	 * @param auditGradeUserName the auditGradeUserName to set
+	 */
+	public void setAuditGradeUserName(String auditGradeUserName) {
+		this.auditGradeUserName = auditGradeUserName;
+	}
+	
+	
 }

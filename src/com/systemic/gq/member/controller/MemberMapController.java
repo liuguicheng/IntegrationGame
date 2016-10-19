@@ -19,6 +19,7 @@ import com.console.ConsoleHelper;
 import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.systemic.gq.entity.IntegrationGameRule;
 import com.systemic.gq.entity.Member;
 import com.systemic.gq.entity.Rule;
 import com.systemic.gq.member.service.ISpringMemberService;
@@ -67,7 +68,7 @@ public class MemberMapController {
 			staffid = staff.getId();
 		}
 
-		tm = addstaffmemberNode(memberinfo, memberinfo.getReferenceId());
+		tm = addstaffmemberNode(memberinfo, memberinfo.getReferenceName());
 		if (tm != null) {
 			list.add(tm);
 		}
@@ -188,12 +189,12 @@ public class MemberMapController {
 			teamTotal = totalAndCount.split(",")[1];
 		}
 		// 节点名称
-		nodename = member.getStaffId() + "[" + member.getStock().getMoney() + ","
+		nodename = member.getUserName() + "[" + member.getStock().getMoney() + ","
 				+ ConUnit.formateDateToString(member.getCreateTime()) + "," + teamnumber + "," + teamTotal + "]";
 
 		TreeModel tm = new TreeModel();
 		tm.setPid(staffid);
-		tm.setId(member.getStaffId());
+		tm.setId(member.getUserName());
 		tm.setName(nodename);
 		if (member.getIsActivation() == 0) {
 			tm.setIcon(TreeModel.ICOIMG_LS);
@@ -219,7 +220,8 @@ public class MemberMapController {
 	@RequestMapping(value = "/toMemberNetWork.do", method = RequestMethod.GET)
 	public String toMemberNetWork(HttpServletRequest request, Model model) {
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-		model.addAttribute("command", staff);
+		Member member=ConsoleHelper.getInstance().getSpringMemberService().selectMemberByStaffid(staff.getId());
+		model.addAttribute("command", member);
 		return "gq/member/memberMap/memberNetWork";
 	}
 
@@ -235,13 +237,12 @@ public class MemberMapController {
 		List<Member> tempList = new ArrayList<Member>();
 		if (staffid != null && !"".equals(staffid)) {
 			// 查询传参用户
-			memberinfo = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staffid);
 		} else {
 			// 查询当前登陆用户
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			staffid = staff.getId();
-			memberinfo = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 		}
+		memberinfo = ConsoleHelper.getInstance().getSpringMemberService().selectMemberByUserName(staffid);
 		//添加根节点
 		tempList.add(memberinfo);
 		// 循环查询几层
@@ -310,7 +311,8 @@ public class MemberMapController {
 	private List selectNode(List<Member> tempList,int cen) {
 		TreeModel tm;
 		List list = new ArrayList();
-		Rule reule = ConsoleHelper.getInstance().getRuleService().selectRuleBY();
+//		Rule reule = ConsoleHelper.getInstance().getRuleService().selectRuleBY();
+		IntegrationGameRule reule=ConsoleHelper.getInstance().getIntegrationGameRuleService().selectIntegrationGameRule();
 		// 系统区域数量
 		int reginNum = reule.getAreaNumber();
 		//传入 最大td数量和系统区域
@@ -392,11 +394,11 @@ public class MemberMapController {
 		nodename = "总业绩：" + teamTotal + " <br></a>" + regionStr + " <br/>";
 
 		TreeModel tm = new TreeModel();
-		tm.setPid(member.getReferenceId());
-		tm.setId(member.getStaffId());
+		tm.setPid(member.getReferenceName());
+		tm.setId(member.getUserName());
 		tm.setName(nodename);
 		tm.setRegion(member.getRegion());
-		tm.setConnectionId(member.getNote());
+		tm.setConnectionId(member.getNoteUsername());
 		if (member.getIsActivation() == 0) {
 			tm.setIcon(TreeModel.NETWORK_Activation_NO);
 		} else {

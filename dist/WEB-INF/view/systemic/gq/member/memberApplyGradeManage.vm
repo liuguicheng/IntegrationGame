@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  #headInclude()
+  <script type="text/javascript">
+  #if($message)alert("#javaScriptEscape($message)");#end
+//升级申请审核div
+function gradeAuditDiv(username,le1){
+		var le2=parseInt(le1)+1;
+		$("#gradeAudit_username").val(username);
+		$("#gradeAudit_1").val("V"+le1);
+		$("#gradeAudit_2").val("V"+le2);
+		var width = width || 800;
+	    var divobj = $("#gradeAudit");
+	    if(divobj.is(":visible")) {
+	        divobj.searchBox("close");
+	    } else  {
+	        divobj.searchBox({title: "升级审核", width: width });
+	    }
+}
+//升级申请审核
+function upgradeAudit(){
+
+	$.ajax({
+        	url: '../member/upgradeAudit.do',
+       	 	type: 'POST',
+			data:$("#gradeAuditform").serialize(),// 你的formid
+       	 	cache: false,
+        	success: function(result) {
+				var s=$.parseJSON(result);//内容
+				var str=s[0].message;
+				alert(str);
+				location.reload(); 				
+        	}
+   		});
+}
+
+
+
+
+  </script>
+</head>
+<body>
+<div class="PageHeader">
+  <div class="LeftBox Title">申请升级玩家列表</div>
+</div>
+
+<div class="SearchBox" id="divSearch">
+<form name="queryForm" action="../member/memberApplyGradeManage.do" method="post" class="indieui-form">
+  <table class="TbCommon">
+    <tr>
+      <td class="TdLabel" style="width:100px;">玩家编号:</td>
+      <td class="TdInput" >
+        <input type="text" name="userName" value="" >
+      </td>
+      <td class="TdLabel" style="width:100px;">玩家昵称:</td>
+      <td class="TdInput" >
+        <input type="text" name="bsid" value="" >
+      </td>
+    </tr>
+  </table>
+  <div class="CommandTool">
+    <input type="button" value="确 定" onClick="javascript:document.queryForm.submit();jQuery('body').processMask();"/>
+    <input type="button" value="清 空" onClick="javascript:clearQuery(document.queryForm);"/>
+    <input type="button" value="取 消" onClick="javascript:showDiv('divSearch');">    
+  </div>
+</form>
+</div>
+<!--升级审核  开始-->
+<div class="SearchBox" id="gradeAudit">
+<form name="gradeAuditForm" action="" method="post" class="indieui-form" id="gradeAuditform">
+  <table class="TbCommon">
+    <tr>
+      <td class="TdLabel" style="width:100px;">玩家编号：</td>
+      <td class="TdInput" >
+		<input type="text" id="gradeAudit_username" name="userName" readonly />
+      </td>
+	  <td class="TdLabel" style="width:100px;">升级：</td>
+      <td class="TdInput" >
+		从<input type="text" id="gradeAudit_1" readonly width="20px"/> -><input type="text" id="gradeAudit_2"  readonly width="20px"/>
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel" style="width:100px;">审核结果：</td>
+      <td class="TdInput" colspan="3">
+		 <input type="radio" id="male" name="istrue" value="2"/><label for="male"  >同意</label>&nbsp;&nbsp;
+			<input type="radio" id="male" name="istrue" value="3" checked="checked"/><label for="male"  >拒绝</label>
+      </td>
+    </tr>
+  </table>
+  <div class="CommandTool">
+    <input type="button" value="提交" onClick="upgradeAudit();"/>
+  </div>
+</form>
+</div>
+<!--升级审核 结束 -->
+
+
+
+<div class="PageTool">
+  <div class="LeftBox Tool">
+    <input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
+  ##  <input type="button" class="BtnAdd" value="玩家注册"  title="玩家注册" onclick="javascript:doEdit('');"/>
+  ##  <input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
+  </div>
+</div>
+
+<div class="PageContainer indieui-scroll">
+<form name="listForm" method="post">
+<input type="hidden" name="submitFlag" value="0">
+<input type="hidden" name="token" value="$!{command.token}">
+<table class="TbList">
+  <thead> 
+    <tr>
+     ## <th style="width:20px;" nowrap>
+      ##  <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
+    ##  </th>
+        <th >玩家编号</th>
+		<th >玩家昵称</th>
+        <th >当前级别</th>
+		<th >升级后级别</th> 
+		<th >申请时间</th> 
+		<th >操作</th> 
+    </tr>
+  </thead>
+  <tbody>
+  #foreach( $data in $page.data )
+    <tr>
+      <td>$!{data.userName}</td>
+	  <td>$!{data.bsid}</td>
+      <td>V$!{data.stock.gradeNum}</td>
+	  <td > #set($vasd=$!{data.stock.gradeNum})
+			#set($Integer = 0)
+		   #set($df=$Integer.parseInt($vasd))
+		   #set($dfw=$df+1)
+		   V$dfw
+	  </td>
+	  <td >#formatTime(${data.applyUpgradeTime})</td>
+      <td >
+		#if(${data.isok}==1)
+		<a href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a></td>
+		#elseif(${data.isok}==2)
+				当前该玩家账户状态:半永久封号
+			#else
+				当前该玩家账户状态:永久封号
+		#end
+	</tr>
+  #end
+  </tbody>   
+</table>
+</form>
+</div>
+
+<div data-options="region:'south'" style="overflow-y:hidden"> 
+#pageDirector($page "#getRequestUri()" "")
+</div>
+</body>
+</html>

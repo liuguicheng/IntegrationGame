@@ -28,15 +28,15 @@ public class SpringBonusRecordService implements IBonusRecordServcie {
 	@Override
 	public void insertBonusRecor(BonusRecordEdit bonusrecordedit) {
 
-		BonusRecordInfo bonusrecordinfo = new BonusRecordInfo();
+		BonusRecord bonusrecord = new BonusRecord();
 
 		if (StringUtils.isNotBlank(bonusrecordedit.getId())) {
-			BeanUtils.copyProperties(bonusrecordedit, bonusrecordinfo);
+			BeanUtils.copyProperties(bonusrecordedit, bonusrecord);
 		} else {
-			BeanUtils.copyProperties(bonusrecordedit, bonusrecordinfo, new String[] { "id" });
+			BeanUtils.copyProperties(bonusrecordedit, bonusrecord, new String[] { "id" });
 		}
 
-		bonusRecordDao.save(bonusrecordinfo);
+		bonusRecordDao.save(bonusrecord);
 
 	}
 

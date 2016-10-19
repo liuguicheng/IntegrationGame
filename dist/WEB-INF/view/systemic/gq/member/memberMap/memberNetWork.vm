@@ -17,9 +17,9 @@
        			 cache: false,
        			 success: function(result) {
 				 	var s=$.parseJSON(result);//内容
-					var region=parseInt(s[0].region);//系统区域
-					var maxtd=parseInt(s[0].tdnum);//最大td 格数
-					var trnuml=parseInt(s[0].trnuml);//table的行数
+					var region=Number(s[0].region);//系统区域
+					var maxtd=Number(s[0].tdnum);//最大td 格数
+					var trnuml=Number(s[0].trnuml);//table的行数
 					//线
 					var line="<img src='../lib/ztree/zTreeStyle/img/ico/l_down.gif' height='30'>"+
 						"<img src='../lib/ztree/zTreeStyle/img/ico/line.gif' width='32%' height='30'> "+
@@ -64,8 +64,8 @@
 					//循环展示多少层
 					for(var z=2;z<=trnuml;z++){
 					     //根据区域 和层数  算出每格子的跨度
-						 var mc=parseInt(Math.pow(region,(z-1)));
-						 clstd=parseInt((maxtd/mc));
+						 var mc=Number(Math.pow(region,(z-1)));
+						 clstd=Number((maxtd/mc));
 						 //第二行特殊处理
 						if(z==2){
 							tdstrs="<tr>";
@@ -74,7 +74,7 @@
 							 	//根据区域 循环查询传回数据
 						   		$.each(s, function(i,val){
 								//判断区域 节点 都相同则添加td
-								if((parseInt(val.connectionId)==parseInt(shtrid))&&(parseInt(val.region)==w)){
+								if((Number(val.connectionId)==Number(shtrid))&&(Number(val.region)==w)){
 							  		temps++;
 									tdstrs+="<td colspan='"+clstd+"'><div>"+
 									 "<a href='javascript:clickBIN("+val.id+");' "+
@@ -87,9 +87,9 @@
 								}
 								});
 								//temps 临时变量，如==0 说明该节点无数据
-								 if(parseInt(temps)==0){
+								 if(Number(temps)==0){
 								 //leftn 临时变量 如==0说明 显示可点击注册 ==其他说明是空位
-								 	if(parseInt(leftn)==0){
+								 	if(Number(leftn)==0){
 										leftn++;
 										tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:register("+shtrid+")''>"+
 										"<img src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'>"+
@@ -106,7 +106,7 @@
 						tdstrs+="</tr>";
 						lintr="<tr>";
 						//循环添加横线td
-						var xhst= parseInt(Math.pow(region,(z-1)));
+						var xhst= Number(Math.pow(region,(z-1)));
 						for(var ls=0;ls<xhst;ls++){
 							lintr+="<td colspan='"+clstd+"'>"+line+"</td>";
 						}
@@ -132,7 +132,7 @@
 								//循环多少个区域
 					   			 for(var df=0;df<region;df++){
 						   			$.each($.parseJSON(result), function(ld,vaw){  
-									if((parseInt(vaw.connectionId)==parseInt(shangynode))&&(parseInt(vaw.region)==df)){
+									if((Number(vaw.connectionId)==Number(shangynode))&&(Number(vaw.region)==df)){
 							  		temps++;
 									tdstrs+="<td colspan='"+clstd+"'><div>"+
 									 "<a href='javascript:clickBIN("+vaw.id+");' "+
@@ -150,8 +150,8 @@
 								
 								
 								}else{
-								       if(parseInt(temps)==0){
-							  			if(parseInt(leftn)==0){
+								       if(Number(temps)==0){
+							  			if(Number(leftn)==0){
 										leftn++;
 										tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:register("+shangynode+")'>"+
 										"<img src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'>"+
@@ -170,7 +170,7 @@
 						});
 						tdstrs+="</tr>";
 						lintr="<tr>";
-						var xhst= parseInt(Math.pow(region,(z-1)));
+						var xhst= Number(Math.pow(region,(z-1)));
 						for(var ls=0;ls<xhst;ls++){
 							
 							lintr+="<td colspan='"+clstd+"'>"+line+"</td>";
@@ -230,13 +230,13 @@
 				<tr >
 					<td width="8%" align="left" class="TdLabel">#requiredInput("玩家编号")：</td>
 					<td  align="left" class="TdInput" colspan="5">
-						<input type="text" id="staffId" value="$!{command.id}" >
+						<input type="text" id="staffId" value="$!{command.userName}" >
 						显示层数:<select id="cennum">
                             <option value="2">2层</option>
 							<option value="3" selected >3层</option>
                         </select>	
 						<input type="button" value="查询" onclick="javascript:doSearch();"/>
-						<input type="button" value="我的图谱" onclick="javascript:doSearchmy('$!{command.id}');"/>
+						<input type="button" value="我的图谱" onclick="javascript:doSearchmy('$!{command.userName}');"/>
       				</td>
 				</tr>
 			</table>
@@ -276,26 +276,6 @@
     </div>
 </div>
 
-<script type="text/javascript">
-        var x = -155;
-		var y = -95;
-        var myTitle = ""
-        function yidao(e, obj) {
 
-            myTitle = obj.title;
-            obj.title = "";
-            var tooltip = "<div id='tooltip'style='width:350px;height:80px;;text-align:center' >" + myTitle + "</div>";   //创建DIV元素
-            $("#divMapTree").append(tooltip);  //追加到文档中
-            $("#tooltip").css({ "top": (e.pageY + y) + "px", "left": (e.pageX + x) + "px" }).show(); //设置X  Y坐标， 并且显示
-        }
-        function yidong(e) {
-            $("#tooltip").css({ "top": (e.pageY + y) + "px", "left": (e.pageX + x) + "px" });
-        }
-        function yichu(obj) {
-            obj.title = myTitle;
-            $("#tooltip").remove();    //移除
-        }
-    
-</script>
 </body>
 </html>

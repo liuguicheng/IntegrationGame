@@ -161,5 +161,15 @@
 		<property name="updateInfoNum" type="java.lang.Integer">
 			<column name="updateInfoNum" />
 		</property>
+		<property name="upgradeState" type="java.lang.Integer">
+			<column name="upgradeState" />
+		</property>
+		
+		<property name="auditGradeTime" type="java.util.Date">
+			<column name="auditGradeTime" length="10" />
+		</property>
+		<property name="auditGradeUserName" type="java.lang.String">
+			<column name="auditGradeUserName" length="45"/>
+		</property>
 	</class>
 </hibernate-mapping>

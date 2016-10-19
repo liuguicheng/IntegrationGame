@@ -98,7 +98,7 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			                .md5Encoding(info.getPasswordThree()));
 			}
 			Set<Role> set = new HashSet<Role>();
-			Role role = (Role) this.memberDao.load(Role.class, "21");//21为玩家角色ID
+			Role role = (Role) this.memberDao.load(Role.class, "23");//21为玩家角色ID 23 游客id
 			set.add(role);
 			staff.setSystemRole(set);
 			staff.setDepartment(ConsoleHelper.getInstance().getMainService().selectDepartment("1"));
@@ -254,6 +254,19 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	@Override
 	public List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum) {
 		return memberDao.selectMemberByAuditTime(info,applynum,timenum);
+	}
+
+	@Override
+	public void upRole(Staff staff) {
+		Set<Role> set = new HashSet<Role>();
+		Role role = (Role) this.memberDao.load(Role.class, "23");//21为玩家角色ID 23 游客id
+		set.add(role);
+		staff.setDepartment(ConsoleHelper.getInstance().getMainService().selectDepartment("1"));
+		staff.setValid(ConsoleHelper.YES);
+		staff.setSysTemplate(ConsoleHelper.YES);
+		staff.setSystemRole(set);
+		this.memberDao.save(staff);
+		CacheHelper.getInstance().dispatchRefreshEvent(Staff.SIMPLE_DIC_IDENTIFICATION);
 	}
 
 	

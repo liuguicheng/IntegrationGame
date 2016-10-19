@@ -7,10 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springline.orm.Page;
+import org.springline.web.filter.AuthenticationFilter;
 
 import com.console.ConsoleHelper;
+import com.console.entity.Staff;
 import com.systemic.gq.bonus.command.BonusRecordInfo;
 import com.systemic.gq.bonus.settlement.SettlementHelper;
+import com.systemic.gq.entity.Member;
 /**
  * 奖金 控制器
  * @author lgc
@@ -23,18 +26,17 @@ public class BonusRecordController {
 	@RequestMapping(value = "/bonus/bonusRecordList.do")
 	public String proposalInfoManage(HttpServletRequest request, HttpServletResponse response, Model model,
 			BonusRecordInfo info) {
-
+		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+       
+		if (!staff.getName().equals("系统管理员")) {
+			Member member= ConsoleHelper.getInstance().getSpringMemberService().selectMemberByStaffid(staff.getId());
+			info.setUserid(member.getUserName());
+		}
 		Page page = ConsoleHelper.getInstance().getBonusRecordService().selectPageBonusRecord(info);
 		model.addAttribute("page", page);
 		model.addAttribute("message", request.getParameter("message"));
 		return "gq/bonus/bonusRecordList";
 	}
 
-	@RequestMapping(value = "/bonus/bonusTest.do")
-	public String propotest(HttpServletRequest request, HttpServletResponse response, Model model,
-			BonusRecordInfo info) {
-		SettlementHelper.settlementStaticBonus();
-		return "gq/bonus/bonusTest";
-	}
 
 }

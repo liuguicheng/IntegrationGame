@@ -19,6 +19,11 @@
               <value>staffId,staffId,LIKE</value>
                <value>bsid,bsid,LIKE</value>
                 <value>userName,userName,EQU</value>
+                <value>upgradeState,upgradeState,EQU</value>
+                <value>referenceName,referenceName,EQU</value>
+                <value>stock.gradeNum,stock.gradeNum,EQU</value>
+                 <value>createTime,create_time,GT_EQU</value>
+                <value>createTime,end_time,LESS_EQU</value>
             </list>
         </property>
     </bean>

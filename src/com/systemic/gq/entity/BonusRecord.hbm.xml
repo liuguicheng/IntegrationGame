@@ -37,6 +37,11 @@
          <property name="send_time" type="java.util.Date">
             <column name="sendtime" length="10" />
         </property>
-        
+        <property name="content" type="java.lang.String">
+            <column name="content" length="10" />
+        </property>
+         <property name="num" type="java.lang.Integer">
+            <column name="num" />
+        </property>
     </class>
 </hibernate-mapping>

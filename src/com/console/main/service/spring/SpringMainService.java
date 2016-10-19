@@ -8,8 +8,10 @@ package com.console.main.service.spring;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springline.beans.cache.CacheHelper;
 import org.springline.beans.utils.EncryptHelper;
@@ -172,5 +174,15 @@ public class SpringMainService implements IMainService {
             ss.setIsLock(ConsoleHelper.LUCK);
             this.mainDao.save(ss);
         }
+	}
+
+	@Override
+	public void upRole(Staff staff) {
+		Set<Role> set = new HashSet<Role>();
+		Role role = (Role) this.mainDao.load(Role.class, "23");//21为玩家角色ID 23 游客id
+		set.add(role);
+		staff.setSystemRole(set);
+		this.mainDao.save(staff);
+		CacheHelper.getInstance().dispatchRefreshEvent(Staff.SIMPLE_DIC_IDENTIFICATION);
 	}
 }

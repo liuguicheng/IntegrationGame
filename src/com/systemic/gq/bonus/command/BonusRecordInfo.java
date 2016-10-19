@@ -18,6 +18,8 @@ public class BonusRecordInfo extends PaginationInfo {
 	private Date end_time;//结束时间
 	private Integer isSend;//是否发放 0未发放 1已发放
 	private Date send_time;//发放时间
+	private Integer num;//数量
+	private String content;//奖励内容
 	/**
 	 * @return the isSend
 	 */
@@ -104,6 +106,30 @@ public class BonusRecordInfo extends PaginationInfo {
 	 */
 	public void setSend_time(Date send_time) {
 		this.send_time = send_time;
+	}
+	/**
+	 * @return the num
+	 */
+	public Integer getNum() {
+		return num;
+	}
+	/**
+	 * @param num the num to set
+	 */
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	

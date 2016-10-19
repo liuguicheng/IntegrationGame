@@ -107,6 +107,50 @@ public class MemberInfo extends PaginationInfo{
 	private Date applyUpgradeTime;
 	/**已收到所需升级数量*/
 	private Integer applyUpgradeNum;
+	/**升级状态 */
+	private Integer upgradeState; // 0不可升级 1 可升级 2申请中
+	//升级审核时间
+		private Date  auditGradeTime;
+		//申请升级指定审核人
+		private String auditGradeUserName;
+		private Date create_time;//获得时间
+		private Date end_time;//结束时间
+	/**
+		 * @return the create_time
+		 */
+		public Date getCreate_time() {
+			return create_time;
+		}
+		/**
+		 * @param create_time the create_time to set
+		 */
+		public void setCreate_time(Date create_time) {
+			this.create_time = create_time;
+		}
+		/**
+		 * @return the end_time
+		 */
+		public Date getEnd_time() {
+			return end_time;
+		}
+		/**
+		 * @param end_time the end_time to set
+		 */
+		public void setEnd_time(Date end_time) {
+			this.end_time = end_time;
+		}
+	/**
+	 * @return the upgradeState
+	 */
+	public Integer getUpgradeState() {
+		return upgradeState;
+	}
+	/**
+	 * @param upgradeState the upgradeState to set
+	 */
+	public void setUpgradeState(Integer upgradeState) {
+		this.upgradeState = upgradeState;
+	}
 	/**修改个人资料次数*/
 	private Integer updateInfoNum;
 	/**
@@ -696,6 +740,30 @@ public class MemberInfo extends PaginationInfo{
 	}
 	public void setUpdateInfoNum(Integer updateInfoNum) {
 		this.updateInfoNum = updateInfoNum;
+	}
+	/**
+	 * @return the auditGradeTime
+	 */
+	public Date getAuditGradeTime() {
+		return auditGradeTime;
+	}
+	/**
+	 * @param auditGradeTime the auditGradeTime to set
+	 */
+	public void setAuditGradeTime(Date auditGradeTime) {
+		this.auditGradeTime = auditGradeTime;
+	}
+	/**
+	 * @return the auditGradeUserName
+	 */
+	public String getAuditGradeUserName() {
+		return auditGradeUserName;
+	}
+	/**
+	 * @param auditGradeUserName the auditGradeUserName to set
+	 */
+	public void setAuditGradeUserName(String auditGradeUserName) {
+		this.auditGradeUserName = auditGradeUserName;
 	}
 
 }

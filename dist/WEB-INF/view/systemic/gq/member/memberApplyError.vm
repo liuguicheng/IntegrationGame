@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  #headInclude()
+  <link rel="stylesheet" href="../lib/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+	  <link rel="stylesheet" href="../lib/ztree/zTreeStyle/map.css" type="text/css">
+  <script type="text/javascript" src="../lib/ztree/js/jquery.ztree.core.min.js"></script>
+  <script type="text/javascript">
+  #if($message)alert("#javaScriptEscape($message)");#end
+	function onrk(){
+		var url = "../plugins/toaddEmailMessage.do";
+    	document.location.href = url;
+	}	
+  </script>
+  <style>
+  input[type=password] {
+    padding: 3px;
+    min-height: 26px;
+    line-height: 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 3px;
+    margin-left: 2px;
+	}
+  .bor{
+   border: 1px solid #ccc;
+   text-align: center; 
+   height: 400px;
+   line-height:400px；
+  }
+  </style>
+</head>
+<body>
+<div class="PageHeader">
+  <div class="LeftBox Title">系统提示</div>
+</div>
+
+<div class="PageContainer indieui-scroll">
+	
+    
+			            
+		<div>
+        <table class="bor" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr >
+                    <td rowspan="2"><img src="../images/error.gif" height="30%"/>您的账号已申请过参与游戏,您的推荐人正在审核,请耐心等待! </td>
+                </tr>
+        </table>
+
+    </div>
+</div>
+
+
+</body>
+</html>

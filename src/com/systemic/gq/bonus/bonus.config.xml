@@ -12,7 +12,7 @@
         <property name="orderByClause"><value>id asc</value></property>
         <property name="queryParam">
             <list>
-                <value>userid,userid,LIKE</value>
+                <value>userid,userid,EQU</value>
                 <value>bonustype,bonustype,EQU</value>
                 <value>create_time,create_time,GT_EQU</value>
                 <value>create_time,end_time,LESS_EQU</value>

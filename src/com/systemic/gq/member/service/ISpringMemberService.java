@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springline.orm.Page;
 
+import com.console.entity.Staff;
 import com.systemic.gq.entity.Member;
 import com.systemic.gq.member.command.MemberEditInfo;
 import com.systemic.gq.member.command.MemberInfo;
@@ -64,4 +65,5 @@ public interface ISpringMemberService {
 	Member selectMemberByUserName(String userName);
 	List<Member> selectMemberListByNodeUsername(String note);
 	List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum);
+	void upRole(Staff mestaff);
 }

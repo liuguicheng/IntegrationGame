@@ -90,5 +90,9 @@ public interface IMainService {
      */
 	void doFrozen(String userName);
     
+	/**
+	 * ¸üÐÂ½ÇÉ«
+	 */
+	void upRole(Staff staff);
    
 }

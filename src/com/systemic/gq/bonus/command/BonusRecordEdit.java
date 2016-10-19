@@ -21,7 +21,20 @@ public class BonusRecordEdit extends SpringlineCommand {
 	private String remark;// 备注
 	private Integer isSend;// 是否发放 0未发放 1已发放
 	private Date send_time;// 发放时间
-
+	private Integer num;//数量
+	private String content;//奖励内容
+	
+	public BonusRecordEdit(String userid, String username, Date create_tiem, String bonustype, String remark, int isSend,Integer num,String content){
+		this.userid = userid;
+		this.username = username;
+		this.create_time = create_tiem;
+		this.bonustype = bonustype;
+		this.remark = remark;
+		this.isSend = isSend;
+		this.num=num;
+		this.content=content;
+		
+	}
 	public BonusRecordEdit(double money, String userid, String username, Date create_tiem, String bonustype,
 			Integer proportion, String remark, int isSend) {
 		this.money = money;
@@ -153,6 +166,34 @@ public class BonusRecordEdit extends SpringlineCommand {
 	 */
 	public void setSend_time(Date send_time) {
 		this.send_time = send_time;
+	}
+
+	/**
+	 * @return the num
+	 */
+	public Integer getNum() {
+		return num;
+	}
+
+	/**
+	 * @param num the num to set
+	 */
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 }

@@ -71,6 +71,7 @@ function selectNote(){
 }
 //申请加入游戏
 function doapply(){
+if(confirm("是否确定赠送1个V1?")){
  	var note=$("#note").val();
 	if(note!=""){
 		$.ajax({
@@ -88,7 +89,7 @@ function doapply(){
 	}else{
 		alert("归属节点不能为空!");
 	}
-	
+	}
 }
 
   </script>
