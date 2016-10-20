@@ -5,11 +5,9 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,16 +24,13 @@ import org.springline.web.filter.AuthenticationFilter;
 
 import com.console.ConsoleHelper;
 import com.console.entity.OperateLog;
-import com.console.entity.Role;
 import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.systemic.gq.bonus.settlement.BonusRecordHelper;
-import com.systemic.gq.bonus.settlement.SettlementHelper;
 import com.systemic.gq.entity.IntegrationGameRule;
 import com.systemic.gq.entity.Level;
 import com.systemic.gq.entity.Member;
-import com.systemic.gq.entity.Rule;
 import com.systemic.gq.entity.Stock;
 import com.systemic.gq.member.command.MemberEditInfo;
 import com.systemic.gq.member.command.MemberInfo;

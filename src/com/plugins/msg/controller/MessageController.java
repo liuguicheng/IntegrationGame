@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springline.beans.cache.CacheHelper;
 import org.springline.beans.dictionary.IDictionaryMapValueItem;
@@ -276,8 +278,12 @@ public class MessageController extends SpringlineMultiActionController {
 	 * to 添加公告 页面
 	 */
 	public ModelAndView toaddNoticeMessage(HttpServletRequest request, HttpServletResponse response) {
-		Map map = doGetMessage(request);
-		return new ModelAndView(getViewMap().get("toaddNoticeMessageView").toString(), map);
+		Map model = new HashMap();
+		String message=request.getParameter("message");
+		if(message!=null&&!"".equals(message)){
+			model.put("message", message);
+		}
+		return new ModelAndView(getViewMap().get("toaddNoticeMessageView").toString(), model);
 	}
 
 	/**
@@ -378,41 +384,85 @@ public class MessageController extends SpringlineMultiActionController {
 	
 	
 	/**
-	 * to 发送邮件页面
+	 * to 发送反馈页面
 	 */
 	public ModelAndView toaddEmailMessage(HttpServletRequest request, HttpServletResponse response) {
-		Map map = doGetMessage(request);
-		return new ModelAndView(getViewMap().get("toaddemailMessageView").toString(), map);
+		Map model = new HashMap();
+		String message=request.getParameter("message");
+		if(message!=null&&!"".equals(message)){
+			model.put("message", message);
+		}
+		return new ModelAndView(getViewMap().get("toaddemailMessageView").toString(), model);
 	}
+	
+	
 
 	/**
-	 * 发送邮件
+	 * 发送反馈
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	public ModelAndView addEmailMessage(HttpServletRequest request, HttpServletResponse response) {
+		Map model = new HashMap();
+		model.put("message", "发送失败");
 		try {
+			
 			String title = request.getParameter("messageTitel");
 			String content = request.getParameter("content");
 			String receiveMan = request.getParameter("receiveMan");
+			String messageType=request.getParameter("messageType");
+			
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
-			this.msgService.insertMessageForEmail(receiveMan,content, title, "4", member.getMemberId(),member.getUserName());
 			
-
+			if(messageType.equals("3")){
+				//反馈信息
+				//接收人 系统管理员 运营人员
+				
+				receiveMan="99999999";
+				this.msgService.insertMessageForEmail(receiveMan,content, title, messageType, member.getMemberId(),member.getUserName());
+			}
+			
+			model.put("message", "发送成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView(new GBRedirectView(getViewMap().get("addemailMessageView").toString()), null);
+		return new ModelAndView(new GBRedirectView(getViewMap().get("toaddView").toString()), model);
 	}
 	/**
-	 * 删除邮件
+	 * to 回复反馈 页面
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ModelAndView doDelEmailMessage(HttpServletRequest request, HttpServletResponse response) {
-		Map model = delMessage(request);
+	public ModelAndView toUpEmailMessage(HttpServletRequest request, HttpServletResponse response) {
+		Map model = new HashMap();
+		String id=request.getParameter("id");
+		SysMessage message= this.msgService.selectMessageById(id);
+		model.put("command", message);
+		return new ModelAndView(getViewMap().get("toUpEmailMessage").toString(), model);
+	}
+	
+	/**
+	 * 回复反馈
+	 */
+	public ModelAndView doUpEmailMessage(HttpServletRequest request, HttpServletResponse response) {
+		Map model = new HashMap();
+	
+		return new  ModelAndView(new GBRedirectView(getViewMap().get("addemailMessageView").toString()), model);
+	}
+	
+	/**
+	 * 删除反馈
+	 */
+	public ModelAndView doDelEmailMessage(HttpServletRequest request, 
+			HttpServletResponse response) {
+		Map model = new HashMap();
+		model.put("message", "删除失败");
+		String[] sysMessageid=request.getParameterValues("sysMessageid");
+		if (sysMessageid != null && sysMessageid.length > 0) {
+			this.msgService.deletePhyMessage(sysMessageid);
+			model.put("message", "删除成功");
+		}
 		return new ModelAndView(new GBRedirectView(getViewMap().get("addemailMessageView").toString()), model);
 	}
 

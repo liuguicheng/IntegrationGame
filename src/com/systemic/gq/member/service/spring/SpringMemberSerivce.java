@@ -269,5 +269,11 @@ public class SpringMemberSerivce implements ISpringMemberService {
 		CacheHelper.getInstance().dispatchRefreshEvent(Staff.SIMPLE_DIC_IDENTIFICATION);
 	}
 
+	@Override
+	public void update(Member member) {
+		memberDao.update(member);
+		CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);
+	}
+
 	
 }

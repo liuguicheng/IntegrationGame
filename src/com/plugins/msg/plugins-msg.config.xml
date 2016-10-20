@@ -29,11 +29,16 @@
           <prop key="plugins/addHelpMessage.do">pluginMsgController</prop>
           <prop key="plugins/toaddhelpMessage.do">pluginMsgController</prop>
           <prop key="plugins/doDelHelpMessage.do">pluginMsgController</prop>
-          <!-- 邮件信息 -->
+          <!-- 消息信息 -->
           <prop key="plugins/messageEmailList.do">emailMsgQueryController</prop>
+           <prop key="plugins/messageReceiveEmailList.do">reemailReceiveMsgQueryController</prop>
           <prop key="plugins/addEmailMessage.do">pluginMsgController</prop>
           <prop key="plugins/toaddEmailMessage.do">pluginMsgController</prop>
           <prop key="plugins/doDelEmailMessage.do">pluginMsgController</prop>
+          <!--去回复反馈页面  -->
+          <prop key="plugins/toUpEmailMessage.do">pluginMsgController</prop>
+          <!-- 提交回复反馈 -->
+          <prop key="plugins/doUpEmailMessage.do">pluginMsgController</prop>
           
         </props>
       </property>
@@ -70,12 +75,15 @@
       <bean id="chatMsgQueryUtil" class="org.springline.beans.dataquery.support.SimpleQueryMethod">
       <property name="valueObjectClassName"><value>com.plugins.msg.entity.SysMessage</value></property>
       <property name="tableAlias"><value>msg</value></property>
-      <property name="orderByClause"><value>sendTime ASC</value></property>
+      <property name="orderByClause"><value>sendTime desc</value></property>
       <property name="queryParam">
         <list>
           <value>isReaded,isReaded,EQU</value>
           <value>sendTime,sendTime,GT_EQU</value>
           <value>chatState,chatState,EQU</value>
+           <value>messageType,messageType,EQU</value>
+           <value>sendMan,sendMan,EQU</value>
+           <value>receiveMan,receiveMan,EQU</value>
           <value>content,content,LIKE</value>
           <value>sendTime,sendTimeUp,GT_EQU</value>
           <value>sendTime,sendTimeDown,LESS_EQU</value>
@@ -113,6 +121,10 @@
             <!-- 邮件 -->
             <prop key="addemailMessageView">../plugins/messageEmailList.do</prop>
              <prop key="toaddemailMessageView">msg/msgEmailAdd</prop>
+             <prop key="toaddView">../plugins/toaddEmailMessage.do</prop>
+             <!--回复反馈  -->
+             <prop key="toUpEmailMessage">msg/msgEmailUp</prop>
+             
         </props>
       </property>
     </bean>
@@ -144,6 +156,12 @@
       <property name="commandClass"><value>com.plugins.msg.command.MessageQueryInfo</value></property>
       <property name="successView"><value>msg/msgEmailQuery</value></property>
     </bean>
+     <bean id="reemailReceiveMsgQueryController" class="com.plugins.msg.controller.MessageReceiveEmailQueryController">
+      <property name="msgService"><ref bean="msgService"/></property>
+      <property name="commandClass"><value>com.plugins.msg.command.MessageQueryInfo</value></property>
+      <property name="successView"><value>msg/msgEmailReceiveQuery</value></property>
+    </bean>
+    
 <!-- 简单工厂 -->
     <bean class="com.plugins.msg.MsgHelper">
         <property name="msgService"><ref bean="msgService"/></property>

@@ -83,6 +83,11 @@ public class MainController extends SpringlineMultiActionController {
 			model.put("loginName", loginName);
 			return index(request, response, model);
 		}
+		if (rand == null || "".equals(rand)) {
+			model.put("message", "验证码不能为空！");
+			model.put("loginName", loginName);
+			return index(request, response, model);
+		}
 		if (!rand.equalsIgnoreCase(vcode)) {
 			model.put("message", "验证码错误！");
 			model.put("loginName", loginName);

@@ -53,18 +53,6 @@ public class HibernateMsgDao extends HibernateCommonDao implements IMsgDao {
 		int idx = 0;
 		StringBuffer hql = new StringBuffer(" ");
         IQueryObject qo = this.msgQueryUtil.getQueryObject(info);
-        if(info.getMessageType()!=null&&!"".equals(info.getMessageType())){
-        	hql.append(" msg.messageType=? and");
-        	values[idx++]=info.getMessageType();
-        }
-        if(info.getReceiveMan()!=null&&!"".equals(info.getReceiveMan())){
-        	hql.append(" msg.receiveMan=? and");
-        	values[idx++]=info.getReceiveMan();
-        }
-        if(info.getFlag() !=null && info.getFlag().length() > 0){
-        	hql.append(" msg.sendMan !='0' and");
-        	
-        }
         if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
             List<SysMessage> data = super.doQuery(qo.getQueryString(), qo.getParam());
             return this.putDataToPage(data);

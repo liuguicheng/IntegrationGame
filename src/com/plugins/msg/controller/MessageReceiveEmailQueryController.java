@@ -16,31 +16,30 @@ import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.entity.Member;
 
-public class MessageEmailQueryController extends PaginationQueryController {
-
+public class MessageReceiveEmailQueryController extends PaginationQueryController {
+	
 	/**
-	 * 已发消息
+	 * 收到信息
 	 */
+	
+    private IMsgService msgService;
 
-	private IMsgService msgService;
+    public void setMsgService(IMsgService msgService) {
+        this.msgService = msgService;
+    }
 
-	public void setMsgService(IMsgService msgService) {
-		this.msgService = msgService;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected Page selectQueryResult(HttpServletRequest request, HttpServletResponse response, PaginationInfo command,
-			Map model) throws Exception {
-		MessageQueryInfo info = (MessageQueryInfo) command;
-		
-		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected Page selectQueryResult(HttpServletRequest request, HttpServletResponse response, PaginationInfo command,
+            Map model) throws Exception {
+    	// fla=1 已发 fla=2 收到 fla="" 所有
+        MessageQueryInfo info = (MessageQueryInfo) command;
+        
+        Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 		Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
-		if (!staff.getName().equals("系统管理员")) {
-			info.setSendMan(member.getUserName());
-		}
-		info.setMessageType("3");
+		
+		info.setReceiveMan(member.getUserName());
 		Page page = this.msgService.selectMessage(info);
-		return page;
-	}
+        return page;
+    }
 }

@@ -19,7 +19,6 @@ public class TaskJobController  {
     	 
          DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");    
          System.out.println(sdf.format(new Date())+"*********每小时检测申请审核时间限制限制");
-         //检测超时未审核	超时未申请加入游戏
          MemberQuartz.doRegisterApplyAudit();
     	}catch(Exception e){
     		System.out.println(e.getMessage());

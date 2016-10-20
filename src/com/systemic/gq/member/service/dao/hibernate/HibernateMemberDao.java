@@ -128,7 +128,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName());
+		queryStr.append("from ").append(Member.class.getName()).append(" where isdel=1 and isok=1");
 
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);
@@ -225,12 +225,19 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where m.memberId!='1' and m.isActivation=1 and m.isok=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where m.memberId!='1'  and m.isok=1 and m.isdel=1");
 		if (info != null) {
-			if (info.getApplyTime() != null&&info.getCreateTime()!=null) {
-					queryStr.append(" and (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(m.applyTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>="+applynum);
-					queryStr.append(" ) or ((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(m.applyUpgradeTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>="+timenum+")");
-					queryStr.append(" or ((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(m.createTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>="+applynum+"))");
+			if(info.getIsActivation()==2){
+				queryStr.append(" and m.isActivation!=2");
+			}
+			if(info.getCreateTime()!=null&&!"".equals(info.getCreateTime())){
+				queryStr.append(" and  (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(m.createTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>="+applynum+"))");
+			}
+			if(info.getUpgradeState()==0){
+				queryStr.append(" and m.upgradeState!=0");
+			}
+			if(info.getApplyUpgradeTime()!=null&&!"".equals(info.getApplyUpgradeTime())){
+				queryStr.append(" and (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(m.applyUpgradeTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>="+timenum+"))");
 			}
 		}
 		Object[] param = new Object[idx];

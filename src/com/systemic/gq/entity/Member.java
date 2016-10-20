@@ -71,7 +71,7 @@ public class Member implements java.io.Serializable {
 	/** 是否正常 */
 	private Integer isok; //1正常 0永久封号 2半永久封号
 	/** 删除标识 */
-	private Integer isdel;
+	private Integer isdel; //0删除 1正常
 	/** 所在区域 */
 	private String region;//默认0  -左边0 右边1  
 	/***系统登录*/
