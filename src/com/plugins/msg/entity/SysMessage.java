@@ -26,12 +26,13 @@ public class SysMessage implements java.io.Serializable {
     private String receiveMan;//接受者
     private String content;
     /** 是否已读 by ydl 20130906 */
-    private String isReaded;
+    private String isReaded; //0未读 1已读  2 已回复
     /**添加聊天状态为了点击人聊天时就只显示当前聊天消息*/
     private String chatState;
     private String sendManId;
     private String messageType;//消息类型
     private String messageTitel;//标题
+    private String hfmessage;//回复内容
     // Constructors
 
     // Property accessors
@@ -126,6 +127,14 @@ public class SysMessage implements java.io.Serializable {
 	 */
 	public void setMessageTitel(String messageTitel) {
 		this.messageTitel = messageTitel;
+	}
+
+	public String getHfmessage() {
+		return hfmessage;
+	}
+
+	public void setHfmessage(String hfmessage) {
+		this.hfmessage = hfmessage;
 	}
 
 	

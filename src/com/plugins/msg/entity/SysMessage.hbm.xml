@@ -14,10 +14,10 @@
             <column name="SEND_TIME" length="10" />
         </property>
         <property name="sendMan" type="java.lang.String">
-            <column name="SEND_MAN" length="6" />
+            <column name="SEND_MAN" length="64" />
         </property>
         <property name="receiveMan" type="java.lang.String">
-            <column name="RECEIVE_MAN" length="6" />
+            <column name="RECEIVE_MAN" length="64" />
         </property>
         <property name="content" type="java.lang.String">
             <column name="CONTENT" length="1000" />
@@ -34,5 +34,8 @@
          <property name="messageTitel" type="java.lang.String">
             <column name="MESSAGE_TITLE" length="50" />
         </property>  
+        <property name="hfmessage" type="java.lang.String">
+            <column name="hfmessage" length="1000" />
+        </property>
     </class>
 </hibernate-mapping>

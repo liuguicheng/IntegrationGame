@@ -23,34 +23,49 @@
   <input  type="hidden" name="messageType" value="3" />
   
   <table class="TbCommon">
-    <tr>
-      <td class="TdLabel" style="width:150px;">#requiredInput("标题")</td>
+	 <tr>
+      <td class="TdLabel" style="width:150px;">玩家编号</td>
       <td class="TdInput" >
-		<input type="text" name="messageTitel" value="$!{command.messageTitel}" width="100%" readonly  />
+		$!{command.sendMan}
       </td>
     </tr>
     <tr>
-      <td class="TdLabel">#requiredInput("内容")</td>
+      <td class="TdLabel" style="width:150px;">标题</td>
       <td class="TdInput" >
-		<input id="contentid" type="hidden" name="content" value="$!{command.content}"  />
-		 <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+		$!{command.messageTitel}
       </td>
     </tr>
-	
+    <tr>
+      <td class="TdLabel">反馈内容<br/><span style="color:red;font-size:12px;">(可直接拖动图片至文本框内,图片名称不支持中文)</span></td>
+      <td class="TdInput" >
+		 <input id="hfcontentid" type="hidden"  value=""  />
+		 <script id="hfeditor" type="text/plain" style="width:1024px;height:500px;">$!{command.content}</script>
+      </td>
+    </tr>
+	#if($!{command.isReaded}==2||$!{command.isReaded}==1)
+	<tr>
+      <td class="TdLabel">#requiredInput("回复内容")<br/><span style="color:red;font-size:12px;">(可直接拖动图片至文本框内,图片名称不支持中文)</span></td>
+      <td class="TdInput" >
+		<input id="contentid" type="hidden" name="hfmessage" value=""  />
+		 <script id="editor" type="text/plain" style="width:1024px;height:500px;">$!{command.hfmessage}</script>
+      </td>
+    </tr>
+	#end
   </table>
 </form>
 </div>
 
 <div class="CommandTool indieui-form">
-  <input type="button" id="btnconfirm" value="保存" onclick="javascript:doSave();"/>
+	#if($!{command.isReaded}==1)
+		<input type="button" id="btnconfirm" value="保存" onclick="javascript:doSave();"/>
+    #end
    <input type="button" id="btnconfirm" value="返回" onclick="javascript:doReturn();"/>
 </div>
 <script type="text/javascript">  
 validator.formName = "editForm";
-  validator.addNormalCheckPoint("messageTitel", "标题不能为空", "checkNotNull;checkNotEmpty");
-  validator.addNormalCheckPoint("content", "内容不能为空", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("content", "回复内容不能为空", "checkNotNull;checkNotEmpty");
   var ue = UE.getEditor('editor');
-  
+  var ues = UE.getEditor('hfeditor');
   function doSave(){
     ue.ready(function() {
 		var arr=ue.getPlainTxt();
@@ -82,14 +97,10 @@ validator.formName = "editForm";
     document.location.href = "../plugins/messageEmailList.do";
   }
 
-var comid=$("#comid").val();
-  if(comid!=""){
-   var valueds= $("#contentid").val();
-  ue.ready(function() {
-    ue.setContent(valueds);
-});
-   
-  } 
+	var comid=$("#comid").val();
+ 
+  
+  
 </script>
 </body>
 </html>

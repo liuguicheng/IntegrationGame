@@ -26,11 +26,40 @@
   <div class="LeftBox Title">反馈信息列表</div>
 </div>
 
-
+<!--搜索div开始 -->
+<div class="SearchBox" id="divSearch">
+<form name="queryForm" action="#getRequestUri()" method="post" class="indieui-form">
+  <table class="TbCommon">
+    <tr>
+      <td class="TdLabel" style="width:100px;">玩家编号编号：</td>
+      <td class="TdInput" colspan="3">
+        <input type="text" name="sendMan" value="" >
+      </td>
+    </tr>
+	<tr>
+    <td class="TdLabel" style="width:100px;">发送时间：</td>
+    <td class="TdInput" colspan="3">
+        <input type="text" name="sendTimeUp" value="" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+        至
+        <input type="text" name="sendTimeDown" value="" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+    </td>
+</tr>
+  </table>
+  <div class="CommandTool">
+    <input type="button" value="确 定" onClick="javascript:document.queryForm.submit();jQuery('body').processMask();"/>
+    <input type="button" value="清 空" onClick="javascript:clearQuery(document.queryForm);"/>
+    <input type="button" value="取 消" onClick="javascript:showDiv('divSearch');">    
+  </div>
+</form>
+</div>
+<!--搜索div结束-->
 
 <div class="PageTool">
   <div class="LeftBox Tool">
+	<input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
+	#if($!{member}==1)
 	<input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
+	#end
   </div>
 </div>
 
@@ -46,7 +75,7 @@
       </th>
        <th style="width:60px;">发送者</th>
       <th >标题</th>
-	   <th style="width:60px;">是否已读</th>
+	   <th style="width:60px;">状态</th>
       <th style="width:120px;">时间</th>
     </tr>
   </thead>
@@ -56,7 +85,7 @@
       <td><input type="checkbox" name="sysMessageid" value="$!{data.sysMessageInfoId}"></td>
 	  <td>$!{data.sendMan}</td>
       <td><a href="javascript:edit('$!{data.sysMessageInfoId}');">$!{data.messageTitel}</a></td>
-	  <td>#if($!{data.isReaded}==0) 未读  #else 已读   #end</td>
+	  <td>#if($!{data.isReaded}==0) 未读  #elseif($!{data.isReaded}==2)已回复 #else 已读   #end</td>
 	  <td>#customFormatDate(${data.sendTime} "yyyy-MM-dd HH:mm")</td>
     </tr>
   #end

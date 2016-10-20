@@ -422,7 +422,7 @@ public class MessageController extends SpringlineMultiActionController {
 				//接收人 系统管理员 运营人员
 				
 				receiveMan="99999999";
-				this.msgService.insertMessageForEmail(receiveMan,content, title, messageType, member.getMemberId(),member.getUserName());
+				this.msgService.insertMessageForEmail(receiveMan,content, title, messageType, member.getUserName(),member.getBsid());
 			}
 			
 			model.put("message", "发送成功");
@@ -437,8 +437,17 @@ public class MessageController extends SpringlineMultiActionController {
 	public ModelAndView toUpEmailMessage(HttpServletRequest request, HttpServletResponse response) {
 		Map model = new HashMap();
 		String id=request.getParameter("id");
-		SysMessage message= this.msgService.selectMessageById(id);
-		model.put("command", message);
+		SysMessage sysmessage= this.msgService.selectMessageById(id);
+		if(sysmessage!=null){
+			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+			Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+			if(!sysmessage.getSendMan().equals(member.getUserName())
+					&&sysmessage.getIsReaded().equals("0")){
+			sysmessage.setIsReaded("1");
+			this.msgService.updateMessage(sysmessage);
+			}
+		}
+		model.put("command", sysmessage);
 		return new ModelAndView(getViewMap().get("toUpEmailMessage").toString(), model);
 	}
 	
@@ -447,7 +456,16 @@ public class MessageController extends SpringlineMultiActionController {
 	 */
 	public ModelAndView doUpEmailMessage(HttpServletRequest request, HttpServletResponse response) {
 		Map model = new HashMap();
-	
+		model.put("message", "回复失败");
+		String sysMessageInfoId=request.getParameter("sysMessageInfoId");
+		String hfmessage=request.getParameter("hfmessage");
+		SysMessage sysmessage= this.msgService.selectMessageById(sysMessageInfoId);
+		if(sysmessage!=null){
+			sysmessage.setHfmessage(hfmessage);
+			sysmessage.setIsReaded("2");
+			this.msgService.updateMessage(sysmessage);
+			model.put("message", "回复成功");
+		}
 		return new  ModelAndView(new GBRedirectView(getViewMap().get("addemailMessageView").toString()), model);
 	}
 	

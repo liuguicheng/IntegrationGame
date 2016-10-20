@@ -38,9 +38,13 @@ public class MessageEmailQueryController extends PaginationQueryController {
 		Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 		if (!staff.getName().equals("系统管理员")) {
 			info.setSendMan(member.getUserName());
+			model.put("member", 0);
+		}else{
+			model.put("member", 1);
 		}
 		info.setMessageType("3");
 		Page page = this.msgService.selectMessage(info);
+		
 		return page;
 	}
 }
