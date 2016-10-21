@@ -9,7 +9,7 @@
     <bean id="bonusRecordQueryStringUtil" class="org.springline.beans.dataquery.support.SimpleQueryMethod">
         <property name="valueObjectClassName"><value>com.systemic.gq.entity.BonusRecord</value></property>
         <property name="tableAlias"><value>me</value></property>
-        <property name="orderByClause"><value>id asc</value></property>
+        <property name="orderByClause"><value>create_time desc</value></property>
         <property name="queryParam">
             <list>
                 <value>userid,userid,EQU</value>

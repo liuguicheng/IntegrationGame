@@ -30,8 +30,8 @@ public class BarcodeFactory {
     private static final int IMAGE_HALF_WIDTH = IMAGE_WIDTH / 2;  
     private static final int FRAME_WIDTH = 2;  
 	public static String qRCodeContent="http://localhost:8080/IntegrationGame/member/memberEdit.do?memberId=";
-    public static String path="E://qcode//";
-    public static String logoImgUrl="E://qcode//logo.jpg";
+    public static String path="D://qcode//";
+    public static String logoImgUrl="D://qcode//logo.jpg";
     // ¶þÎ¬ÂëÐ´ÂëÆ÷  
     private static MultiFormatWriter mutiWriter = new MultiFormatWriter();  
   
