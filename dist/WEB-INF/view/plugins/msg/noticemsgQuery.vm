@@ -8,50 +8,90 @@
    window.location.href="../plugins/toaddNoticeMessage.do"; 
   }
   function edit(id){
-   	window.location.href="../plugins/toaddNoticeMessage.do?id="+id; 
+   	window.location.href="../plugins/toNoticeMessage.do?id="+id; 
   }
-  function del(id){
-   	if(confirm("确认删除？")){
-  	window.location.href="../plugins/doDelNoticeMessage.do?id="+id; 
-	}
+    function doDelete(){
+  if (!hasCheckBoxSelect("sysMessageid")) {
+      alert("请选择要删除的信息！");
+      return;
+    }
+    if (confirm("您确定要删除所选择的信息吗?")) {
+      var f =  document.listForm;
+      f.action = "../plugins/doDelNoticeMessage.do";
+      f.submit();      
+    }
   }
   </script>
 </head>
 <body>
-
-
-<div class="PageContainer indieui-scroll">
-	<div id="toolbar" style="padding:5px;height:auto">
-  <div>
-    <form id="queryForm" name="queryForm" action="" method="post" class="indieui-form">
-        <table cellpadding="5">
-        <tr> 
-          <td  colspan="2" style="text-align:center">
-            <a href="javascript:doadd()" class="easyui-linkbutton" >添加公告</a>
-        </tr>
-      </table> 
-    </form>          
+<div class="PageHeader">
+  <div class="LeftBox Title">公告信息列表</div>
+</div>
+	<!--搜索div开始 -->
+<div class="SearchBox" id="divSearch">
+<form name="queryForm" action="#getRequestUri()" method="post" class="indieui-form">
+  <table class="TbCommon">
+	<tr>
+    <td class="TdLabel" style="width:100px;">发送时间：</td>
+    <td class="TdInput" colspan="3">
+        <input type="text" name="sendTimeUp" value="" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+        至
+        <input type="text" name="sendTimeDown" value="" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+    </td>
+</tr>
+  </table>
+  <div class="CommandTool">
+    <input type="button" value="确 定" onClick="javascript:document.queryForm.submit();jQuery('body').processMask();"/>
+    <input type="button" value="清 空" onClick="javascript:clearQuery(document.queryForm);"/>
+    <input type="button" value="取 消" onClick="javascript:showDiv('divSearch');">    
+  </div>
+</form>
+</div>
+<!--搜索div结束-->
+<div class="PageTool">
+  <div class="LeftBox Tool">
+	<input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
+	#if($!{member}==1)
+	<input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
+	#end
   </div>
 </div>
+<div class="PageContainer indieui-scroll">
 <form name="listForm" method="post">
 <input type="hidden" name="submitFlag" value="0">
 <input type="hidden" name="token" value="$!{command.token}">
 <table class="TbList">
   <thead> 
     <tr>
-      <th style="width:140px;">公告标题</th>
-      <th>公告内容</th>
-      <th style="width:140px;">发送时间</th>
-	  <th style="width:140px;">操作</th>
+		<th style="width:10px;" nowrap>
+        <input type="checkbox" onclick="javascript:setCheckBoxValue('sysMessageid', this.checked);">
+      </th>
+	  #if($!{member}==1)
+	   <th style="width:160px;">接收级别</th>
+	   #end
+      <th style="text-aglin:left;">公告标题</th>
+       <th style="width:60px;">状态</th>
+      <th style="width:120px;">时间</th>
     </tr>
   </thead>
   <tbody>
   #foreach( $data in $page.data )
     <tr>
-      <td>$!{data.messageTitel}</td>
-      <td style="text-align:left;" class="TdTxtover"><a href="javascript:edit('$!{data.sysMessageInfoId}');">#htmlEscape($!{data.content})</a></td>
+	  <td><input type="checkbox" name="sysMessageid" value="$!{data.sysMessageInfoId}"></td>
+		#if($!{member}==1)
+		<td>
+		 #if($!{data.receiveLevel}=="0")
+		 	所有玩家
+		 #elseif($!{data.receiveLevel}=="-1")
+			个人(玩家编号:$!{data.receiveMan})
+			#else
+			 玩家级别:#lookUpDict($dicData.dicStockLevel "$!{data.receiveLevel}")
+		 #end
+		</td>
+		#end
+      <td><a href="javascript:edit('$!{data.sysMessageInfoId}');">$!{data.messageTitel}</a></td>
+	  <td>#if($!{data.isReaded}==0) 未读  #elseif($!{data.isReaded}==2)已回复 #else 已读   #end</td>
       <td>#customFormatDate(${data.sendTime} "yyyy-MM-dd HH:mm")</td>
-	  <td><a href="javascript:del('$!{data.sysMessageInfoId}');">删除</a></td>
     </tr>
   #end
   </tbody>   

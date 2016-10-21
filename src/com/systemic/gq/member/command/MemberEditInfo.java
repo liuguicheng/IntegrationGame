@@ -114,12 +114,15 @@ public class MemberEditInfo extends SpringlineCommand {
 		private Date  auditGradeTime;
 		//申请升级指定审核人
 		private String auditGradeUserName;
+		
+		private Integer rzstatus;
 	public Integer getUpdateInfoNum() {
 		return updateInfoNum;
 	}
 	public void setUpdateInfoNum(Integer updateInfoNum) {
 		this.updateInfoNum = updateInfoNum;
 	}
+	
 	/**
 	 * @return the id
 	 */
@@ -641,6 +644,18 @@ public class MemberEditInfo extends SpringlineCommand {
 	 */
 	public void setAuditGradeUserName(String auditGradeUserName) {
 		this.auditGradeUserName = auditGradeUserName;
+	}
+	/**
+	 * @return the rzstatus
+	 */
+	public Integer getRzstatus() {
+		return rzstatus;
+	}
+	/**
+	 * @param rzstatus the rzstatus to set
+	 */
+	public void setRzstatus(Integer rzstatus) {
+		this.rzstatus = rzstatus;
 	}
 	
 }

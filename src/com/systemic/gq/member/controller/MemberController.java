@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springline.beans.utils.EncryptHelper;
 import org.springline.orm.Page;
 import org.springline.web.filter.AuthenticationFilter;
 
@@ -265,6 +266,7 @@ public class MemberController {
 			info.setUpdateInfoNum(0);
 			info.setUpgradeState(0);
 			info.setApplyUpgradeNum(0);
+			info.setRzstatus(0);
 			this.springMemberService.saveMermber(info);
 			model.addAttribute("message", "保存成功");
 		} catch (Exception e) {
@@ -317,6 +319,7 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		info.setBsid(infos.getBsid());
+		info.setIsdel(1);
 		List<Member> memberlist = this.springMemberService.selectMemberBy(info);
 		String gsonString = "";
 		List list = new ArrayList();
@@ -437,12 +440,21 @@ public class MemberController {
 		return gsonString;
 	}
 
+	/**
+	 * 删除玩家
+	 * @param request
+	 * @param memberId
+	 * @param token
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/member/memberDelete.do", method = RequestMethod.POST)
 	public String memberDelete(HttpServletRequest request, String[] memberId, Long token, Model model) {
 		if (memberId != null && memberId.length > 0) {
 			this.springMemberService.deleteMember(memberId);
+			model.addAttribute("message", "删除成功");
 		}
-		model.addAttribute("token", token);
+		
 		return "redirect:../member/memberManage.do";
 	}
 
@@ -609,6 +621,8 @@ public class MemberController {
 		if (member != null) {
 			if (info.getNoteUsername().equals(member.getUserName())) {
 				edm.setMessage("申请失败,不能输入自身编号,请重新输入归属节点编号!");
+			}else if(member.getIsok()!=1){
+				edm.setMessage("申请失败,当前玩家状态异常,请重新输入归属节点编号!");
 			} else {
 				String region = queryRegion(info.getNoteUsername());
 				if (region.equals("-1")) {
@@ -654,7 +668,7 @@ public class MemberController {
 	 * @param content 内容
 	 */
 	private void sendMsg(Member member,String receiveMan,String title,String content ) {
-		ConsoleHelper.getInstance().getMsgService().insertMessageForEmail(receiveMan, content, title, "4",
+		ConsoleHelper.getInstance().getMsgService().insertMessageForEmail(receiveMan, content, title, "1",
 				member.getBsid(), member.getUserName());
 	}
 
@@ -765,12 +779,27 @@ public class MemberController {
 		edm.setCode(0);
 		edm.setMessage("归属点不存在,请重新输入归属点编号!");
 		Member member = this.springMemberService.selectMemberByUserName(info.getUserName());
+		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 		if (member != null) {
 			if (member.getIsok() != 1) {
 				edm.setMessage("归属点账号异常,不能放置玩家,请重新输入归属点编号!");
-			} else {
-				edm.setCode(1);
-				edm.setMessage(member.getLan() + "," + member.getYong());
+			}else if(member.getIsActivation()!=2){
+				edm.setMessage("输入的归属点未参与游戏,不能放置玩家,请重新输入归属点编号!");
+			
+			}else {
+				if(!staff.getName().equals("系统管理员")){
+					if (info.getUserName().equals(loginmember.getUserName())) {
+						edm.setMessage("输入的归属点不能为自己,请重新输入归属点编号!");
+					}else{
+						edm.setCode(1);
+						edm.setMessage(member.getLan() + "," + member.getYong());
+					}
+				}else{
+					edm.setCode(1);
+					edm.setMessage(member.getLan() + "," + member.getYong());
+				}
+				
 			}
 
 		}
@@ -963,4 +992,84 @@ public class MemberController {
 		msg = ConUnit.tojson(edm);
 		return msg;
 	}
+	
+	
+	/**
+	 * 孝字认证申请
+	 */
+	@RequestMapping(value = "/member/xzrzAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String xzrzAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		edm.setMessage("申请失败");
+		Member member = this.springMemberService.selectMemberById(info.getMemberId());
+		if (member != null) {
+			if(member.getRzstatus()==0){
+				member.setRzstatus(1);
+				edm.setCode(1);
+				edm.setMessage("申请成功");
+				this.springMemberService.update(member);
+			}else{
+				edm.setMessage("该账号已申请或认证申请中,请勿重复申请!");
+			}
+			
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+	
+	/**
+	 * 孝字认证审核
+	 */
+	
+	@RequestMapping(value = "/member/zxAudit.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String zxAudit(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		edm.setMessage("审核失败");
+		Member member = this.springMemberService.selectMemberByUserName(info.getUserName());
+		if (member != null) {
+			if(member.getRzstatus()==1){
+				member.setRzstatus(2);
+				edm.setCode(1);
+				edm.setMessage("审核成功");
+				this.springMemberService.update(member);
+			}
+			
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+	
+	/**
+	 * 重置密码
+	 */
+	@RequestMapping(value = "/member/resetPasswordAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String resetPasswordAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		edm.setMessage("重置密码失败");
+		Member member = this.springMemberService.selectMemberById(info.getMemberId());
+		if (member != null) {
+				member.setPassword("666666");
+				edm.setCode(1);
+				edm.setMessage("重置密码成功,重置后密码为:666666");
+				this.springMemberService.updateMermber(member);
+				
+				Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+				Member loginmember = ConsoleHelper.getInstance().getManageService()
+						.selectMemberByStaffId(staff.getId());
+				String logContent = "在IP为" +  ConsoleHelper.getUserIp() + "的机器上-重置了玩家编号:"+member.getUserName()+"登陆密码";
+				ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_UP_LOGINPASSWORD, loginmember, logContent);
+		}
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+	
 }

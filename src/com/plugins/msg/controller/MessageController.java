@@ -283,6 +283,32 @@ public class MessageController extends SpringlineMultiActionController {
 		if(message!=null&&!"".equals(message)){
 			model.put("message", message);
 		}
+	
+		return new ModelAndView(getViewMap().get("toaddNoticeMessageView").toString(), model);
+	}
+	/**
+	 * 查看公告页面
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView toNoticeMessage(HttpServletRequest request, HttpServletResponse response) {
+		Map model = new HashMap();
+		String id=request.getParameter("id");
+		if(id!=null&&!"".equals(id)){
+			SysMessage sysmessage= this.msgService.selectMessageById(id);
+			if(sysmessage!=null){
+				Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+				Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+				if(!sysmessage.getSendMan().equals(member.getUserName())
+						&&sysmessage.getIsReaded().equals("0")){
+				sysmessage.setIsReaded("1");
+				this.msgService.updateMessage(sysmessage);
+				}
+			}
+			model.put("command", sysmessage);
+		}
+		
 		return new ModelAndView(getViewMap().get("toaddNoticeMessageView").toString(), model);
 	}
 
@@ -294,15 +320,46 @@ public class MessageController extends SpringlineMultiActionController {
 	 * @return
 	 */
 	public ModelAndView addNoticeMessage(HttpServletRequest request, HttpServletResponse response) {
-		addMessage(request,"2");
-		return new ModelAndView(new GBRedirectView(getViewMap().get("addNoticeMessageView").toString()), null);
+		Map model = new HashMap();
+		model.put("message", "发送失败");
+		//receiveMan=0 所有人  
+		String receiveMan=request.getParameter("receiveMan")!=null?request.getParameter("receiveMan").trim():"";
+		String level=request.getParameter("level")!=null?request.getParameter("level"):"";
+		String title = request.getParameter("messageTitel")!=null?request.getParameter("messageTitel"):"";
+		String content = request.getParameter("content")!=null?request.getParameter("content"):"";
+		String messageType=request.getParameter("messageType");
+		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+		
+		
+		if(!level.equals("")&&receiveMan.equals("")){
+			//根据级别
+			this.msgService.insertMessageForNotice(receiveMan,content, title, messageType, member.getUserName(),member.getBsid(),level);
+			model.put("message", "发送成功");
+		}else if(level.equals("")&&receiveMan.equals("0")){
+			//所有人
+			this.msgService.insertMessageForNotice(receiveMan,content, title, messageType, member.getUserName(),member.getBsid(),"0");
+			model.put("message", "发送成功");
+		}else{
+			//个人
+			this.msgService.insertMessageForNotice(receiveMan,content, title, messageType, member.getUserName(),member.getBsid(),"-1");
+			model.put("message", "发送成功");
+		}
+		return new ModelAndView(new GBRedirectView(getViewMap().get("toaddNoticeMessage").toString()), model);
 	}
 	/**
 	 * 删除公告
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ModelAndView doDelNoticeMessage(HttpServletRequest request, HttpServletResponse response) {
-		Map model = delMessage(request);
+		
+		Map model = new HashMap();
+		model.put("message", "删除失败");
+		String[] sysMessageid=request.getParameterValues("sysMessageid");
+		if (sysMessageid != null && sysMessageid.length > 0) {
+			this.msgService.deletePhyMessage(sysMessageid);
+			model.put("message", "删除成功");
+		}
 		return new ModelAndView(new GBRedirectView(getViewMap().get("addNoticeMessageView").toString()), model);
 	}
 	

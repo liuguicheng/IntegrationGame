@@ -1,5 +1,6 @@
 package com.systemic.unit;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.NumberFormat;
@@ -134,6 +135,16 @@ public class ConUnit {
 		return retnum;
 	}
 
+	public static void deleteImgFile(String filepath){
+		try{
+			if(filepath!=null&&!"".equals(filepath)){
+				File file=new File(filepath);
+		        file.delete();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	public static void main(String[] args) {
 		for (int i = 0; i < 100; i++) {
 			System.out.println(uid(10));

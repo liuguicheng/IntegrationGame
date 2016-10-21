@@ -115,6 +115,8 @@ public class Member implements java.io.Serializable {
 	private String lan;//廉通道
 	private String yong;//勇通道
 	
+	private Integer rzstatus;//认证状态 0未认证 1申请中 2孝字认证
+	
 	// Constructors
 
 	/** default constructor */
@@ -771,6 +773,20 @@ public class Member implements java.io.Serializable {
 	 */
 	public void setAuditGradeUserName(String auditGradeUserName) {
 		this.auditGradeUserName = auditGradeUserName;
+	}
+
+	/**
+	 * @return the rzstatus
+	 */
+	public Integer getRzstatus() {
+		return rzstatus;
+	}
+
+	/**
+	 * @param rzstatus the rzstatus to set
+	 */
+	public void setRzstatus(Integer rzstatus) {
+		this.rzstatus = rzstatus;
 	}
 	
 	

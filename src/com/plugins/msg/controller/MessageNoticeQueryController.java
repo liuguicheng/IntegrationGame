@@ -10,9 +10,11 @@ import org.springline.web.filter.AuthenticationFilter;
 import org.springline.web.pagination.PaginationInfo;
 import org.springline.web.pagination.PaginationQueryController;
 
+import com.console.ConsoleHelper;
 import com.console.entity.Staff;
 import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.service.IMsgService;
+import com.systemic.gq.entity.Member;
 
 public class MessageNoticeQueryController extends PaginationQueryController {
 	
@@ -32,8 +34,16 @@ public class MessageNoticeQueryController extends PaginationQueryController {
             Map model) throws Exception {
         MessageQueryInfo info = (MessageQueryInfo) command;
         info.setMessageType("2");
-         
-        Page page = this.msgService.selectMessage(info);
+        Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+		if (!staff.getName().equals("系统管理员")) {
+			info.setReceiveMan(member.getUserName());
+			info.setReceiveLevel(member.getStock().getGradeNum());
+			model.put("member", 0);
+		}else{
+			model.put("member", 1);
+		}
+        Page page = this.msgService.selectNoticeMessage(info);
         return page;
     }
 }

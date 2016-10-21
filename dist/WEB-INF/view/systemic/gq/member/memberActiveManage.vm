@@ -22,7 +22,10 @@
     }
   }
   
-  
+  //Ë¢ÐÂ
+function dorefresh(){
+	location.reload(); 			
+}
 
 
   </script>
@@ -57,6 +60,7 @@
 <div class="PageTool">
   <div class="LeftBox Tool">
     <input type="button" class="BtnSearch" value="²éÑ¯"  title="²éÑ¯" onclick="javascript:showDiv('divSearch');"/>
+   <input type="button" class="BtnRefresh" value="Ë¢ÐÂ"  title="Ë¢ÐÂ" onclick="javascript:dorefresh();"/>
    ## <input type="button" class="BtnAdd" value="Íæ¼Ò×¢²á"  title="Íæ¼Ò×¢²á" onclick="javascript:doEdit('');"/>
    ## <input type="button" class="BtnDel" value="É¾³ý"  title="É¾³ý" onclick="javascript:doDelete();"/>
   </div>

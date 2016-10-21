@@ -20,6 +20,9 @@
           
           <!-- 公告消息 -->
           <prop key="plugins/messageNoticeList.do">noticeMsgQueryController</prop>
+          <!-- 查看公告信息 -->
+          
+           <prop key="plugins/toNoticeMessage.do">pluginMsgController</prop>
           <prop key="plugins/toaddNoticeMessage.do">pluginMsgController</prop>
           <prop key="plugins/addNoticeMessage.do">pluginMsgController</prop>
           <prop key="plugins/doDelNoticeMessage.do">pluginMsgController</prop>
@@ -90,11 +93,29 @@
         </list>
       </property>
     </bean>
+    
+    <bean id="chatnoticeMsgQueryUtil" class="org.springline.beans.dataquery.support.SimpleQueryMethod">
+      <property name="valueObjectClassName"><value>com.plugins.msg.entity.SysMessage</value></property>
+      <property name="tableAlias"><value>msg</value></property>
+      <property name="orderByClause"><value>sendTime desc</value></property>
+      <property name="queryParam">
+        <list>
+          <value>isReaded,isReaded,EQU</value>
+          <value>sendTime,sendTime,GT_EQU</value>
+          <value>chatState,chatState,EQU</value>
+           <value>messageType,messageType,EQU</value>
+          <value>content,content,LIKE</value>
+          <value>sendTime,sendTimeUp,GT_EQU</value>
+          <value>sendTime,sendTimeDown,LESS_EQU</value>
+        </list>
+      </property>
+    </bean>
     <bean id="msgDao" class="com.plugins.msg.service.dao.hibernate.HibernateMsgDao">
         <property name="sessionFactory"><ref bean="sessionFactory" /></property>
         <property name="msgQueryUtil"><ref bean="msgQueryUtil"/></property>
         <property name="instantMsgQueryUtil"><ref bean="instantMsgQueryUtil"/></property>
         <property name="chatMsgQueryUtil"><ref bean="chatMsgQueryUtil"/></property>
+        <property name="chatnoticeMsgQueryUtil"><ref bean="chatnoticeMsgQueryUtil"/></property>
     </bean>
 
    <bean id="msgService" class="com.plugins.msg.service.spring.SpringMsgService">
@@ -114,6 +135,7 @@
           <prop key="unreadedView">msg/msgUnreadedQuery</prop>
           <!-- 公告 -->
           <prop key="toaddNoticeMessageView">msg/msgnoticeAdd</prop>
+           <prop key="toaddNoticeMessage">../plugins/toaddNoticeMessage.do</prop>
            <prop key="addNoticeMessageView">../plugins/messageNoticeList.do</prop>
            <!-- 帮助 -->
             <prop key="addhelpMessageView">../plugins/messageHelpList.do</prop>

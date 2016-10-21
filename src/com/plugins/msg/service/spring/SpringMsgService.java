@@ -216,4 +216,23 @@ public class SpringMsgService implements IMsgService {
 		msg.setReceiveMan(receiveMan);
 		this.msgDao.save(msg);
 	}
+	@Override
+	public void insertMessageForNotice(String receiveMan, String content, String title, String string, String memberId,String sendman,String level) {
+		SysMessage msg = new SysMessage();
+		msg.setContent(content);
+		msg.setSendTime(new Date());
+		msg.setSendMan(memberId); // 
+		msg.setSendManId(sendman);
+		msg.setMessageTitel(title);
+		msg.setIsReaded(ConsoleHelper.NO);
+		msg.setMessageType(string);
+		msg.setReceiveMan(receiveMan);
+		msg.setReceiveLevel(level);
+		this.msgDao.save(msg);
+	}
+
+	@Override
+	public Page selectNoticeMessage(MessageQueryInfo info) {
+		return msgDao.selectNoticeMessage(info);
+	}
 }

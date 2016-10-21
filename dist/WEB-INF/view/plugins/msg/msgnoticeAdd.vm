@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   #headInclude()
+  <script type="text/javascript">
+   #if($message)alert("#javaScriptEscape($message)");#end
+  </script>
   <script type="text/javascript" src="../script/validator.js"></script>
    <script type="text/javascript" src="../script/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" src="../script/ueditor/ueditor.all.min.js"></script>
@@ -19,18 +22,47 @@
   <input id="comid" type="hidden" name="sysMessageInfoId" value="$!{command.sysMessageInfoId}" />
    <input  type="hidden" name="messageType" value="2" />
   <table class="TbCommon">
-    <tr>
-      <td class="TdLabel" style="width:150px;">#requiredInput("标题")</td>
+	 <tr>
+      <td class="TdLabel" style="width:150px;">#requiredInput("发送给")</td>
       <td class="TdInput" >
-		<input type="text" name="messageTitel" value="$!{command.messageTitel}"  />
+		#if($!{command.sysMessageInfoId})
+			#if($!{command.receiveLevel}=="0")
+				所有玩家
+			#elseif($!{command.receiveLevel}=="-1")
+				玩家编号:$!{command.receiveMan}
+			#else	
+				玩家级别:#lookUpDict($dicData.dicStockLevel "$!{command.receiveLevel}")
+			#end
+		#else	
+		
+		<select id="selectid" style='width:120;float:left;'>
+			<option value=""> ---- 请选择 ---- </option>
+			<option value="1">单个玩家 </option>
+			<option value="2">相关级别 </option>
+			<option value="3">全部玩家 </option>
+        </select>
+		<div id="receiveMandiv" style="display:none;float:left;margin-left:10px;">
+			#requiredInput("玩家编号:")<input type="text" name="receiveMan" value="" id="receiveManid" />
+        </div>
+		<div id="leveldiv" style="display:none;;float:left;margin-left:10px;">
+			#requiredInput("玩家级别:")#formSingleSelectDictionary("level" "" ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
+        </div>
+		#end
       </td>
     </tr>
     <tr>
-      <td class="TdLabel">#requiredInput("内容")</td>
+      <td class="TdLabel" style="width:150px;">#requiredInput("标题")</td>
       <td class="TdInput" >
-		<input id="contentid" type="hidden" name="content" value="$!{command.content}"  />
-		 <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+		<input type="text" style="width:66%;"  name="messageTitel" value="$!{command.messageTitel}"  />
       </td>
+    </tr>
+    <tr>
+      <td class="TdLabel">#requiredInput("内容")<br/><span style="color:red;font-size:12px;">(可直接拖动图片至文本框内,图片名称不支持中文)</span></td>
+      <td class="TdInput" >
+		<input id="contentid" type="hidden" name="content" value=""  />
+		 <script id="editor" type="text/plain" style="width:1024px;height:500px;">$!{command.content}</script>
+         <div class="content"></div>
+	  </td>
     </tr>
 	
   </table>
@@ -38,7 +70,9 @@
 </div>
 
 <div class="CommandTool indieui-form">
-  <input type="button" id="btnconfirm" value="保存" onclick="javascript:doSave();"/>
+	#if(!${command.sysMessageInfoId})
+		<input type="button" id="btnconfirm" value="保存" onclick="javascript:doSave();"/>
+	#end
    <input type="button" id="btnconfirm" value="返回" onclick="javascript:doReturn();"/>
 </div>
 <script type="text/javascript">  
@@ -46,11 +80,10 @@ validator.formName = "editForm";
   validator.addNormalCheckPoint("messageTitel", "标题不能为空", "checkNotNull;checkNotEmpty");
   
   var ue = UE.getEditor('editor');
-  
   function doSave(){
   
     ue.ready(function() {
-		var arr=ue.getPlainTxt();
+		var arr=ue.getContent();
 		if($.trim(arr)==""){
 	 		alert("请填写内容信息！");
 			return false;
@@ -78,17 +111,28 @@ validator.formName = "editForm";
     document.location.href = "../plugins/messageNoticeList.do";
   }
   
-  
-
-
-var comid=$("#comid").val();
-  if(comid!=""){
-   var valueds= $("#contentid").val();
-  ue.ready(function() {
-    ue.setContent(valueds);
+  $(document).ready(function(){
+	$("#selectid").change(function(){
+  		var sevale=	$(this).val();
+		console.log(sevale);
+		if(sevale=="1"){
+			$("#receiveManid").val("");
+			$("#receiveMandiv").css('display','block');
+			$("#leveldiv").css('display','none');
+		}else if(sevale=="2"){
+			$("#leveldiv").css('display','block');
+				$("#receiveMandiv").css('display','none');
+				$("#receiveManid").val("");
+		}else{
+			$("#receiveManid").val(0);
+			$("#leveldiv").css('display','none');
+			$("#receiveMandiv").css('display','none');
+		}
+	});
+	
+	
 });
-   
-  } 
+
 </script>
 </body>
 </html>

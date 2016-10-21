@@ -28,6 +28,7 @@ public class MessageQueryInfo extends PaginationInfo {
 	
 	private String messageType;//消息类型
 	 private String messageTitel;//标题
+	 private String receiveLevel;//接收级别
 
 	public String getStaffId() {
 		return staffId;
@@ -135,6 +136,20 @@ public class MessageQueryInfo extends PaginationInfo {
 	 */
 	public void setMessageTitel(String messageTitel) {
 		this.messageTitel = messageTitel;
+	}
+
+	/**
+	 * @return the receiveLevel
+	 */
+	public String getReceiveLevel() {
+		return receiveLevel;
+	}
+
+	/**
+	 * @param receiveLevel the receiveLevel to set
+	 */
+	public void setReceiveLevel(String receiveLevel) {
+		this.receiveLevel = receiveLevel;
 	}
 
 }

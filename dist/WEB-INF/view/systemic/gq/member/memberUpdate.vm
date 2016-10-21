@@ -97,6 +97,19 @@
 		 
 	}
 	 
+	function rzxz(id){
+		$.ajax({
+        url: '../member/xzrzAjax.do',
+        type: 'POST',
+		data:"memberId="+id,
+        cache: false,
+        success: function(result) {
+				var s=$.parseJSON(result);
+				alert(s[0].message);
+				location.reload(); 
+        	}
+   		 });
+	}
   </script>
 </head>
 <body>
@@ -140,13 +153,19 @@
 		#lookUpDict($dicData.dicStockLevel "$!{command.stock.gradeNum}")
       </td>
     </tr>
+	#end
 	<tr>
 	 <td class="TdLabel" style="width:150px;">认证标识</td>
       <td class="TdInput">
-		孝
+		#if($!{command.rzstatus}==0)
+			未认证  <input type="button"  value="申请认证" onclick="javascript:rzxz('$!{command.memberId}');"/>
+		#elseif($!{command.rzstatus}==1)
+			认证申请中
+		#else
+			【孝】字认证
+		#end
       </td>
 	</tr>
-	#end
     <tr>
       <td class="TdLabel" style="width:150px;">'廉'通道</td>
 	  <td>

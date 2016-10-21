@@ -78,6 +78,10 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 				queryStr.append(" and m.bsid = ? ");
 				values[idx++] = info.getBsid();
 			}
+			if(info.getIsdel()!=null){
+				queryStr.append(" and m.isdel = ? ");
+				values[idx++] = info.getIsdel();
+			}
 
 		}
 		Object[] param = new Object[idx];
@@ -94,7 +98,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.staffId =? ");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.staffId =? and m.isdel=1");
 		values[idx++] = referenceId;
 
 		Object[] param = new Object[idx];
@@ -111,7 +115,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.referenceId =? and m.isok=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.referenceId =? and m.isok=1 and m.isdel=1");
 		values[idx++] = id;
 
 		Object[] param = new Object[idx];
@@ -144,7 +148,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.note =? and m.region=? and m.isok=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.note =? and m.region=? and m.isok=1 and m.isdel=1");
 		values[idx++] = id;
 		values[idx++] = region;
 		Object[] param = new Object[idx];
@@ -161,7 +165,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.note =? and m.isok=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.note =? and m.isok=1 and m.isdel=1");
 		values[idx++] = staffId;
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);
@@ -177,7 +181,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.userName =? and m.isok=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.userName =? and m.isok=1 and m.isdel=1");
 		values[idx++] = bh;
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);
@@ -193,7 +197,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.userName =? and m.isok=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.userName =? and m.isok=1 and m.isdel=1");
 		values[idx++] = userName;
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);
@@ -209,7 +213,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.noteUsername =? and m.isok=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.noteUsername =? and m.isok=1 and m.isdel=1");
 		values[idx++] = note;
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);

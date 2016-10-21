@@ -171,5 +171,8 @@
 		<property name="auditGradeUserName" type="java.lang.String">
 			<column name="auditGradeUserName" length="45"/>
 		</property>
+		<property name="rzstatus" type="java.lang.Integer">
+			<column name="rzstatus" />
+		</property>
 	</class>
 </hibernate-mapping>

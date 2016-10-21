@@ -33,11 +33,26 @@ public class SysMessage implements java.io.Serializable {
     private String messageType;//消息类型
     private String messageTitel;//标题
     private String hfmessage;//回复内容
+    private String receiveLevel;//接收级别
     // Constructors
 
     // Property accessors
 
-    public String getSysMessageInfoId() {
+    /**
+	 * @return the receiveLevel
+	 */
+	public String getReceiveLevel() {
+		return receiveLevel;
+	}
+
+	/**
+	 * @param receiveLevel the receiveLevel to set
+	 */
+	public void setReceiveLevel(String receiveLevel) {
+		this.receiveLevel = receiveLevel;
+	}
+
+	public String getSysMessageInfoId() {
         return this.sysMessageInfoId;
     }
 

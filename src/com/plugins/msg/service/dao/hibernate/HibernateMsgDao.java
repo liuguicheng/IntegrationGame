@@ -16,6 +16,7 @@ import com.console.ConsoleHelper;
 import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.entity.SysMessage;
 import com.plugins.msg.service.dao.IMsgDao;
+import com.systemic.gq.entity.Member;
 
 /**
  * @description
@@ -30,6 +31,9 @@ public class HibernateMsgDao extends HibernateCommonDao implements IMsgDao {
     
     /** 查询工具 */
     private IQueryStringUtil chatMsgQueryUtil;
+    
+    /** 查询工具 */
+    private IQueryStringUtil chatnoticeMsgQueryUtil;
 
     public void setMsgQueryUtil(IQueryStringUtil msgQueryUtil) {
         this.msgQueryUtil = msgQueryUtil;
@@ -43,25 +47,28 @@ public class HibernateMsgDao extends HibernateCommonDao implements IMsgDao {
 		this.chatMsgQueryUtil = chatMsgQueryUtil;
 	}
 
+	/**
+	 * @param chatnoticeMsgQueryUtil the chatnoticeMsgQueryUtil to set
+	 */
+	public void setChatnoticeMsgQueryUtil(IQueryStringUtil chatnoticeMsgQueryUtil) {
+		this.chatnoticeMsgQueryUtil = chatnoticeMsgQueryUtil;
+	}
+
 	@SuppressWarnings("unchecked")
     @Override
     public Page selectMessage(MessageQueryInfo info) {
-        // StringBuffer hql = new
-        // StringBuffer(" from ").append(SysMessage.class.getName())
-        // .append(" as msg where receiveMan=? and isReaded='").append(ConsoleHelper.NO).append("'");
-		Object[] values = new Object[5];
-		int idx = 0;
-		StringBuffer hql = new StringBuffer(" ");
-        IQueryObject qo = this.msgQueryUtil.getQueryObject(info);
-        if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
-            List<SysMessage> data = super.doQuery(qo.getQueryString(), qo.getParam());
-            return this.putDataToPage(data);
-        }
-        Object[] param = new Object[idx];
-        System.arraycopy(values, 0, param, 0, idx);
-        qo= this.chatMsgQueryUtil.getQueryObject(info,hql.toString(),param);
+		
+		 Object[] values = new Object[30];
+	        int idx = 0;
+			 StringBuffer hql = new StringBuffer(" ");
+		        IQueryObject qo = this.chatMsgQueryUtil.getQueryObject(info);
+		        
+		        if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
+		            List<SysMessage> data = super.doQuery(qo.getQueryString(), qo.getParam());
+		            return this.putDataToPage(data);
+		        }
 
-        return this.find(qo.getQueryString(), qo.getParam(), info.getPageNumber().intValue());
+		        return this.find(qo.getQueryString(), qo.getParam(), info.getPageNumber().intValue());
     }
 
 	@SuppressWarnings("unchecked")
@@ -112,29 +119,52 @@ public class HibernateMsgDao extends HibernateCommonDao implements IMsgDao {
 
 	@Override
 	public Page selectChatMessage(MessageQueryInfo info) {
-	    Object[] values = new Object[30];
+		 Object[] values = new Object[30];
+	        int idx = 0;
+			 StringBuffer hql = new StringBuffer(" ");
+		        IQueryObject qo = this.chatMsgQueryUtil.getQueryObject(info);
+		        if(info.getFlag() !=null && info.getFlag().trim().length() > 0 && info.getSendMan()!=null && info.getSendMan().trim().length() >0){
+		        	hql.append(" ((msg.sendMan=? and msg.receiveMan=?)");
+		        	hql.append(" or (msg.sendMan=? and msg.receiveMan=?)) and");
+		        	hql.append(" msg.sendMan !='0' and");
+		        	 values[idx++] = info.getSendMan();
+		        	 values[idx++] = info.getReceiveMan();
+		        	 values[idx++] = info.getReceiveMan();
+		        	 values[idx++] = info.getSendMan();
+		        	 Object[] param = new Object[idx];
+		             System.arraycopy(values, 0, param, 0, idx);
+		        	qo= this.chatMsgQueryUtil.getQueryObject(info,hql.toString(),param);
+		        } else {
+		        	hql.append(" (msg.sendMan=? or msg.receiveMan=?) and msg.sendMan !='0' and");
+		        	 values[idx++] = info.getReceiveMan();
+		        	 values[idx++] = info.getReceiveMan();
+		        	Object[] param = new Object[idx];
+	                System.arraycopy(values, 0, param, 0, idx);
+		        	qo= this.chatMsgQueryUtil.getQueryObject(info,hql.toString(),param);
+		        }
+		        if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
+		            List<SysMessage> data = super.doQuery(qo.getQueryString(), qo.getParam());
+		            return this.putDataToPage(data);
+		        }
+
+		        return this.find(qo.getQueryString(), qo.getParam(), info.getPageNumber().intValue());
+	}
+
+	@Override
+	public Page selectNoticeMessage(MessageQueryInfo info) {
+		Object[] values = new Object[30];
         int idx = 0;
 		 StringBuffer hql = new StringBuffer(" ");
 	        IQueryObject qo = this.chatMsgQueryUtil.getQueryObject(info);
-	        if(info.getFlag() !=null && info.getFlag().trim().length() > 0 && info.getSendMan()!=null && info.getSendMan().trim().length() >0){
-	        	hql.append(" ((msg.sendMan=? and msg.receiveMan=?)");
-	        	hql.append(" or (msg.sendMan=? and msg.receiveMan=?)) and");
-	        	hql.append(" msg.sendMan !='0' and");
-	        	 values[idx++] = info.getSendMan();
+	        if(info.getReceiveLevel()!=null&&!"".equals(info.getReceiveLevel())){
+	        	hql.append(" ( receiveMan=? or receiveLevel='0' or receiveLevel=? ) and ");
 	        	 values[idx++] = info.getReceiveMan();
-	        	 values[idx++] = info.getReceiveMan();
-	        	 values[idx++] = info.getSendMan();
-	        	 Object[] param = new Object[idx];
-	             System.arraycopy(values, 0, param, 0, idx);
-	        	qo= this.chatMsgQueryUtil.getQueryObject(info,hql.toString(),param);
-	        } else {
-	        	hql.append(" (msg.sendMan=? or msg.receiveMan=?) and msg.sendMan !='0' and");
-	        	 values[idx++] = info.getReceiveMan();
-	        	 values[idx++] = info.getReceiveMan();
+	        	 values[idx++] = info.getReceiveLevel();
 	        	Object[] param = new Object[idx];
                 System.arraycopy(values, 0, param, 0, idx);
-	        	qo= this.chatMsgQueryUtil.getQueryObject(info,hql.toString(),param);
+	        	qo= this.chatnoticeMsgQueryUtil.getQueryObject(info,hql.toString(),param);
 	        }
+	        
 	        if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
 	            List<SysMessage> data = super.doQuery(qo.getQueryString(), qo.getParam());
 	            return this.putDataToPage(data);

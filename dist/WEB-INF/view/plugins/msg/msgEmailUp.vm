@@ -31,7 +31,7 @@
     </tr>
     <tr>
       <td class="TdLabel" style="width:150px;">标题</td>
-      <td class="TdInput" >
+      <td class="TdInput"  style="width:66%;">
 		$!{command.messageTitel}
       </td>
     </tr>
@@ -68,7 +68,7 @@ validator.formName = "editForm";
   var ues = UE.getEditor('hfeditor');
   function doSave(){
     ue.ready(function() {
-		var arr=ue.getPlainTxt();
+		var arr=ue.getContent();
 		if($.trim(arr)==""){
 	 		alert("请填写内容信息！");
 			return false;

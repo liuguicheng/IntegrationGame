@@ -58,4 +58,6 @@ public interface IMsgDao extends ICommonDao {
      * @author mayu 2015-05-22
      */
     List<SysMessage> selectMessageHistory(String sendMan,String receiveMan,String sendTime);
+
+	Page selectNoticeMessage(MessageQueryInfo info);
 }

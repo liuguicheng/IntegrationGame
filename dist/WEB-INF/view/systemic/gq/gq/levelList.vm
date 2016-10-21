@@ -21,6 +21,11 @@
       f.submit();      
     }
   }
+  
+    //刷新
+function dorefresh(){
+	location.reload(); 			
+}
   </script>
 </head>
 <body>
@@ -33,6 +38,7 @@
 <div class="PageTool">
   <div class="LeftBox Tool">
     <input type="button" class="BtnAdd" value="新增"  title="新增" onclick="javascript:doEdit('');"/>
+	<input type="button" class="BtnRefresh" value="刷新"  title="刷新" onclick="javascript:dorefresh();"/>
 	  <input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
   </div>
 </div>

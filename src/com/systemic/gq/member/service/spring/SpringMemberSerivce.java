@@ -64,6 +64,7 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			//判断昵称是否被占用
 			MemberInfo einfo=new MemberInfo();
 			einfo.setBsid(info.getBsid());
+			einfo.setIsdel(1);
 			List<Member> memberlist= selectMemberBy(einfo);
 			if(memberlist!=null&&!memberlist.isEmpty()){
 				throw new RuntimeException("昵称『"
@@ -137,12 +138,15 @@ public class SpringMemberSerivce implements ISpringMemberService {
 						ConsoleHelper.getInstance().getManageService().deleteStaff(member.getStaffId());
 					} catch (Exception e) {
 						e.printStackTrace();
-						System.out.println("删除会员出错");
-						throw new RuntimeException("删除会员出错!请联系技术人员!"+this.getClass());
+						System.out.println("删除玩家出错");
+						throw new RuntimeException("删除玩家出错!请联系技术人员!"+this.getClass());
 					}
 					member.setIsdel(0);
 					this.memberDao.save(member);
 					CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);
+					
+					//删除二维码图片
+					ConUnit.deleteImgFile(member.getqRCodeImageUrl());
 				}
 				
 			}

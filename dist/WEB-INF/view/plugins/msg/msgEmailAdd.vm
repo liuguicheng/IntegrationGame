@@ -23,15 +23,15 @@
   <table class="TbCommon">
     <tr>
       <td class="TdLabel" style="width:150px;">#requiredInput("标题")</td>
-      <td class="TdInput" >
-		<input type="text" name="messageTitel" value="$!{command.messageTitel}" width="100%" />
+      <td class="TdInput"  >
+		<input type="text" style="width:66%;" name="messageTitel" value="$!{command.messageTitel}" width="100%" />
       </td>
     </tr>
     <tr>
       <td class="TdLabel">#requiredInput("内容")<br/><span style="color:red;font-size:12px;">(可直接拖动图片至文本框内,图片名称不支持中文)</span></td>
       <td class="TdInput" >
-		<input id="contentid" type="hidden" name="content" value="$!{command.content}"  />
-		 <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+		<input id="contentid" type="hidden" name="content" value=""  />
+		 <script id="editor" type="text/plain" style="width:1024px;height:500px;">$!{command.content}</script>
 		
 		 
       </td>
@@ -67,7 +67,7 @@ validator.formName = "editForm";
 
   function doSave(){
     ue.ready(function() {
-		var arr=ue.getPlainTxt();
+		var arr=ue.getContent();
 		if($.trim(arr)==""){
 	 		alert("请填写内容信息！");
 			return false;
@@ -96,14 +96,8 @@ validator.formName = "editForm";
     document.location.href = "../plugins/messageEmailList.do";
   }
 
-var comid=$("#comid").val();
-  if(comid!=""){
-   var valueds= $("#contentid").val();
-  ue.ready(function() {
-    ue.setContent(valueds);
-});
-   
-  } 
+
+
 </script>
 </body>
 </html>
