@@ -2,6 +2,7 @@ package com.systemic.gq.member.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ import com.console.entity.OperateLog;
 import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.plugins.msg.command.MessageQueryInfo;
+import com.plugins.msg.entity.SysMessage;
 import com.systemic.gq.bonus.settlement.BonusRecordHelper;
 import com.systemic.gq.entity.IntegrationGameRule;
 import com.systemic.gq.entity.Level;
@@ -1071,5 +1074,98 @@ public class MemberController {
 		msg = ConUnit.tojson(edm);
 		return msg;
 	}
+	
+	
+/////////////////////////////////////////主页查询/////////////////////////////////////////////////////	
+	
+	//查询登录用户
+	@RequestMapping(value = "/member/selectMemberInfoAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String selectMemberInfoAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		Member loginmember = ConsoleHelper.getInstance().getManageService()
+				.selectMemberByStaffId(staff.getId());
+		if (loginmember != null) {
+		}
+		msg = ConUnit.tojson(loginmember);
+		return msg;
+	}
+	
+	//查询统计
+	
+	@RequestMapping(value = "/member/statisticsAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String statisticsAjax(HttpServletRequest request) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		MemberInfo info=new MemberInfo();
+		info.setIsdel(1);
+		//所有玩家
+		int num= this.springMemberService.selectMemberCount(info);
+		info.setIsok(-1);
+		//被封玩家
+		int bfhynum= this.springMemberService.selectMemberCount(info);
+		info.setIsok(1);
+		//活跃参与游戏玩家
+		int hynum= this.springMemberService.selectMemberCount(info);
+		info=new MemberInfo();
+		info.setIsdel(1);
+		info.setCreateTime(new Date());
+		//今日新增玩家
+		int tdhynum= this.springMemberService.selectMemberCount(info);
+		edm.setMessage(num+","+hynum+","+bfhynum+","+tdhynum);
+		msg = ConUnit.tojson(edm);
+		return msg;
+	}
+	
+	//查询最新反馈
+	@RequestMapping(value = "/member/selectfeedbackAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String selectfeedbackAjax(HttpServletRequest request) {
+		String msg = "";
+		MessageQueryInfo info =new MessageQueryInfo();
+		info.setPageSize(10);
+		info.setMessageType("3");
+		Page page= ConsoleHelper.getInstance().getMsgService().selectMessage(info);
+		List list=page.getData();
+		List relist=new ArrayList<SysMessage>();
+		if(list!=null){
+			SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			for (Object object : list) {
+				SysMessage me=(SysMessage) object;
+				me.setContent("");
+				me.setHfmessage("");
+				me.setContent(sdf.format(me.getSendTime()));
+				relist.add(me);
+			}
+			msg = ConUnit.tojson(relist);
+		}
+		return msg;
+	}
+		//查询消息
+		@RequestMapping(value = "/member/selectmessageAjax.do", produces = "text/plain;charset=gbk")
+		@ResponseBody
+		public String selectmessageAjax(HttpServletRequest request) {
+			String msg = "";
+			MessageQueryInfo info =new MessageQueryInfo();
+			info.setPageSize(10);
+			info.setMessageType("1");
+			Page page= ConsoleHelper.getInstance().getMsgService().selectMessage(info);
+			List list=page.getData();
+			List relist=new ArrayList<SysMessage>();
+			if(list!=null){
+				SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				for (Object object : list) {
+					SysMessage me=(SysMessage) object;
+					me.setContent("");
+					me.setHfmessage("");
+					me.setContent(sdf.format(me.getSendTime()));
+					relist.add(me);
+				}
+				msg = ConUnit.tojson(relist);
+			}
+			return msg;
+		}
 	
 }

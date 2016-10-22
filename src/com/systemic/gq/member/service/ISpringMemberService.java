@@ -67,4 +67,5 @@ public interface ISpringMemberService {
 	List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum);
 	void updateRole(Staff mestaff);
 	void update(Member member);
+	int selectMemberCount(MemberInfo info);
 }

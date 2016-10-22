@@ -6,25 +6,26 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp">
 <title>主页</title>
-	<meta name="keywords" content="">
-	<meta name="description" content=""> <!--[if lt IE 9]>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
-	<link href="../skins/skinsH/css/bootstrap.min.css?v=3.3.5"
-		rel="stylesheet">
-	<link href="../skins/skinsH/css/font-awesome.min.css-v=4.4.0.css"
-		rel="stylesheet">
-	<link href="../skins/skinsH/css/animate.min.css" rel="stylesheet">
-	<link href="../skins/skinsH/css/style.min.css?v=4.0.0" rel="stylesheet">
-	<link rel="stylesheet"
-		href="../skins/skinsH/css/plugins/layer/layer.css"
-		id="layui_layer_skinlayercss">
-	<link rel="stylesheet"
-		href="../skins/skinsH/css/plugins/layer/layer.ext.css"
-		id="layui_layer_skinlayerextcss">
-	<link rel="stylesheet"
-		href="../skins/skinsH/css/plugins/layer/moon_style.css"
-		id="layui_layer_skinmoonstylecss">
+<link href="../skins/skinsH/css/bootstrap.min.css?v=3.3.5"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/font-awesome.min.css-v=4.4.0.css"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/animate.min.css" rel="stylesheet">
+<link href="../skins/skinsH/css/style.min.css?v=4.0.0" rel="stylesheet">
+<link rel="stylesheet"
+	href="../skins/skinsH/css/plugins/layer/layer.css"
+	id="layui_layer_skinlayercss">
+<link rel="stylesheet"
+	href="../skins/skinsH/css/plugins/layer/layer.ext.css"
+	id="layui_layer_skinlayerextcss">
+<link rel="stylesheet"
+	href="../skins/skinsH/css/plugins/layer/moon_style.css"
+	id="layui_layer_skinmoonstylecss">
 </head>
 
 <body class="gray-bg">
@@ -33,53 +34,36 @@
 		<div class="row  border-bottom white-bg dashboard-header">
 			<div class="col-sm-4">
 				<h2>
-					欢迎您,<span></span></h2> <small><b>专属推广链接:</b>b><a>http://localhost:8080/IntegrationGame/main/home.do</a>
-							<a class="btn btn-success"> <i class="fa fa-weixin"> </i>
-								马上分享
-						</a></small><br /> <small><b>专属二维码:</b></small><br /> <img
-						src="../images/1.png" width="100%"
-						style="max-width: 300px; margin-left: -27px;"> <br>
+					欢迎您,<span id="username"></span>
+				</h2>
+				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">http://localhost:8080/IntegrationGame/main/home.do</a>
+					<a class="btn btn-success"> <i class="fa fa-weixin"> </i> 马上分享
+				</a></small><br /> <small><b>专属二维码:</b></small><br /> <img
+					src="../images/1.png" width="100%" id="qRCodeImageUrl"
+					style="max-width: 300px; margin-left: -27px;"> <br>
 			</div>
 			<div class="col-sm-4">
-				<h4>最新反馈</h4> <br />
-					<p class="text-success">
-						<span class="col-sm-6"><span>
-						<span class="col-sm-2"></span> 2016-10-22 
-						<span class="badge badge-danger">new</span>
-					</p>
-					
+				<h4>最新反馈</h4>
+				<br />
+				<div id="fkdiv">暂无反馈信息</div>
 			</div>
 			<div class="col-sm-4">
-				<h4>最新消息</h4> <br />
-					<p class="text-success">
-						<span class="col-sm-6"><span>
-						<span class="col-sm-2"></span> 2016-10-22 
-						<span class="badge badge-danger">new</span>
-					</p>
+				<h4>最新消息</h4>
+				<br />
+				<div id="messagediv">暂无消息信息</div>
 			</div>
 		</div>
 
 		<div class="wrapper wrapper-content">
 			<div class="row">
-				<div class="col-md-3">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<span class="label label-success pull-right">年</span>
-								<h5>分享量</h5>
-						</div>
-						<div class="ibox-content">
-							<h1 class="no-margins">386,200</h1>
-						</div>
-					</div>
-				</div>
 				<div class="col-sm-3">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
 							<span class="label label-success pull-right">年</span>
-								<h5>玩家总量</h5>
+							<h5>玩家总量</h5>
 						</div>
 						<div class="ibox-content">
-							<h1 class="no-margins">275,800</h1>
+							<h1 class="no-margins" id="membernum">0</h1>
 						</div>
 					</div>
 				</div>
@@ -87,11 +71,22 @@
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
 							<span class="label label-danger pull-right">月</span>
-								<h5>活跃玩家</h5>
+							<h5>活跃玩家</h5>
 						</div>
 						<div class="ibox-content">
-							<h1 class="no-margins">80,600</h1>
-							
+							<h1 class="no-margins" id="memberh">0</h1>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<span class="label label-success pull-right">年</span>
+							<h5>被封玩家</h5>
+						</div>
+						<div class="ibox-content">
+							<h1 class="no-margins" id="memberf">0</h1>
 						</div>
 					</div>
 				</div>
@@ -99,11 +94,11 @@
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
 							<span class="label label-primary pull-right"> 日</span>
-								<h5>新增玩家</h5>
+							<h5>新增玩家</h5>
 						</div>
 						<div class="ibox-content">
-							<h1 class="no-margins">106,120</h1>
-							
+							<h1 class="no-margins" id="memberx">0</h1>
+
 						</div>
 					</div>
 				</div>
@@ -170,74 +165,184 @@
 		src="../skins/skinsH/js/plugins/sparkline/jquery.sparkline.min.js"></script>
 	<script src="../skins/skinsH/js/demo/sparkline-demo.min.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function() {
-		// 滚动条
-		document.body.scrollTop;
-		$(document).scrollTop();
-		$("#mainid").css("height", getPageSize() + "px");
-		//监控屏幕窗口改变
-		$(window).resize(function() {
+		$(document).ready(function() {
+			// 滚动条
+			document.body.scrollTop;
+			$(document).scrollTop();
 			$("#mainid").css("height", getPageSize() + "px");
-		})
-		
-		//获取基础信息
-		//获取公告
-		//获取消息
-		//获取审批
-		//获取升级审批
-	});
+			//监控屏幕窗口改变
+			$(window).resize(function() {
+				$("#mainid").css("height", getPageSize() + "px");
+			})
 
-	// 获取页面的高度、宽度
-	function getPageSize() {
-		var xScroll, yScroll;
-		if (window.innerHeight && window.scrollMaxY) {
-			xScroll = window.innerWidth + window.scrollMaxX;
-			yScroll = window.innerHeight + window.scrollMaxY;
-		} else {
-			if (document.body.scrollHeight > document.body.offsetHeight) { // all but Explorer Mac    
-				xScroll = document.body.scrollWidth;
-				yScroll = document.body.scrollHeight;
-			} else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari    
-				xScroll = document.body.offsetWidth;
-				yScroll = document.body.offsetHeight;
-			}
-		}
-		var windowWidth, windowHeight;
-		if (self.innerHeight) { // all except Explorer    
-			if (document.documentElement.clientWidth) {
-				windowWidth = document.documentElement.clientWidth;
+			//获取基础信息
+			selectMemberInfo();
+			//获取数据统计
+			selectCount();
+			//获取最新反馈
+			selectfeedback();
+			//获取消息
+			selectmessageAjax();
+			//获取审批
+		});
+
+		// 获取页面的高度、宽度
+		function getPageSize() {
+			var xScroll, yScroll;
+			if (window.innerHeight && window.scrollMaxY) {
+				xScroll = window.innerWidth + window.scrollMaxX;
+				yScroll = window.innerHeight + window.scrollMaxY;
 			} else {
-				windowWidth = self.innerWidth;
-			}
-			windowHeight = self.innerHeight;
-		} else {
-			if (document.documentElement
-					&& document.documentElement.clientHeight) { // Explorer 6 Strict Mode    
-				windowWidth = document.documentElement.clientWidth;
-				windowHeight = document.documentElement.clientHeight;
-			} else {
-				if (document.body) { // other Explorers    
-					windowWidth = document.body.clientWidth;
-					windowHeight = document.body.clientHeight;
+				if (document.body.scrollHeight > document.body.offsetHeight) { // all but Explorer Mac    
+					xScroll = document.body.scrollWidth;
+					yScroll = document.body.scrollHeight;
+				} else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari    
+					xScroll = document.body.offsetWidth;
+					yScroll = document.body.offsetHeight;
 				}
 			}
+			var windowWidth, windowHeight;
+			if (self.innerHeight) { // all except Explorer    
+				if (document.documentElement.clientWidth) {
+					windowWidth = document.documentElement.clientWidth;
+				} else {
+					windowWidth = self.innerWidth;
+				}
+				windowHeight = self.innerHeight;
+			} else {
+				if (document.documentElement
+						&& document.documentElement.clientHeight) { // Explorer 6 Strict Mode    
+					windowWidth = document.documentElement.clientWidth;
+					windowHeight = document.documentElement.clientHeight;
+				} else {
+					if (document.body) { // other Explorers    
+						windowWidth = document.body.clientWidth;
+						windowHeight = document.body.clientHeight;
+					}
+				}
+			}
+			// for small pages with total height less then height of the viewport    
+			if (yScroll < windowHeight) {
+				pageHeight = windowHeight;
+			} else {
+				pageHeight = yScroll;
+			}
+			// for small pages with total width less then width of the viewport    
+			if (xScroll < windowWidth) {
+				pageWidth = xScroll;
+			} else {
+				pageWidth = windowWidth;
+			}
+			arrayPageSize = new Array(pageWidth, pageHeight, windowWidth,
+					windowHeight);
+			return windowHeight;
 		}
-		// for small pages with total height less then height of the viewport    
-		if (yScroll < windowHeight) {
-			pageHeight = windowHeight;
-		} else {
-			pageHeight = yScroll;
+		
+		//查询当前登录用户
+		function selectMemberInfo() {
+			$.ajax({
+				url : '../member/selectMemberInfoAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					var s = $.parseJSON(result);
+					$("#username").html(s[0].bsid);
+					$("#qRCodeImageUrl").attr("src","../imgss.jsp?file="+s[0].qRCodeImageUrl);
+					$("#qRCodeContent").html(s[0].qRCodeContent);
+					$("#qRCodeContent").attr("href",s[0].qRCodeContent);
+				}
+			});
 		}
-		// for small pages with total width less then width of the viewport    
-		if (xScroll < windowWidth) {
-			pageWidth = xScroll;
-		} else {
-			pageWidth = windowWidth;
+
+		//查询统计
+		function selectCount() {
+			$.ajax({
+				url : '../member/statisticsAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					var s = $.parseJSON(result);
+					var st=s[0].message.split(",");
+					$("#membernum").html(st[0]+"人");
+					$("#memberh").html(st[1]+"人");
+					$("#memberf").html(st[2]+"人");
+					$("#memberx").html(st[3]+"人");
+				}
+			});
 		}
-		arrayPageSize = new Array(pageWidth, pageHeight, windowWidth,
-				windowHeight);
-		return windowHeight;
-	}
+		
+		//查询最新反馈
+		function selectfeedback() {
+			$.ajax({
+				url : '../member/selectfeedbackAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					if(result!=""){
+						var s = $.parseJSON(result);
+						var divs="";
+						$.each(s, function(key, val) {
+							if(s.length>3){
+								if(key<3){
+									divs+="<p class='text-success'>"+
+									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+									" "+val.content+" <span class='badge badge-danger'>new</span>"+
+									" </p>";
+								}else{
+									divs+="<p class='text-success'>"+
+									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+									" "+val.content+
+									" </p>";
+								}
+							}else{
+								divs+="<p class='text-success'>"+
+								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+								" "+val.content+" <span class='badge badge-danger'>new</span>"+
+								" </p>";
+							}
+						});
+					    $("#fkdiv").html(divs);
+					}
+				}
+			});
+		}
+		
+		//查询消息
+		function selectmessageAjax() {
+			$.ajax({
+				url : '../member/selectmessageAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					if(result!=""){
+						var s = $.parseJSON(result);
+						var divs="";
+						$.each(s, function(key, val) {
+							if(s.length>3){
+								if(key<3){
+									divs+="<p class='text-success'>"+
+									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+									" "+val.content+" <span class='badge badge-danger'>new</span>"+
+									" </p>";
+								}else{
+									divs+="<p class='text-success'>"+
+									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+									" "+val.content+
+									" </p>";
+								}
+							}else{
+								divs+="<p class='text-success'>"+
+								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+								" "+val.content+" <span class='badge badge-danger'>new</span>"+
+								" </p>";
+							}
+							
+						});
+					    $("#messagediv").html(divs);
+					}
+				}
+			});
+		}
 	</script>
 </body>
 </html>

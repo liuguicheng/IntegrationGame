@@ -279,5 +279,11 @@ public class SpringMemberSerivce implements ISpringMemberService {
 		CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);
 	}
 
+	@Override
+	public int selectMemberCount(MemberInfo info) {
+		// TODO Auto-generated method stub
+		return memberDao.selectMemberCount(info);
+	}
+
 	
 }

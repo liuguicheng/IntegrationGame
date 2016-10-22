@@ -31,4 +31,6 @@ public interface IMemberDao extends ICommonDao {
 	List<Member> selectMemberListByNodeUsername(String note);
 
 	List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum);
+
+	int selectMemberCount(MemberInfo info);
 }

@@ -253,4 +253,65 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		return null;
 	}
 
+	@Override
+	public int selectMemberCount(MemberInfo info) {
+		Object[] values = new Object[30];
+		int idx = 0;
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  1=1 ");
+		if (info != null) {
+			if(info.getIsok()!=null){
+				if(info.getIsok()==-1){
+					queryStr.append(" and m.isok!=1 ");
+				}else{
+					
+					queryStr.append(" and m.isok=? ");
+					values[idx++] = info.getIsok();
+				}
+				
+			}
+			if (info.getReferenceId() != null && !"".equals(info.getReferenceId())) {
+				queryStr.append(" and m.referenceId = ? ");
+				values[idx++] = info.getReferenceId();
+			}
+			if (info.getRegion() != null && !"".equals(info.getRegion())) {
+				queryStr.append(" and m.region = ? ");
+				values[idx++] = info.getRegion();
+			}
+			if (info.getNote() != null && !"".equals(info.getNote())) {
+				queryStr.append(" and m.note = ? ");
+				values[idx++] = info.getNote();
+			}
+			if (info.getMemberId() != null && !"".equals(info.getMemberId())) {
+				queryStr.append(" and m.memberId != ? ");
+				values[idx++] = info.getMemberId();
+			}
+			if (info.getCreateTime() != null) {
+				if(ConUnit.isSameDate(info.getCreateTime(),new Date())){
+					//当前日期
+					queryStr.append(" and datediff(NOW(),m.createTime)=0 ");
+				}else{
+					queryStr.append(" and datediff(NOW(),m.createTime)>30 ");
+				}
+				
+			}
+			if(info.getBsid()!=null&&!"".equals(info.getBsid())){
+				queryStr.append(" and m.bsid = ? ");
+				values[idx++] = info.getBsid();
+			}
+			if(info.getIsdel()!=null){
+				queryStr.append(" and m.isdel = ? ");
+				values[idx++] = info.getIsdel();
+			}
+
+		}
+		Object[] param = new Object[idx];
+		System.arraycopy(values, 0, param, 0, idx);
+		List list = super.doQuery(queryStr.toString(), param);
+		if (!list.isEmpty()) {
+			return list.size();
+		}
+		return 0;
+	}
+
 }

@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -74,7 +76,23 @@ public class ConUnit {
 		g = null;
 		return gsonString;
 	}
-
+	public static String tojson(Object  ed) {
+		List list = new ArrayList();
+		list.add(ed);
+		Gson g = (new GsonBuilder()).create();
+		String gsonString = g.toJson(list);
+		ed = null;
+		list = null;
+		g = null;
+		return gsonString;
+	}
+	public static String tojson(List<T> list) {
+		Gson g = (new GsonBuilder()).create();
+		String gsonString = g.toJson(list);
+		list = null;
+		g = null;
+		return gsonString;
+	}
 	public static String formateDateToString(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(date);
