@@ -44,7 +44,7 @@ public class MainController extends SpringlineMultiActionController {
 	 * 默认的工作页面
 	 */
 	private static String DEFAULT_DESTOP_VIEW = "../main/homepage.do";
-
+	private static String MANAGEDEFAULT_DESTOP_VIEW = "../main/mamagehomepage.do";
 	/**
 	 * 索引
 	 *
@@ -225,7 +225,14 @@ public class MainController extends SpringlineMultiActionController {
 
 		String view = request.getParameter("rightView");
 		if (view == null) {
-			model.put("rightView", DEFAULT_DESTOP_VIEW);
+			if (staff.getName().equals("系统管理员")) {
+				model.put("rightView", MANAGEDEFAULT_DESTOP_VIEW);
+				model.put("nonid", "1");
+			}else{
+				model.put("nonid", "0");
+				model.put("rightView", DEFAULT_DESTOP_VIEW);
+			}
+			
 		} else {
 			view = this.encoding(view);
 			model.put("rightView", view);
@@ -271,6 +278,16 @@ public class MainController extends SpringlineMultiActionController {
 	 * @return ModelAndView实例
 	 */
 	public Map homepage(HttpServletRequest request, HttpServletResponse response) {
+		return new HashMap();
+	}
+	
+	/**
+	 * 管理员主页
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Map mamagehomepage(HttpServletRequest request, HttpServletResponse response) {
 		return new HashMap();
 	}
 

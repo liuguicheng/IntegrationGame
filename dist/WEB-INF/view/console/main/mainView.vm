@@ -53,7 +53,13 @@ $(document).ready( function() {
     });
     
     switchModule(defaultModule);
-    addContentPanel("主页", "主页", "../main/homepage.do");
+	var amdid=$("#amdid").val();
+	if(amdid==1){
+	addContentPanel("主页", "主页", "../main/mamagehomepage.do");
+	}else{
+	addContentPanel("主页", "主页", "../main/homepage.do");
+	}
+    
 
     //中间栏点击事件
     
@@ -289,15 +295,20 @@ function getDialogParam(key) {
   }
 </script>
 </head>
-<body class="easyui-layout">
+<body class="easyui-layout" >
   <div data-options="region:'north',height:92">
+	<input type="hidden" id="amdid" value="$!{nonid}"/>
         <table width="100%" height="90" border="0" cellpadding="0" cellspacing="0" class="toptable">
          <tr>
          <td>
                 <a class="ABtnIco AIcoLogOut" href="javascript:closeApp()">退出系统</a>
                 <a class="ABtnIco AIcoSeting" href="javascript:addContentPanel('修改个人资料','修改个人资料', '../member/MemberInfo.do')" >修改个人资料</a>
-                <a class="ABtnIco AIcoHome" href="javascript:addContentPanel('主页','主页', '../main/homepage.do')" >返回主页</a>
-                <span class="spnSysInfo">
+                #if($!{nonid}!=1)
+					<a class="ABtnIco AIcoHome" href="javascript:addContentPanel('主页','主页', '../main/homepage.do')" >返回主页</a>
+				#else
+					<a class="ABtnIco AIcoHome" href="javascript:addContentPanel('主页','主页', '../main/mamagehomepage.do')" >返回主页</a>
+				#end
+				<span class="spnSysInfo">
 
           <img src="../images/user.gif" width="14" height="15" align="absmiddle">
             <span class="SpnUser" title="当前登录用户">$!{currentUser.name}</span>

@@ -66,7 +66,7 @@ public class BarcodeFactory {
         // 生成二维码  
         BitMatrix matrix = mutiWriter.encode(content, BarcodeFormat.QR_CODE,  
                 width, height, hint);  
-  
+        
         // 二维矩阵转为一维像素数组  
         int halfW = matrix.getWidth() / 2;  
         int halfH = matrix.getHeight() / 2;  
