@@ -158,7 +158,7 @@ function dorefresh(){
 	  <td >$!{data.referenceName}</td>
 	    <td >$!{data.noteUsername}</td>
 	  <td >#formatTime(${data.applyTime})</td>
-      <td ><a href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[…Û∫À]</a></td>
+      <td ><a style="color:red;" href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[…Û∫À]</a></td>
     </tr>
   #end
   </tbody>   

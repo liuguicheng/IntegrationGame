@@ -71,9 +71,9 @@ body {
 	position:absolute;
 	z-index:999;
 	left:50%;
-	margin-left:-270px;
+	margin-left:-373px;
 	top:50%;
-	margin-top:-180px;
+	margin-top:-87px;
 }
 
 h1 {
@@ -185,8 +185,17 @@ input.Txt:focus {
         0 2px 3px 0 rgba(0,0,0,.1) inset,
         0 2px 7px 0 rgba(0,0,0,.2);
 }
-
-button {
+.login_btn{
+	width: 300px;
+    height: 41px;
+	background-image: url(login/login_bg_1.png);
+	background-repeat: no-repeat;
+	border: 0;
+	margin-top: 10px;
+	cursor: pointer;
+	background-color: #DBCCC5;
+	}
+/**button {
 	font-family: "Ó×Ô²", "Î¢ÈíÑÅºÚ", Arial, sans-serif;
     cursor: pointer;
     width: 300px;
@@ -241,7 +250,7 @@ button:active {
         0 1px 4px 0 rgba(0,0,0,.1);
 
     border: 0px solid #ef4300;
-}
+}*/
 
 .Error {
     display: none;
@@ -273,7 +282,7 @@ button:active {
 
 .Connect {
 	width: 305px;
-	margin: 10px auto 0 auto;
+	margin: 5px auto 0 auto;
 	font-size: 12px;
 	font-weight: normal;
 	text-shadow: 0 1px 3px rgba(0,0,0,.2);

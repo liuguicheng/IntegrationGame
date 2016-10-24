@@ -282,6 +282,74 @@ public class MemberController {
 		return url;
 	}
 
+	/**
+	 * ajax 注册
+	 * 
+	 * @param referenceId
+	 * @return
+	 */
+
+	@RequestMapping(value = "/member/memberRegisterAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String memberRegisterAjax(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
+			MemberEditInfo info) {
+		String msg = "";
+		ErrorDataMsg edm = new ErrorDataMsg();
+		edm.setCode(0);
+		edm.setMessage("注册失败");
+		try {
+			String code = request.getParameter("code");
+			String rand = (String) request.getSession().getAttribute("rand");
+			if (!rand.equalsIgnoreCase(code)) {
+				edm.setMessage("验证码错误");
+				msg = ConUnit.tojson(edm);
+				return msg;
+			}
+			// 验证推荐人状态是否正常
+			boolean fa = VerificationReferenceMemberStatus(info.getReferenceId());
+			if (fa == false) {
+				edm.setMessage("推荐人状态异常,注册失败!");
+				msg = ConUnit.tojson(edm);
+				return msg;
+			}
+			try {
+				info.setBsid(URLDecoder.decode(info.getBsid(), "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			MemberInfo einfo=new MemberInfo();
+			einfo.setBsid(info.getBsid());
+			einfo.setIsdel(1);
+			List<Member> memberlist= this.springMemberService.selectMemberBy(einfo);
+			if(memberlist!=null&&!memberlist.isEmpty()){
+				edm.setMessage("昵称『"
+						+ info.getBsid() + "』已被使用！");
+				msg = ConUnit.tojson(edm);
+				return msg;
+				
+			}
+			// 系统设置
+			IntegrationGameRule rule = MemberQuartz.queryRule();
+			String bh = queryBh(rule);
+			info.setUserName(bh);
+			info.setUpdateInfoNum(0);
+			info.setUpgradeState(0);
+			info.setApplyUpgradeNum(0);
+			info.setRzstatus(0);
+			Member member = this.springMemberService.saveMermberAjax(info);
+			edm.setCode(1);
+			edm.setMessage(member.getUserName());
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			edm.setMessage(e.getMessage());
+		}
+		msg = ConUnit.tojson(edm);
+
+		return msg;
+	}
+
 	private boolean VerificationReferenceMemberStatus(String referenceId) {
 		boolean fa = true;
 		Member referencemember = this.springMemberService.selectMemberByStaffid(referenceId);
@@ -445,6 +513,7 @@ public class MemberController {
 
 	/**
 	 * 删除玩家
+	 * 
 	 * @param request
 	 * @param memberId
 	 * @param token
@@ -457,7 +526,7 @@ public class MemberController {
 			this.springMemberService.deleteMember(memberId);
 			model.addAttribute("message", "删除成功");
 		}
-		
+
 		return "redirect:../member/memberManage.do";
 	}
 
@@ -624,7 +693,7 @@ public class MemberController {
 		if (member != null) {
 			if (info.getNoteUsername().equals(member.getUserName())) {
 				edm.setMessage("申请失败,不能输入自身编号,请重新输入归属节点编号!");
-			}else if(member.getIsok()!=1){
+			} else if (member.getIsok() != 1) {
 				edm.setMessage("申请失败,当前玩家状态异常,请重新输入归属节点编号!");
 			} else {
 				String region = queryRegion(info.getNoteUsername());
@@ -653,9 +722,9 @@ public class MemberController {
 
 					// 添加提醒记录
 					String title = "新玩家申请加入游戏提醒";
-					String content = "玩家昵称"+member.getBsid()+"申请加入游戏,是否通过审核";
-					sendMsg(member,member.getReferenceName(),title,content);
-					sendMsg(member,member.getNoteUsername(),title,content);
+					String content = "玩家昵称" + member.getBsid() + "申请加入游戏,是否通过审核";
+					sendMsg(member, member.getReferenceName(), title, content);
+					sendMsg(member, member.getNoteUsername(), title, content);
 				}
 			}
 		}
@@ -665,17 +734,21 @@ public class MemberController {
 
 	/**
 	 * 添加邮件
-	 * @param member 發送者
-	 * @param receiveMan 接受者
-	 * @param title 標題
-	 * @param content 内容
+	 * 
+	 * @param member
+	 *            發送者
+	 * @param receiveMan
+	 *            接受者
+	 * @param title
+	 *            標題
+	 * @param content
+	 *            内容
 	 */
-	private void sendMsg(Member member,String receiveMan,String title,String content ) {
+	private void sendMsg(Member member, String receiveMan, String title, String content) {
 		ConsoleHelper.getInstance().getMsgService().insertMessageForEmail(receiveMan, content, title, "1",
 				member.getBsid(), member.getUserName());
 	}
 
-	
 	/**
 	 * 根据节点查询 节点 下方可放节点
 	 * 
@@ -727,8 +800,12 @@ public class MemberController {
 				// 生成二维码
 				String qRCodeContent = BarcodeFactory.qRCodeContent + member.getMemberId();
 				String qRCodeImageUrl = BarcodeFactory.path + member.getStaffId() + ".png";
-				String logourl = BarcodeFactory.logoImgUrl;
-				BarcodeFactory.encode(qRCodeContent, 300, 300, logourl, qRCodeImageUrl);
+				try {
+					BarcodeFactory.doQRCode(qRCodeContent, qRCodeImageUrl);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				member.setqRCodeContent(qRCodeContent);
 				member.setqRCodeImageUrl(qRCodeImageUrl);
@@ -737,11 +814,12 @@ public class MemberController {
 				Staff mestaff = ConsoleHelper.getInstance().getMainService().selectStaffById(member.getStaffId());
 				this.springMemberService.updateRole(mestaff);
 
-				//添加消息
+				// 添加消息
 				String title = "新玩家注册提醒";
-				String content = "有编号"+member.getUserName()+"新玩家加入,推荐点编号"+member.getReferenceName()+",归属点编号"+member.getNoteUsername()+",请知悉";
-				sendMsg(member,member.getReferenceName(),title,content);
-				sendMsg(member,member.getNoteUsername(),title,content);
+				String content = "有编号" + member.getUserName() + "新玩家加入,推荐点编号" + member.getReferenceName() + ",归属点编号"
+						+ member.getNoteUsername() + ",请知悉";
+				sendMsg(member, member.getReferenceName(), title, content);
+				sendMsg(member, member.getNoteUsername(), title, content);
 			} else {
 				// 封号 双方
 				// 申请人
@@ -787,22 +865,22 @@ public class MemberController {
 		if (member != null) {
 			if (member.getIsok() != 1) {
 				edm.setMessage("归属点账号异常,不能放置玩家,请重新输入归属点编号!");
-			}else if(member.getIsActivation()!=2){
+			} else if (member.getIsActivation() != 2) {
 				edm.setMessage("输入的归属点未参与游戏,不能放置玩家,请重新输入归属点编号!");
-			
-			}else {
-				if(!staff.getName().equals("系统管理员")){
+
+			} else {
+				if (!staff.getName().equals("系统管理员")) {
 					if (info.getUserName().equals(loginmember.getUserName())) {
 						edm.setMessage("输入的归属点不能为自己,请重新输入归属点编号!");
-					}else{
+					} else {
 						edm.setCode(1);
 						edm.setMessage(member.getLan() + "," + member.getYong());
 					}
-				}else{
+				} else {
 					edm.setCode(1);
 					edm.setMessage(member.getLan() + "," + member.getYong());
 				}
-				
+
 			}
 
 		}
@@ -826,7 +904,12 @@ public class MemberController {
 			String qRCodeContent = BarcodeFactory.qRCodeContent + member.getMemberId();
 			String qRCodeImageUrl = BarcodeFactory.path + member.getStaffId() + ".png";
 			String logourl = BarcodeFactory.logoImgUrl;
-			BarcodeFactory.encode(qRCodeContent, 300, 300, logourl, qRCodeImageUrl);
+			try {
+				BarcodeFactory.doQRCode(qRCodeContent, qRCodeImageUrl);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			member.setqRCodeContent(qRCodeContent);
 			member.setqRCodeImageUrl(qRCodeImageUrl);
 			this.springMemberService.updateMermberInfo(member);
@@ -895,11 +978,12 @@ public class MemberController {
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-申请升级,玩家编号为：" + member.getStaffId();
 			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember("申请升级", loginmember, logContent);
-			
+
 			// 添加提醒记录
 			String title = "玩家升级提醒";
-			String content = "有"+member.getStock().getGradeNum()+"级编号为"+member.getUserName()+"的玩家申请升级为("+(Integer.parseInt(member.getStock().getGradeNum())+1)+")级，是否通过请审核";
-			sendMsg(member,auditGradeUserName,title,content);
+			String content = "有" + member.getStock().getGradeNum() + "级编号为" + member.getUserName() + "的玩家申请升级为("
+					+ (Integer.parseInt(member.getStock().getGradeNum()) + 1) + ")级，是否通过请审核";
+			sendMsg(member, auditGradeUserName, title, content);
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;
@@ -995,8 +1079,7 @@ public class MemberController {
 		msg = ConUnit.tojson(edm);
 		return msg;
 	}
-	
-	
+
 	/**
 	 * 孝字认证申请
 	 */
@@ -1009,24 +1092,24 @@ public class MemberController {
 		edm.setMessage("申请失败");
 		Member member = this.springMemberService.selectMemberById(info.getMemberId());
 		if (member != null) {
-			if(member.getRzstatus()==0){
+			if (member.getRzstatus() == 0) {
 				member.setRzstatus(1);
 				edm.setCode(1);
 				edm.setMessage("申请成功");
 				this.springMemberService.update(member);
-			}else{
+			} else {
 				edm.setMessage("该账号已申请或认证申请中,请勿重复申请!");
 			}
-			
+
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;
 	}
-	
+
 	/**
 	 * 孝字认证审核
 	 */
-	
+
 	@RequestMapping(value = "/member/zxAudit.do", produces = "text/plain;charset=gbk")
 	@ResponseBody
 	public String zxAudit(HttpServletRequest request, MemberInfo info) {
@@ -1036,18 +1119,18 @@ public class MemberController {
 		edm.setMessage("审核失败");
 		Member member = this.springMemberService.selectMemberByUserName(info.getUserName());
 		if (member != null) {
-			if(member.getRzstatus()==1){
+			if (member.getRzstatus() == 1) {
 				member.setRzstatus(2);
 				edm.setCode(1);
 				edm.setMessage("审核成功");
 				this.springMemberService.update(member);
 			}
-			
+
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;
 	}
-	
+
 	/**
 	 * 重置密码
 	 */
@@ -1060,80 +1143,78 @@ public class MemberController {
 		edm.setMessage("重置密码失败");
 		Member member = this.springMemberService.selectMemberById(info.getMemberId());
 		if (member != null) {
-				member.setPassword("666666");
-				edm.setCode(1);
-				edm.setMessage("重置密码成功,重置后密码为:666666");
-				this.springMemberService.updateMermber(member);
-				
-				Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-				Member loginmember = ConsoleHelper.getInstance().getManageService()
-						.selectMemberByStaffId(staff.getId());
-				String logContent = "在IP为" +  ConsoleHelper.getUserIp() + "的机器上-重置了玩家编号:"+member.getUserName()+"登陆密码";
-				ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_UP_LOGINPASSWORD, loginmember, logContent);
+			member.setPassword("666666");
+			edm.setCode(1);
+			edm.setMessage("重置密码成功,重置后密码为:666666");
+			this.springMemberService.updateMermber(member);
+
+			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-重置了玩家编号:" + member.getUserName() + "登陆密码";
+			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_UP_LOGINPASSWORD,
+					loginmember, logContent);
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;
 	}
-	
-	
-/////////////////////////////////////////主页查询/////////////////////////////////////////////////////	
-	
-	//查询登录用户
+
+	///////////////////////////////////////// 主页查询/////////////////////////////////////////////////////
+
+	// 查询登录用户
 	@RequestMapping(value = "/member/selectMemberInfoAjax.do", produces = "text/plain;charset=gbk")
 	@ResponseBody
 	public String selectMemberInfoAjax(HttpServletRequest request, MemberInfo info) {
 		String msg = "";
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-		Member loginmember = ConsoleHelper.getInstance().getManageService()
-				.selectMemberByStaffId(staff.getId());
+		Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 		if (loginmember != null) {
 		}
 		msg = ConUnit.tojson(loginmember);
 		return msg;
 	}
-	
-	//查询统计
-	
+
+	// 查询统计
+
 	@RequestMapping(value = "/member/statisticsAjax.do", produces = "text/plain;charset=gbk")
 	@ResponseBody
 	public String statisticsAjax(HttpServletRequest request) {
 		String msg = "";
 		ErrorDataMsg edm = new ErrorDataMsg();
-		MemberInfo info=new MemberInfo();
+		MemberInfo info = new MemberInfo();
 		info.setIsdel(1);
-		//所有玩家
-		int num= this.springMemberService.selectMemberCount(info);
+		// 所有玩家
+		int num = this.springMemberService.selectMemberCount(info);
 		info.setIsok(-1);
-		//被封玩家
-		int bfhynum= this.springMemberService.selectMemberCount(info);
+		// 被封玩家
+		int bfhynum = this.springMemberService.selectMemberCount(info);
 		info.setIsok(1);
-		//活跃参与游戏玩家
-		int hynum= this.springMemberService.selectMemberCount(info);
-		info=new MemberInfo();
+		// 活跃参与游戏玩家
+		int hynum = this.springMemberService.selectMemberCount(info);
+		info = new MemberInfo();
 		info.setIsdel(1);
 		info.setCreateTime(new Date());
-		//今日新增玩家
-		int tdhynum= this.springMemberService.selectMemberCount(info);
-		edm.setMessage(num+","+hynum+","+bfhynum+","+tdhynum);
+		// 今日新增玩家
+		int tdhynum = this.springMemberService.selectMemberCount(info);
+		edm.setMessage(num + "," + hynum + "," + bfhynum + "," + tdhynum);
 		msg = ConUnit.tojson(edm);
 		return msg;
 	}
-	
-	//查询最新反馈
+
+	// 查询最新反馈
 	@RequestMapping(value = "/member/selectfeedbackAjax.do", produces = "text/plain;charset=gbk")
 	@ResponseBody
 	public String selectfeedbackAjax(HttpServletRequest request) {
 		String msg = "";
-		MessageQueryInfo info =new MessageQueryInfo();
+		MessageQueryInfo info = new MessageQueryInfo();
 		info.setPageSize(10);
 		info.setMessageType("3");
-		Page page= ConsoleHelper.getInstance().getMsgService().selectMessage(info);
-		List list=page.getData();
-		List relist=new ArrayList<SysMessage>();
-		if(list!=null){
-			SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Page page = ConsoleHelper.getInstance().getMsgService().selectMessage(info);
+		List list = page.getData();
+		List relist = new ArrayList<SysMessage>();
+		if (list != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			for (Object object : list) {
-				SysMessage me=(SysMessage) object;
+				SysMessage me = (SysMessage) object;
 				me.setContent("");
 				me.setHfmessage("");
 				me.setContent(sdf.format(me.getSendTime()));
@@ -1143,29 +1224,75 @@ public class MemberController {
 		}
 		return msg;
 	}
-		//查询消息
-		@RequestMapping(value = "/member/selectmessageAjax.do", produces = "text/plain;charset=gbk")
-		@ResponseBody
-		public String selectmessageAjax(HttpServletRequest request) {
-			String msg = "";
-			MessageQueryInfo info =new MessageQueryInfo();
-			info.setPageSize(10);
-			info.setMessageType("1");
-			Page page= ConsoleHelper.getInstance().getMsgService().selectMessage(info);
-			List list=page.getData();
-			List relist=new ArrayList<SysMessage>();
-			if(list!=null){
-				SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				for (Object object : list) {
-					SysMessage me=(SysMessage) object;
-					me.setContent("");
-					me.setHfmessage("");
-					me.setContent(sdf.format(me.getSendTime()));
-					relist.add(me);
-				}
-				msg = ConUnit.tojson(relist);
+
+	// 查询消息
+	@RequestMapping(value = "/member/selectmessageAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String selectmessageAjax(HttpServletRequest request) {
+		String msg = "";
+		String metype = request.getParameter("messageType");
+		MessageQueryInfo info = new MessageQueryInfo();
+		info.setPageSize(10);
+		info.setMessageType(metype);
+		Page page = ConsoleHelper.getInstance().getMsgService().selectMessage(info);
+		List list = page.getData();
+		List relist = new ArrayList<SysMessage>();
+		if (list != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			for (Object object : list) {
+				SysMessage me = (SysMessage) object;
+				me.setContent("");
+				me.setHfmessage("");
+				me.setContent(sdf.format(me.getSendTime()));
+				relist.add(me);
 			}
-			return msg;
+			msg = ConUnit.tojson(relist);
 		}
-	
+		return msg;
+	}
+
+	// 查询升级审批
+	@RequestMapping(value = "/member/selectspmessageAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String selectspmessageAjax(HttpServletRequest request) {
+		String msg = "";
+		MemberInfo info = new MemberInfo();
+		info.setIsdel(1);
+		info.setUpgradeState(2);
+		List<Member> list = this.springMemberService.selectMemberBy(info);
+		List relist = new ArrayList<SysMessage>();
+		if (list != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			for (Member me : list) {
+				me.setReferenceQRCodeContent(sdf.format(me.getApplyUpgradeTime()));
+				relist.add(me);
+			}
+			msg = ConUnit.tojson(relist);
+		}
+		return msg;
+	}
+
+	// 查询申请参与游戏审批
+	@RequestMapping(value = "/member/selectcymemberAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String selectcymemberAjax(HttpServletRequest request) {
+		String msg = "";
+		MemberInfo info = new MemberInfo();
+		info.setIsdel(1);
+		info.setIsActivation(1);
+		List<Member> list = this.springMemberService.selectMemberBy(info);
+		List relist = new ArrayList<SysMessage>();
+		if (list != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			for (Member me : list) {
+				me.setReferenceQRCodeContent(sdf.format(me.getApplyTime()));
+				relist.add(me);
+			}
+			msg = ConUnit.tojson(relist);
+		}
+		return msg;
+	}
+
+	/////////////////////////////////////////////// h5页面//////////////////////////////////////////////////////
+
 }

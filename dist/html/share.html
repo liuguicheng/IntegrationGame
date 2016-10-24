@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<title>攒人品小游戏-玩家注册成功</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+<link href="../skins/skinsH/css/bootstrap.min.css?v=3.3.5"
+	rel="stylesheet">
+<link href="..//skins/skinsH/css/font-awesome.min.css-v=4.4.0.css"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/animate.min.css" rel="stylesheet">
+<link href="../skins/skinsH/css/plugins/iCheck/custom.css"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/style.min.css?v=4.0.0" rel="stylesheet">
+<style type="text/css">
+.wrap_4 {height: 150px; display: table-cell; vertical-align: middle;}
+</style>
+</head>
+
+<body class="gray-bg" style="background-color: #DBCCC5;">
+
+	<div class="middle-box text-center loginscreen   animated fadeInDown">
+		<div>
+		<div class="wrap_4">
+              <img alt="" src="../images/logo.png" width="100%">
+            </div>
+			<h2>开始啦!</h2>
+			<form class="m-t" role="form" action="">
+				<div class="form-group">
+					<h3>扫我一起玩攒人品</h3>
+				</div>
+				<div class="form-group " >
+					<img alt="" src="" width="50%" id="imgs">
+				</div>
+				<div class="form-group">
+				pc端游戏链接:<h2><a href="http://www.baiud.com">http://www.baiud.com</a></h2> <br/>
+				   <b>点击或复制到浏览器打开</b>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- Mainly scripts -->
+		<script src="../skins/skinsH/js/jquery.min.js"></script>
+	<script src="../skins/skinsH/js/bootstrap.min.js"></script>
+	<!-- iCheck -->
+	<script src="../skins/skinsH/js/plugins/iCheck/icheck.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('.i-checks').iCheck({
+				checkboxClass : 'icheckbox_square-green',
+				radioClass : 'iradio_square-green',
+			});
+			GetArgsFromHref();
+			
+		});
+		//获取url传参
+		 function GetArgsFromHref() 
+		　　{ 
+			 /* 用途: 接收地直栏参数 取id=1 根据ID的值 */
+			var urlinfo=window.location.href; //获取当前页面的url
+			var len=urlinfo.length;//获取url的长度
+			var offset=urlinfo.indexOf("?");//设置参数字符串开始的位置
+			var newsidinfo=urlinfo.substr(offset,len)//取出参数字符串 这里会获得类似“id=1”这样的字符串
+			var newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
+			var newsid=newsids[1];//得到参数值
+			var newsname=newsids[0];//得到参数名字
+			$("#imgs").attr("src","");
+			$("#imgs").attr("src","../imgss.jsp?file="+newsid);
+		　　} 
+	</script>
+
+
+</body>
+
+</html>

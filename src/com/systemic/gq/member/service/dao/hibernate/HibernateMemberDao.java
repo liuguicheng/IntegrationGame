@@ -65,6 +65,14 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 				queryStr.append(" and m.memberId != ? ");
 				values[idx++] = info.getMemberId();
 			}
+			if(info.getUpgradeState()!=null){
+				queryStr.append(" and m.upgradeState = ? ");
+				values[idx++] = info.getUpgradeState();
+			}
+			if(info.getIsActivation()!=null){
+				queryStr.append(" and m.isActivation = ? ");
+				values[idx++] = info.getIsActivation();
+			}
 			if (info.getCreateTime() != null) {
 				if(ConUnit.isSameDate(info.getCreateTime(),new Date())){
 					//当前日期

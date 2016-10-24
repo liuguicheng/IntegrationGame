@@ -1,0 +1,6 @@
+<script>
+    var url = " ../member/memberApply.do";//"../pendingitem/pendingItemQuery.do";
+
+    document.location.href = url;
+</script>
+

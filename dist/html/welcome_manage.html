@@ -37,7 +37,7 @@
 					欢迎您,<span id="username"></span>
 				</h2>
 				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">http://localhost:8080/IntegrationGame/main/home.do</a>
-					<a class="btn btn-success"> <i class="fa fa-weixin"> </i> 马上分享
+					<a class="btn btn-success" href="javascript:share();"> <i class="fa fa-weixin"> </i> 马上分享
 				</a></small><br /> <small><b>专属二维码:</b></small><br /> <img
 					src="../images/1.png" width="100%" id="qRCodeImageUrl"
 					style="max-width: 300px; margin-left: -27px;"> <br>
@@ -108,34 +108,14 @@
 						<div class="ibox-title">
 							<h5>待审批</h5>
 							<div class="ibox-tools">
-								<a class="collapse-link ui-sortable"> <!--  <i class="fa fa-chevron-up"></i>-->
+								<a class="collapse-link ui-sortable" href="../member/memberApplyGradeManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
 								</a>
 							</div>
 						</div>
 						<div class="ibox-content no-padding">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
+							<ul class="list-group" id="spdiv">
+								
 
 							</ul>
 						</div>
@@ -183,7 +163,11 @@
 			selectfeedback();
 			//获取消息
 			selectmessageAjax();
-			//获取审批
+			//获取升级审批
+			selectspdAjax();
+			
+			
+			 
 		});
 
 		// 获取页面的高度、宽度
@@ -246,10 +230,16 @@
 				cache : false,
 				success : function(result) {
 					var s = $.parseJSON(result);
+					$("#qRCodeContent").attr("href",s[0].qRCodeContent);
 					$("#username").html(s[0].bsid);
 					$("#qRCodeImageUrl").attr("src","../imgss.jsp?file="+s[0].qRCodeImageUrl);
-					$("#qRCodeContent").html(s[0].qRCodeContent);
-					$("#qRCodeContent").attr("href",s[0].qRCodeContent);
+					if (GetLength(s[0].qRCodeContent) > 40) { 
+					       $("#qRCodeContent").html(cutstr(s[0].qRCodeContent, 40)); 
+					       return; 
+					 } else{
+						 $("#qRCodeContent").html(s[0].qRCodeContent);
+					 }
+					
 				}
 			});
 		}
@@ -285,19 +275,27 @@
 							if(s.length>3){
 								if(key<3){
 									divs+="<p class='text-success'>"+
+									"<a href='../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"'>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+" <span class='badge badge-danger'>new</span>"+
+									"</a>"+
 									" </p>";
 								}else{
+									if(key<12){
 									divs+="<p class='text-success'>"+
+									"<a href='../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"'>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+
+									"</a>"+
 									" </p>";
+									}
 								}
 							}else{
 								divs+="<p class='text-success'>"+
+								"<a href='../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"'>"+
 								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 								" "+val.content+" <span class='badge badge-danger'>new</span>"+
+								"</a>"+
 								" </p>";
 							}
 						});
@@ -312,6 +310,7 @@
 			$.ajax({
 				url : '../member/selectmessageAjax.do',
 				type : 'POST',
+				data:"messageType=1",
 				cache : false,
 				success : function(result) {
 					if(result!=""){
@@ -321,19 +320,27 @@
 							if(s.length>3){
 								if(key<3){
 									divs+="<p class='text-success'>"+
+									"<a href='../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"'>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+" <span class='badge badge-danger'>new</span>"+
+									"</a>"+
 									" </p>";
 								}else{
+									if(key<12){
 									divs+="<p class='text-success'>"+
+									"<a href='../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"'>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+
+									"</a>"+
 									" </p>";
+									}
 								}
 							}else{
 								divs+="<p class='text-success'>"+
+								"<a href='../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"'>"+
 								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 								" "+val.content+" <span class='badge badge-danger'>new</span>"+
+								"</a>"+
 								" </p>";
 							}
 							
@@ -342,6 +349,109 @@
 					}
 				}
 			});
+		}
+		
+		//查询待审批
+		function selectspdAjax() {
+			$.ajax({
+				url : '../member/selectspmessageAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					var divs="";
+					if(result!=""){
+						var s = $.parseJSON(result);
+						$.each(s, function(key, val) {
+							if(s.length>3){
+								if(key<3){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请升级"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"<span class='badge badge-danger'>new</span></li>";
+								}else{
+									if(key<12){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请升级"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"</li>";
+									}
+								}
+							}else{
+								divs+="<li class='list-group-item'>"+
+								"<p>"+
+								"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+								"玩家编号:"+val.userName+",申请升级"+
+							"</p> <small class='block text-muted'><i"+
+								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+							"<span class='badge badge-danger'>new</span></li>";
+							}
+							
+						});
+					    $("#spdiv").html(divs);
+					}else{
+						divs+="<li class='list-group-item'>暂无升级申请审核</li>";
+						$("#spdiv").html(divs);
+					}
+				}
+			});
+		}
+		
+		
+		  var GetLength = function (str) {
+		        ///<summary>获得字符串实际长度，中文2，英文1</summary>
+		        ///<param name="str">要获得长度的字符串</param>
+		        var realLength = 0, len = str.length, charCode = -1;
+		        for (var i = 0; i < len; i++) {
+		            charCode = str.charCodeAt(i);
+		            if (charCode >= 0 && charCode <= 128) realLength += 1;
+		            else realLength += 2;
+		        }
+		        return realLength;
+		    };
+		 /** 
+	     * js截取字符串，中英文都能用 
+	     * @param str：需要截取的字符串 
+	     * @param len: 需要截取的长度 
+	     */
+	    function cutstr(str, len) {
+	        var str_length = 0;
+	        var str_len = 0;
+	        str_cut = new String();
+	        str_len = str.length;
+	        for (var i = 0; i < str_len; i++) {
+	            a = str.charAt(i);
+	            str_length++;
+	            if (escape(a).length > 4) {
+	                //中文字符的长度经编码之后大于4  
+	                str_length++;
+	            }
+	            str_cut = str_cut.concat(a);
+	            if (str_length >= len) {
+	                str_cut = str_cut.concat("...");
+	                return str_cut;
+	            }
+	        }
+	        //如果给定字符串小于指定长度，则返回源字符串；  
+	        if (str_length < len) {
+	            return str;
+	        }
+	    }
+		    
+	    function share(){
+			var qrcodeurl=$("#qRCodeImageUrl").attr("src");
+			
+			if(qrcodeurl!=""){
+				var sd=qrcodeurl.split("?file=");
+				console.log(sd);
+				window.location.href="share.html?id="+sd[1];
+			}
+			
 		}
 	</script>
 </body>

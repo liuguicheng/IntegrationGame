@@ -102,9 +102,7 @@ function  change(){
 <li><a class="Light"></a></li>
 </ul>
 <div class="PageContainer">
-	<h1>攒人品游戏</h1>
 	<div class="LoginBox">
-	<div class="Logo"></div>
 	#***<div class="CodePic">
     <a href="../download/lzzf.apk" title="点击下载到本地">
     <span class="CodeImg"><img id="apkImg" src/></span>
@@ -123,7 +121,7 @@ function  change(){
 		<img id="image" src="../colourCode.jsp" alt="暂无图片"  width="80" height="30" style="margin-top:21px;float:left;margin-left: 5px;" onClick="change()"/>
         <input class="Txt code" style="width:145px;margin-left: 32px;" name="code" type="text" placeholder="验证码" />
       
-		<button type="submit">登录</button>
+		<button type="submit" class="login_btn"></button>
         <div class="Error"><span>×</span></div>
     </form>
      </div>
@@ -134,7 +132,7 @@ function  change(){
     </div>
 </div>
 <div class="BgImg">
-<img src="../skins/default/login/login_2.jpg" />
+<img src="../skins/default/login/login_4.png" />
 </div> 
 </body>
 </html>

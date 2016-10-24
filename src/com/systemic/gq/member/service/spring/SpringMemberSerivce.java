@@ -120,6 +120,7 @@ public class SpringMemberSerivce implements ISpringMemberService {
 			member.setReferenceQRCodeImageUrl(referenceMember.getqRCodeImageUrl());
 			member.setReferencelan(referenceMember.getLan());
 			member.setReferenceyong(referenceMember.getYong());
+			member.setReferenceName(referenceMember.getUserName());
 			//修改次数
 			member.setUpdateInfoNum(info.getUpdateInfoNum());
 		} 
@@ -283,6 +284,85 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	public int selectMemberCount(MemberInfo info) {
 		// TODO Auto-generated method stub
 		return memberDao.selectMemberCount(info);
+	}
+
+	@Override
+	public Member saveMermberAjax(MemberEditInfo info) {
+		Member member = new Member();
+		if (StringUtils.isNotBlank(info.getId())) {
+			BeanUtils.copyProperties(info, member);
+		} else {
+			//新增登陆账号
+			Staff staff = new Staff();
+			staff.setId(SNHelper.getSNService().getSerialNumber(
+					Staff.class.getName(), "id", false));
+			staff.setName(info.getBsid());
+			// 判断登录名是否被使用
+//			Staff tmp = ConsoleHelper.getInstance().getMainService().selectAllStaff(info.getUserName());
+//			if (tmp != null && !tmp.getId().equals(info.getId())) {
+//				throw new RuntimeException("登录名『"
+//						+ info.getUserName() + "』已被使用！");
+//			}
+			//判断昵称是否被占用
+			MemberInfo einfo=new MemberInfo();
+			einfo.setBsid(info.getBsid());
+			einfo.setIsdel(1);
+			BeanUtils.copyProperties(info, staff, new String[] { "id",
+					"password" });
+			BeanUtils.copyProperties(info, member, new String[] { "memberId" });
+			staff.setLoginName(member.getUserName());//登录名
+			staff.setPassword(info.getPassword());//密码
+			// 设置密码，并加密
+			if (info.getPassword() != null
+					&& info.getPassword().trim().length() > 0) {
+			    //判断密码是否变更，变更则更新CHANGE_TIME字段
+			    if(!staff.getPassword().equals(EncryptHelper.md5Encoding(info.getPassword()))){
+			        StaffSecurity ss = ConsoleHelper.getInstance().getMainService().loadStaffSecurity(staff.getId());
+		            ss.setChangeTime(new Date());
+		            this.memberDao.update(ss);
+	             }
+	            staff.setPassword(EncryptHelper
+	                .md5Encoding(info.getPassword()));
+	            member.setPassword(EncryptHelper
+		                .md5Encoding(info.getPassword()));
+			}
+			if(info.getPasswodTwo()!=null&&info.getPasswodTwo().trim().length()>0){
+				 member.setPasswodTwo(EncryptHelper
+			                .md5Encoding(info.getPasswodTwo()));
+			}
+			if(info.getPasswordThree()!=null&&info.getPasswordThree().trim().length()>0){
+				 member.setPasswordThree(EncryptHelper
+			                .md5Encoding(info.getPasswordThree()));
+			}
+			Set<Role> set = new HashSet<Role>();
+			Role role = (Role) this.memberDao.load(Role.class, "23");//21为玩家角色ID 23 游客id
+			set.add(role);
+			staff.setSystemRole(set);
+			staff.setDepartment(ConsoleHelper.getInstance().getMainService().selectDepartment("1"));
+			staff.setValid(ConsoleHelper.YES);
+			staff.setSysTemplate(ConsoleHelper.YES);
+			this.memberDao.save(staff);
+			CacheHelper.getInstance().dispatchRefreshEvent(Staff.SIMPLE_DIC_IDENTIFICATION);
+			member.setStaffId(staff.getId());//系统登录
+			// TODO: Animate this.group instead 选择股权等级待处理 使用Stock id做连接
+			member.setProductgradeId(info.getProductgradeId());
+			member.setCreateTime(new Date());
+			member.setRegion(info.getRegion());
+			member.setIsok(1);
+			member.setIsdel(1);
+			//获取推荐人的推广链接和二维码 廉通道、勇通道
+			Member referenceMember= selectMemberByStaffid(info.getReferenceId());
+			member.setReferenceQRCodeContent(referenceMember.getqRCodeContent());
+			member.setReferenceQRCodeImageUrl(referenceMember.getqRCodeImageUrl());
+			member.setReferencelan(referenceMember.getLan());
+			member.setReferenceyong(referenceMember.getYong());
+			member.setReferenceName(referenceMember.getUserName());
+			//修改次数
+			member.setUpdateInfoNum(info.getUpdateInfoNum());
+		} 
+		this.memberDao.save(member);
+		CacheHelper.getInstance().dispatchRefreshEvent(Member.SIMPLE_DIC_IDENTIFICATION);
+		return member;
 	}
 
 	

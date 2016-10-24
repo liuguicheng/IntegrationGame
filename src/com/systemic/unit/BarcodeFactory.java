@@ -29,7 +29,7 @@ public class BarcodeFactory {
     private static final int IMAGE_HEIGHT = 80;  
     private static final int IMAGE_HALF_WIDTH = IMAGE_WIDTH / 2;  
     private static final int FRAME_WIDTH = 2;  
-	public static String qRCodeContent="http://localhost:8080/IntegrationGame/member/memberEdit.do?memberId=";
+	public static String qRCodeContent="http://localhost:8080/IntegrationGame/html/register.html?memberId=";
     public static String path="D://qcode//";
     public static String logoImgUrl="D://qcode//logo.jpg";
     // 二维码写码器  
@@ -174,8 +174,8 @@ public class BarcodeFactory {
   //简单二维码生成
   	public static void doQRCode(String content,String path)throws Exception{  
   		   String text = content;   
-  	        int width = 258;   
-  	        int height = 258;   
+  	        int width = 300;   
+  	        int height = 300;   
   	        String format = "png";   
   	        Hashtable hints= new Hashtable();   
   	        hints.put(EncodeHintType.CHARACTER_SET, "utf-8");   

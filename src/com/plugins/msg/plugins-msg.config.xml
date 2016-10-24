@@ -81,6 +81,7 @@
       <property name="orderByClause"><value>sendTime desc</value></property>
       <property name="queryParam">
         <list>
+        <value>sysMessageInfoId,sysMessageInfoId,EQU</value>
           <value>isReaded,isReaded,EQU</value>
           <value>sendTime,sendTime,GT_EQU</value>
           <value>chatState,chatState,EQU</value>
@@ -100,6 +101,7 @@
       <property name="orderByClause"><value>sendTime desc</value></property>
       <property name="queryParam">
         <list>
+           <value>sysMessageInfoId,sysMessageInfoId,EQU</value>
           <value>isReaded,isReaded,EQU</value>
           <value>sendTime,sendTime,GT_EQU</value>
           <value>chatState,chatState,EQU</value>

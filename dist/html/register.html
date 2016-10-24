@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=gb2312" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<title>攒人品小游戏-玩家注册</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+<link href="../skins/skinsH/css/bootstrap.min.css?v=3.3.5"
+	rel="stylesheet">
+<link href="..//skins/skinsH/css/font-awesome.min.css-v=4.4.0.css"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/animate.min.css" rel="stylesheet">
+<link href="../skins/skinsH/css/plugins/iCheck/custom.css"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/style.min.css?v=4.0.0" rel="stylesheet">
+<style type="text/css">
+.wrap_4 {
+	height: 150px;
+	display: table-cell;
+	vertical-align: middle;
+}
+</style>
+</head>
+
+<body class="gray-bg" style="background-color: #DBCCC5;">
+
+	<div class="middle-box text-center loginscreen   animated fadeInDown">
+		<div>
+			<div class="wrap_4">
+				<img alt="" src="../images/logo.png" width="100%">
+			</div>
+			<h3>欢迎注册 攒人品游戏</h3>
+			<p>创建一个新账户</p>
+			<form class="m-t" role="form" action="" id="registerid">
+				<input type="hidden" name="isActivation" value="0"/>
+   				<input type="hidden" name="stock.id" value="402881f057c249f80157c24ab6280001"/>
+   				<input type="hidden" name="productgradeId" value="402881f057c249f80157c24ab6280001"/>
+   				<input type="hidden" name="levleId" value="402881ea57cdeb0f0157cdebac970001"/>
+   				<input type="hidden" id="referenceId" name="referenceId" value=""/>
+   				<input type="hidden" id="errmesg" value="">
+   				<input type="hidden" id="bsid"  name="bsid" value="">
+				<div class="form-group">
+					<input type="text" class="form-control" id="bsidxs"
+						placeholder="请输入昵称" required="" onblur="oncheckLognUserName();" 
+						style="border: 1px solid #DBCCC5;">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" name="password" id="password"
+						placeholder="请输入密码" required="" style="border: 1px solid #DBCCC5;">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" name="con_password" id="con_password"
+						placeholder="请再次输入密码" required=""
+						style="border: 1px solid #DBCCC5;">
+				</div>
+				<div class="form-group">
+					<img id="image" src="../colourCode.jsp" alt="暂无图片" width="80"
+						height="30" style="float: left; margin-left: 5px;margin-right: 15px"
+						onClick="change()" /> <input type="text" class="form-control"
+						style="width: 200px; margin-left: 32px;" name="code"  id="codeid"
+						placeholder="验证码" required="" />
+				</div>
+				<button type="button" class="btn btn-primary block full-width m-b"
+					style="background-color: #B13A34; border-color: #B13A34;" onclick="onregister();">注
+					册</button>
+
+
+			</form>
+		</div>
+	</div>
+
+	<!-- Mainly scripts -->
+	<script src="../skins/skinsH/js/jquery.min.js"></script>
+	<script src="../skins/skinsH/js/bootstrap.min.js"></script>
+	<!-- iCheck -->
+	<script src="../skins/skinsH/js/plugins/iCheck/icheck.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('.i-checks').iCheck({
+				checkboxClass : 'icheckbox_square-green',
+				radioClass : 'iradio_square-green',
+			});
+			GetArgsFromHref();
+		});
+		//获取url传参
+		 function GetArgsFromHref() 
+		　　{ 
+			 /* 用途: 接收地直栏参数 取id=1 根据ID的值 */
+			var urlinfo=window.location.href; //获取当前页面的url
+			var len=urlinfo.length;//获取url的长度
+			var offset=urlinfo.indexOf("?");//设置参数字符串开始的位置
+			var newsidinfo=urlinfo.substr(offset,len)//取出参数字符串 这里会获得类似“id=1”这样的字符串
+			var newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
+			var newsid=newsids[1];//得到参数值
+			var newsname=newsids[0];//得到参数名字
+			console.log(newsid);
+			$("#referenceId").val(newsid);
+		　　} 
+		
+		 function  change(){	
+				document.getElementById("image").src="../colourCode.jsp?"+Date.parse(new Date());	
+			}
+		 function onregister(){
+			 var code=$("#codeid").val();
+			 var referenceId=$("#referenceId").val();
+			 var errmesg=$("#errmesg").val();
+			 var con_password=$("#con_password").val();
+			 var password=$("#con_password").val();
+			 var bsidxs=$("#bsidxs").val();
+			 if(bsidxs==""){
+				 alert("昵称不能为空!");
+				 return;
+			 }
+			 if(errmesg!=""){
+				 alert("昵称已被占用,请重新输入!");
+				 return;
+			 }
+			 if(password==""){
+				 alert("密码不能为空!");
+				 return;
+			 }
+			 if(con_password==""){
+				 alert("确认密码不能为空!");
+				 return;
+			 }
+			 if(code!=""){
+				 if(referenceId==""){
+					 alert("推荐人id不存在,注册失败!");
+					 return;
+				 }
+			 $.ajax({
+					url : '../member/memberRegisterAjax.do',
+					type : 'POST',
+					data:$("#registerid").serialize(),// 你的formid
+					cache : false,
+					success : function(result) {
+						console.log(result);
+						if(result!=""){
+							var s = $.parseJSON(result);
+							console.log(s[0].code);
+							console.log(s[0].message);
+							if(s[0].code==1){
+								window.location.href="register_success.html?id="+s[0].message;
+							}else{
+								alert(s[0].message);
+							}
+						}else{
+							alert("注册失败!");
+						}
+					}
+			 });
+			 }else{
+				 alert("验证码不能为空!");
+			 }
+		 }
+		 
+		 function oncheckLognUserName(){
+			 
+			  $.ajax({
+			        url: '../member/nicknameAjax.do',
+			        type: 'POST',
+					data:"bsid="+encodeURI(encodeURI($("#bsidxs").val())),// 你的formid
+			        cache: false,
+			        success: function(result) {
+							var s=$.parseJSON(result);
+							 
+							if(s[0].code==0){
+								alert(s[0].message);
+								$("#errmesg").val(s[0].message);
+							}else{
+								$("#errmesg").val("");
+								$("#bsid").val(encodeURI($("#bsidxs").val()));
+							}
+			        	}
+			   		 });
+					 
+				}
+	</script>
+
+
+</body>
+
+</html>

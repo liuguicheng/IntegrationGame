@@ -2,6 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   #headInclude()
+  <style>
+	.acolor{
+		color:red;
+	}
+  </style>
   <script type="text/javascript">
   #if($message)alert("#javaScriptEscape($message)");#end
 
@@ -276,8 +281,8 @@
 			$!{data.noteUsername}
 		#end
 		</td>
-		<td >${data.lan}</td>
-		<td >${data.yong}</td>
+		<td >$!{data.lan}</td>
+		<td >$!{data.yong}</td>
       <td >#formatTime(${data.createTime})</td>
 	  <td >#if(!${data.activationTime})
 			暂未参加
@@ -298,7 +303,7 @@
 		#if($!{data.isActivation}==0)
 			<a href="javascript:activation('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.referencelan}')">[申请加入游戏]</a> <br/>
 		#elseif($!{data.isActivation}==1)
-			<a href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[审核]</a> <br/>
+			<a class="acolor" href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[审核]</a> <br/>
 		#elseif($!{data.isActivation}==2)
 			<a href="javascript:doUpLevel('$!{data.memberId}')">[修改级别]</a><br/>
 			<a href="javascript:doQRCode('$!{data.memberId}')">[生成二维码]</a> <br/>
@@ -312,11 +317,11 @@
 			#if($!{data.upgradeState}==1)
 				<a href="javascript:gradelevel('$!{data.memberId}')">[申请升级]</a><br/>
 			#elseif($!{data.upgradeState}==2)	
-				<a href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a><br/>
+				<a class="acolor" href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a><br/>
 			#end
 		#end
 		#if($!{data.rzstatus}==1)
-			<a href="javascript:xzAuditDiv('$!{data.userName}')">[孝字认证审核]</a><br/>
+			<a class="acolor" href="javascript:xzAuditDiv('$!{data.userName}')" >[孝字认证审核]</a><br/>
 		#end
 		<a href="javascript:resetPassword('$!{data.memberId}')">[重置密码]</a><br/>
 		</td>

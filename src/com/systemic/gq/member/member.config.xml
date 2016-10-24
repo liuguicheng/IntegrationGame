@@ -12,6 +12,7 @@
         <property name="orderByClause"><value>createTime desc</value></property>
        <property name="queryParam">
             <list>
+            <value>memberId,memberId,EQU</value>
               <value>stock,stock,LIKE</value>
               <value>isActivation,isActivation,EQU</value>
               <value>isdel,isdel,EQU</value>

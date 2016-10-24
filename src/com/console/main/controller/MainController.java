@@ -45,6 +45,8 @@ public class MainController extends SpringlineMultiActionController {
 	 */
 	private static String DEFAULT_DESTOP_VIEW = "../main/homepage.do";
 	private static String MANAGEDEFAULT_DESTOP_VIEW = "../main/mamagehomepage.do";
+	//游客主页 ../member/memberApply.d
+	private static String MANAGEDEFAULT_YK_VIEW = "../main/YKhomepage.do";
 	/**
 	 * 索引
 	 *
@@ -208,6 +210,7 @@ public class MainController extends SpringlineMultiActionController {
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap model = new HashMap();
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		Member member=ConsoleHelper.getInstance().getSpringMemberService().selectMemberByStaffid(staff.getId());
 		if (staff == null) {
 			return new ModelAndView(new RedirectView("../main/index.do"));
 		}
@@ -229,8 +232,14 @@ public class MainController extends SpringlineMultiActionController {
 				model.put("rightView", MANAGEDEFAULT_DESTOP_VIEW);
 				model.put("nonid", "1");
 			}else{
-				model.put("nonid", "0");
-				model.put("rightView", DEFAULT_DESTOP_VIEW);
+				if(member.getIsActivation()==0){
+					//游客主页
+					model.put("rightView", MANAGEDEFAULT_YK_VIEW);
+					model.put("nonid", "2");
+				}else{
+					model.put("nonid", "0");
+					model.put("rightView", DEFAULT_DESTOP_VIEW);
+				}
 			}
 			
 		} else {
@@ -290,7 +299,16 @@ public class MainController extends SpringlineMultiActionController {
 	public Map mamagehomepage(HttpServletRequest request, HttpServletResponse response) {
 		return new HashMap();
 	}
-
+	
+	/**
+	 * 游客主页
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Map YKhomepage(HttpServletRequest request, HttpServletResponse response) {
+		return new HashMap();
+	}
 	/**
 	 * 退出系统.
 	 *

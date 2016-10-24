@@ -30,199 +30,77 @@
 </head>
 
 <body class="gray-bg">
+<input type="hidden" id="memberid">
 	<div style="overflow: auto; overflow-x: hidden" id="mainid">
 		<div class="row  border-bottom white-bg dashboard-header">
 			<div class="col-sm-4">
 				<h2>
-					欢迎您,Guest <span class="badge badge-danger">孝</span>
+					欢迎您,<span id="username"></span><span class="badge badge-danger"
+						id="xzspan">孝</span>
 				</h2>
-				<small><b>专属推广链接：</b><a>http://localhost:8080/IntegrationGame/main/home.do</a>
-					<a class="btn btn-success"> <i class="fa fa-weixin"> </i> 马上分享
-				</a></small><br /> <small><b>专属二维码：</b></small><br /> <img src="../images/1.png"
-					width="100%" style="max-width: 300px; margin-left: -27px;"> <br>
+				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">暂未参与游戏</a>
+					<a class="btn btn-success" href="javascript:share();"> <i
+						class="fa fa-weixin"> </i> 马上分享
+				</a></small><br /> <small><b>专属二维码:</b></small><br /> <img
+					src="../images/1.png" width="100%" id="qRCodeImageUrl"
+					style="max-width: 300px; margin-left: -27px;"> <br>
 			</div>
 			<div class="col-sm-4">
-				<b>当前人品认证面：</b><span style="font-size: 50px;"> 忠</span><span
+				<b>当前人品认证面：</b><span style="font-size: 50px;" id="levelid"> 忠</span><span
 					class=""></span> <br /> <br /> <br />
 				<p>
-					<b>人品认证按钮(<span class="btn-success">蓝色</span>表示可升级,<span class="btn-danger">红色</span>表示认证成功)：</b>
+					<b>人品认证按钮(<span class="btn-success">蓝色</span>表示可升级,<span
+						class="btn-danger">红色</span>表示认证成功,<span class="btn-warning">黄色</span>标识升级申请中)：
+					</b>
 				</p>
-				<p>
-					<button type="button" class="btn btn-outline btn-danger">孝</button>
-					<button type="button" class="btn btn-outline btn-danger">忠</button>
-					<button type="button" class="btn btn-outline btn-success">信</button>
-					<button type="button" class="btn btn-outline btn-default">智</button>
-					<button type="button" class="btn btn-outline btn-default">礼</button>
-					<button type="button" class="btn btn-outline btn-default">义</button>
-					<button type="button" class="btn btn-outline btn-default">仁</button>
-				</p>
+				<div id="levelbuttonc"></div>
 				<br /> <br />
 				<p>
 					<b>倒计时(最新)：</b>
-				<h1>2016-10-22 13:23:40</h1>
+				<h1 id="djs">暂无倒计时</h1>
 				</p>
 				<br>
 			</div>
 			<div class="col-sm-4">
 				<h4>最新公告：</h4>
 				<br />
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22 <span class="badge badge-danger">new</span>
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22 <span class="badge badge-danger">new</span>
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22 <span class="badge badge-danger">new</span>
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22
-				</p>
-				<p class="text-success">
-					<span class="col-sm-6">关于人品等级修改通公告</span><span class="col-sm-2"></span>
-					2016-10-22
-				</p>
+				<div id="gonggaodiv"><p class='text-success'>暂无公告</p></div>
+				
 			</div>
 		</div>
 		<div class="wrapper wrapper-content">
 			<div class="row">
-				<div class="col-sm-4 ui-sortable">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>最新消息</h5>
-							<div class="ibox-tools">
-								<a class="collapse-link ui-sortable"> <!--  <i class="fa fa-chevron-up"></i>-->
-									查看更多
-								</a>
-							</div>
-						</div>
-						<div class="ibox-content no-padding">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
 
-							</ul>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="col-sm-4 ui-sortable">
+				<div class="col-sm-6 ui-sortable">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
 							<h5>直推审批</h5>
 							<div class="ibox-tools">
-								<a class="collapse-link ui-sortable"> <!--  <i class="fa fa-chevron-up"></i>-->
+								<a class="collapse-link ui-sortable" href="../member/memberAuditManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
 								</a>
 							</div>
 						</div>
 						<div class="ibox-content no-padding">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-
+							<ul class="list-group" id="cygameid">
 							</ul>
 						</div>
 
 					</div>
 				</div>
 
-				<div class="col-sm-4 ui-sortable">
+				<div class="col-sm-6 ui-sortable">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
 							<h5>升级审批</h5>
 							<div class="ibox-tools">
-								<a class="collapse-link ui-sortable"> <!--  <i class="fa fa-chevron-up"></i>-->
+								<a class="collapse-link ui-sortable" href="../member/memberApplyGradeManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
 								</a>
 							</div>
 						</div>
 						<div class="ibox-content no-padding">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
-								<li class="list-group-item">
-									<p>
-										<a class="text-info" href="index.html#">#感谢有你#</a>
-										感谢你们一路的相伴，未来也请让我为你们撑腰，我们会更好
-									</p> <small class="block text-muted"><i
-										class="fa fa-clock-o"></i> 1分钟前</small>
-								</li>
+							<ul class="list-group" id="spdiv">
 
 							</ul>
 						</div>
@@ -233,6 +111,10 @@
 			</div>
 		</div>
 	</div>
+	<div data-options="region:'center'">
+      <div id="moduleTab" class="easyui-tabs" data-options="fit:true">
+      </div>
+</div>
 	<script src="../skins/skinsH/js/jquery.min.js"></script>
 	<script src="../skins/skinsH/js/bootstrap.min.js"></script>
 	<script src="../skins/skinsH/js/plugins/flot/jquery.flot.js"></script>
@@ -251,6 +133,7 @@
 	<script
 		src="../skins/skinsH/js/plugins/sparkline/jquery.sparkline.min.js"></script>
 	<script src="../skins/skinsH/js/demo/sparkline-demo.min.js"></script>
+	 
 	<script type="text/javascript">
 		$(document).ready(function() {
 			// 滚动条
@@ -261,12 +144,20 @@
 			$(window).resize(function() {
 				$("#mainid").css("height", getPageSize() + "px");
 			})
-			
+
 			//获取基础信息
+			selectMemberInfo();
 			//获取公告
-			//获取消息
+			selectmessageAjax();
 			//获取审批
+			selectcygameAjax();
 			//获取升级审批
+			selectspdAjax();
+			
+			//双机关闭Tab页
+			  $('#moduleTab').tabs('bindDblclick', function(index, title){
+			        $('#moduleTab').tabs('close',index);
+			    });
 		});
 
 		// 获取页面的高度、宽度
@@ -320,6 +211,431 @@
 					windowHeight);
 			return windowHeight;
 		}
+
+		//查询当前登录用户
+		function selectMemberInfo() {
+			$.ajax({
+						url : '../member/selectMemberInfoAjax.do',
+						type : 'POST',
+						cache : false,
+						success : function(result) {
+							var s = $.parseJSON(result);
+							var xzbutton="";
+							$("#memberid").val((s[0].memberId);
+							$("#username").html(s[0].bsid);
+							var qrimg = s[0].qRCodeImageUrl;
+							if (qrimg != "") {
+								$("#qRCodeImageUrl").attr("src",
+										"../imgss.jsp?file=" + qrimg);
+							}
+							var xz = s[0].rzstatus;
+							if (xz == 0) {
+								$("#xzspan").css("display", "none");
+								$("#xzspan").html("未认证");
+								xzbutton="<button type='button' class='btn btn-outline btn-success'>孝</button>";
+							} else if (xz == 1) {
+								$("#xzspan").css("display", "none");
+								$("#xzspan").html("认证申请中");
+								xzbutton="<button type='button' class='btn btn-outline btn-warning'>孝</button>";
+							}else{
+								xzbutton="<button type='button' class='btn btn-outline btn-danger'>孝</button>";
+							}
+							var level = s[0].stock.gradeNum;
+							var upgradeState = s[0].upgradeState;
+							var levelstr = "";
+							var levelbutton = "";
+							if (level == 1) {
+								levelstr = "忠";
+								if (upgradeState == 0) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else if (upgradeState == 1) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-success'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else {
+
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								}
+							}
+							if (level == 2) {
+								levelstr = "信";
+								if (upgradeState == 0) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else if (upgradeState == 1) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-success'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else {
+
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								}
+							}
+							if (level == 3) {
+								levelstr = "智";
+								if (upgradeState == 0) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else if (upgradeState == 1) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-success'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else {
+
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								}
+							}
+							if (level == 4) {
+								levelstr = "礼";
+								if (upgradeState == 0) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else if (upgradeState == 1) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-success'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else {
+
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								}
+							}
+							if (level == 5) {
+								levelstr = "义";
+								if (upgradeState == 0) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else if (upgradeState == 1) {
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-success'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								} else {
+
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+								}
+							}
+							if (level == 6) {
+								levelstr = "仁";
+									levelbutton += "<br/><p>"+xzbutton
+											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>仁</button></p>";
+							}
+							$("#levelid").html(levelstr);
+
+							$("#levelbuttonc").html(levelbutton);
+
+							var qrc = s[0].qRCodeContent;
+							if (qrc != "") {
+								$("#qRCodeContent").attr("href",
+										qrc);
+								if (GetLength(qrc) > 40) {
+									$("#qRCodeContent").html(cutstr(qrc, 40));
+									return;
+								} else {
+									$("#qRCodeContent").html(qrc);
+								}
+							}
+							
+							
+
+						}
+					});
+		}
+		var GetLength = function(str) {
+			///<summary>获得字符串实际长度，中文2，英文1</summary>
+			///<param name="str">要获得长度的字符串</param>
+			var realLength = 0, len = str.length, charCode = -1;
+			for (var i = 0; i < len; i++) {
+				charCode = str.charCodeAt(i);
+				if (charCode >= 0 && charCode <= 128)
+					realLength += 1;
+				else
+					realLength += 2;
+			}
+			return realLength;
+		};
+		/** 
+		 * js截取字符串，中英文都能用 
+		 * @param str：需要截取的字符串 
+		 * @param len: 需要截取的长度 
+		 */
+		function cutstr(str, len) {
+			var str_length = 0;
+			var str_len = 0;
+			str_cut = new String();
+			str_len = str.length;
+			for (var i = 0; i < str_len; i++) {
+				a = str.charAt(i);
+				str_length++;
+				if (escape(a).length > 4) {
+					//中文字符的长度经编码之后大于4  
+					str_length++;
+				}
+				str_cut = str_cut.concat(a);
+				if (str_length >= len) {
+					str_cut = str_cut.concat("...");
+					return str_cut;
+				}
+			}
+			//如果给定字符串小于指定长度，则返回源字符串；  
+			if (str_length < len) {
+				return str;
+			}
+		}
+
+		//查询升级审批
+		function selectspdAjax() {
+			$.ajax({
+				url : '../member/selectcymemberAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					var divs="";
+					if(result!=""){
+						var s = $.parseJSON(result);
+						$.each(s, function(key, val) {
+							if(s.length>3){
+								if(key<3){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请升级"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"<span class='badge badge-danger'>new</span></li>";
+								}else{
+									if(key<12){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请升级"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"</li>";
+									}
+								}
+							}else{
+								divs+="<li class='list-group-item'>"+
+								"<p>"+
+								"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+								"玩家编号:"+val.userName+",申请升级"+
+							"</p> <small class='block text-muted'><i"+
+								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+							"<span class='badge badge-danger'>new</span></li>";
+							}
+							
+						});
+					    $("#spdiv").html(divs);
+					}else{
+						divs+="<li class='list-group-item'>暂无升级申请审核</li>";
+						$("#spdiv").html(divs);
+					}
+				}
+			});
+		}
+		
+		//查询参与游戏审批
+		function selectcygameAjax() {
+			$.ajax({
+				url : '../member/selectspmessageAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					var divs="";
+					if(result!=""){
+						var s = $.parseJSON(result);
+						$.each(s, function(key, val) {
+							if(s.length>3){
+								if(key<3){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请参与游戏"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"<span class='badge badge-danger'>new</span></li>";
+								}else{
+									if(key<12){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请参与游戏"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"</li>";
+									}
+								}
+							}else{
+								divs+="<li class='list-group-item'>"+
+								"<p>"+
+								"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
+								"玩家编号:"+val.userName+",申请参与游戏"+
+							"</p> <small class='block text-muted'><i"+
+								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+							"<span class='badge badge-danger'>new</span></li>";
+							}
+							
+						});
+					    $("#cygameid").html(divs);
+					}else{
+						divs+="<li class='list-group-item'>暂无申请参与游戏审核</li>";
+						$("#cygameid").html(divs);
+					}
+				}
+			});
+		}
+		
+	//最新 公告	
+	function selectmessageAjax() {
+			$.ajax({
+				url : '../member/selectmessageAjax.do',
+				type : 'POST',
+				data:"messageType=2",
+				cache : false,
+				success : function(result) {
+					if(result!=""){
+						var s = $.parseJSON(result);
+						var divs="";
+						$.each(s, function(key, val) {
+							if(s.length>3){
+								if(key<3){
+									divs+="<p class='text-success'>"+
+									"<a href='../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"'>"+
+									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+									" "+val.content+" <span class='badge badge-danger'>new</span>"+
+									"</a>"+
+									" </p>";
+								}else{
+									if(key<12){
+									divs+="<p class='text-success'>"+
+									"<a href='../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"'>"+
+									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+									" "+val.content+
+									"</a>"+
+									" </p>";
+									}
+								}
+							}else{
+								divs+="<p class='text-success'>"+
+								"<a href='../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"'>"+
+								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
+								" "+val.content+" <span class='badge badge-danger'>new</span>"+
+								"</a>"+
+								" </p>";
+							}
+							
+						});
+					    $("#gonggaodiv").html(divs);
+					}
+				}
+			});
+		}
+	function share(){
+		var qrcodeurl=$("#qRCodeImageUrl").attr("src");
+		
+		if(qrcodeurl!=""){
+			var sd=qrcodeurl.split("?file=");
+			console.log(sd);
+			window.location.href="share.html?id="+sd[1];
+		}
+		
+	}
+	//升级申请
+	function gradelevel(){
+		if(confirm("确认申请升级？")){
+			var id=$("#memberid").val();
+			$.ajax({
+	        url: '../member/applyGradeLevelAjax.do',
+	        type: 'POST',
+			data:"memberId="+id,
+	        cache: false,
+	        success: function(result) {
+					var s=$.parseJSON(result);
+						alert(s[0].message);
+						 location.reload()
+					}
+	   		 });
+		}
+	}
 	</script>
 </body>
 </html>

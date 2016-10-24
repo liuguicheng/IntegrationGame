@@ -68,4 +68,5 @@ public interface ISpringMemberService {
 	void updateRole(Staff mestaff);
 	void update(Member member);
 	int selectMemberCount(MemberInfo info);
+	Member saveMermberAjax(MemberEditInfo info);
 }

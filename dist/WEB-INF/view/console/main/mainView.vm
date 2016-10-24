@@ -56,6 +56,8 @@ $(document).ready( function() {
 	var amdid=$("#amdid").val();
 	if(amdid==1){
 	addContentPanel("主页", "主页", "../main/mamagehomepage.do");
+	}else if(amdid==2){
+		addContentPanel("主页", "主页", "../main/YKhomepage.do");
 	}else{
 	addContentPanel("主页", "主页", "../main/homepage.do");
 	}
@@ -305,6 +307,8 @@ function getDialogParam(key) {
                 <a class="ABtnIco AIcoSeting" href="javascript:addContentPanel('修改个人资料','修改个人资料', '../member/MemberInfo.do')" >修改个人资料</a>
                 #if($!{nonid}!=1)
 					<a class="ABtnIco AIcoHome" href="javascript:addContentPanel('主页','主页', '../main/homepage.do')" >返回主页</a>
+				#elseif($!{nonid}==2)
+					<a class="ABtnIco AIcoHome" href="javascript:addContentPanel('主页','主页', '../main/YKhomepage.do')" >返回主页</a>
 				#else
 					<a class="ABtnIco AIcoHome" href="javascript:addContentPanel('主页','主页', '../main/mamagehomepage.do')" >返回主页</a>
 				#end
