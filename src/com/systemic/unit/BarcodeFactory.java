@@ -29,7 +29,7 @@ public class BarcodeFactory {
     private static final int IMAGE_HEIGHT = 80;  
     private static final int IMAGE_HALF_WIDTH = IMAGE_WIDTH / 2;  
     private static final int FRAME_WIDTH = 2;  
-	public static String qRCodeContent="http://localhost:8080/IntegrationGame/html/register.html?memberId=";
+	public static String qRCodeContent="http://127.0.0.1:8080/IntegrationGame/html/register.html?memberId=";
     public static String path="D://qcode//";
     public static String logoImgUrl="D://qcode//logo.jpg";
     // ¶þÎ¬ÂëÐ´ÂëÆ÷  

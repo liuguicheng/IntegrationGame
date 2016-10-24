@@ -221,7 +221,7 @@
 						success : function(result) {
 							var s = $.parseJSON(result);
 							var xzbutton="";
-							$("#memberid").val((s[0].memberId);
+							$("#memberid").val(s[0].memberId);
 							$("#username").html(s[0].bsid);
 							var qrimg = s[0].qRCodeImageUrl;
 							if (qrimg != "") {
@@ -257,7 +257,7 @@
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"+xzbutton
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
-											+ "<button type='button' class='btn btn-outline btn-success'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
@@ -287,7 +287,7 @@
 									levelbutton += "<br/><p>"+xzbutton
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
-											+ "<button type='button' class='btn btn-outline btn-success'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
@@ -317,7 +317,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
-											+ "<button type='button' class='btn btn-outline btn-success'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
@@ -347,7 +347,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
-											+ "<button type='button' class='btn btn-outline btn-success'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
 
@@ -368,7 +368,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-danger'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"+xzbutton
@@ -376,8 +376,8 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
-											+ "<button type='button' class='btn btn-outline btn-success'>义</button>"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-outline btn-danger' >义</button>"
+											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>仁</button></p>";
 								} else {
 
 									levelbutton += "<br/><p>"+xzbutton
@@ -385,8 +385,8 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
-											+ "<button type='button' class='btn btn-outline btn-warning'>义</button>"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-outline btn-danger'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning'>仁</button></p>";
 								}
 							}
 							if (level == 6) {
@@ -405,8 +405,9 @@
 
 							var qrc = s[0].qRCodeContent;
 							if (qrc != "") {
+								var sddf="javascript:openurl('"+qrc+"')"
 								$("#qRCodeContent").attr("href",
-										qrc);
+										sddf);
 								if (GetLength(qrc) > 40) {
 									$("#qRCodeContent").html(cutstr(qrc, 40));
 									return;
@@ -477,7 +478,7 @@
 								if(key<3){
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
-									"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+									"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
 									"玩家编号:"+val.userName+",申请升级"+
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
@@ -486,7 +487,7 @@
 									if(key<12){
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
-									"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+									"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
 									"玩家编号:"+val.userName+",申请升级"+
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
@@ -496,7 +497,7 @@
 							}else{
 								divs+="<li class='list-group-item'>"+
 								"<p>"+
-								"<a class='text-info' href='..member/memberApplyGradeManage.do?memberId="+val.memberId+"'>玩家呢称:#"+val.bsid+"#</a>"+
+								"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
 								"玩家编号:"+val.userName+",申请升级"+
 							"</p> <small class='block text-muted'><i"+
 								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
@@ -579,7 +580,7 @@
 							if(s.length>3){
 								if(key<3){
 									divs+="<p class='text-success'>"+
-									"<a href='../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"'>"+
+									"<a href='javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')';>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+" <span class='badge badge-danger'>new</span>"+
 									"</a>"+
@@ -587,7 +588,7 @@
 								}else{
 									if(key<12){
 									divs+="<p class='text-success'>"+
-									"<a href='../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"'>"+
+									"<a href='javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')'>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+
 									"</a>"+
@@ -596,7 +597,7 @@
 								}
 							}else{
 								divs+="<p class='text-success'>"+
-								"<a href='../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"'>"+
+								"<a href='javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')'>"+
 								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 								" "+val.content+" <span class='badge badge-danger'>new</span>"+
 								"</a>"+
@@ -615,7 +616,8 @@
 		if(qrcodeurl!=""){
 			var sd=qrcodeurl.split("?file=");
 			console.log(sd);
-			window.location.href="share.html?id="+sd[1];
+			window.open("share.html?id="+sd[1])
+			//window.location.href="share.html?id="+sd[1];
 		}
 		
 	}
@@ -635,6 +637,9 @@
 					}
 	   		 });
 		}
+	}
+	function openurl(url){
+		window.open(url);
 	}
 	</script>
 </body>
