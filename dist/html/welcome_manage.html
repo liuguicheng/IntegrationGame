@@ -35,7 +35,7 @@
 			<div class="col-sm-4">
 				<h2>
 					欢迎您,<span id="username"></span>
-				</h2>
+				</h2><input type="hidden" id="urlid">
 				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">http://localhost:8080/IntegrationGame/main/home.do</a>
 					<a class="btn btn-success" href="javascript:share();"> <i class="fa fa-weixin"> </i> 马上分享
 				</a></small><br /> <small><b>专属二维码:</b></small><br /> <img
@@ -230,6 +230,7 @@
 				cache : false,
 				success : function(result) {
 					var s = $.parseJSON(result);
+					$("#urlid").val(s[0].qRCodeContent);
 					var jsd="javascript:openurl('"+s[0].qRCodeContent+"')";
 					$("#qRCodeContent").attr("href",jsd);
 					$("#username").html(s[0].bsid);
@@ -446,12 +447,12 @@
 		    
 	    function share(){
 			var qrcodeurl=$("#qRCodeImageUrl").attr("src");
-			
+			var qRCodeContent=$("#urlid").val();
 			if(qrcodeurl!=""){
 				var sd=qrcodeurl.split("?file=");
 				console.log(sd);
 				//window.location.href="share.html?id="+sd[1];
-				window.open("share.html?id="+sd[1])
+				window.open("share.html?id="+sd[1]+"&url="+qRCodeContent)
 			}
 			
 		}

@@ -74,6 +74,8 @@ public class MainController extends SpringlineMultiActionController {
 		HashMap model = new HashMap();
 		StaffSecurity staffTimes = null;
 		StaffSecurity inputTimes = null;
+		//是h5 还是pc
+		
 		String loginName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		// 获取页面是用什么浏览器访问的值
@@ -93,7 +95,8 @@ public class MainController extends SpringlineMultiActionController {
 		if (!rand.equalsIgnoreCase(vcode)) {
 			model.put("message", "验证码错误！");
 			model.put("loginName", loginName);
-			return index(request, response, model);
+				return index(request, response, model);
+			
 		}
 		int i = 0;
 		boolean afterfailTime = false;

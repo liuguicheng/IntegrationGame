@@ -30,10 +30,12 @@ a:hover {
 	font-size:14px;
 	float:left;
 	background-color: #024f9a;
-	/**background-image: url(main/topbanner.jpg);*/
-	background-repeat: no-repeat;
+	/**background-image: url(login/top.png);
+		background-repeat: no-repeat;
+		background-color: #DBCCC5;*/
 	background-position: left top;
 	border-collapse:collapse;
+background-size:auto;
 }
 .toptable TD{
 	border:none;

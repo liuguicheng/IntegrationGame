@@ -8,8 +8,10 @@ body {
 	overflow:auto;
   	overflow-x:hidden;
 	background-color: #5bbfeb;
-	background-image: url(main/left_bg.jpg);
-	background-repeat: no-repeat;
+	/**background-image: url(main/left_bg.jpg);*/
+	/**background-image: url(login/login_4.png);*/
+	/**background-repeat: no-repeat;
+	background-color: #DBCCC5;*/
 	background-position: center top;
 }
 .left_color {

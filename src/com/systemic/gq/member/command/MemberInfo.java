@@ -47,10 +47,14 @@ public class MemberInfo extends PaginationInfo{
 	private int giveIntegral;
 	/** 创建时间 */
 	private Date createTime;
+	//截止时间
+	private Date createEndTime;
+	//注册倒计时
+	private String createCountDown;
 	/** 激活时间 */
 	private Date activationTime;
 	/**是否激活*/
-	private Integer isActivation;//0未激活  1 激活
+	private Integer isActivation;//0未参与 1申请中 2参与 
 	/** 是否正常 */
 	private Integer isok;
 	/** 删除标识 */
@@ -105,6 +109,10 @@ public class MemberInfo extends PaginationInfo{
 	private Date applyTime;
 	/**申请升级时间 */
 	private Date applyUpgradeTime;
+	/**升级截止时间*/
+	private Date  applyUpgradeEndTime;
+	//升级倒计时
+	private String applyUpgradeCountDown;
 	/**已收到所需升级数量*/
 	private Integer applyUpgradeNum;
 	/**升级状态 */
@@ -765,5 +773,52 @@ public class MemberInfo extends PaginationInfo{
 	public void setAuditGradeUserName(String auditGradeUserName) {
 		this.auditGradeUserName = auditGradeUserName;
 	}
-
+	/**
+	 * @return the createEndTime
+	 */
+	public Date getCreateEndTime() {
+		return createEndTime;
+	}
+	/**
+	 * @param createEndTime the createEndTime to set
+	 */
+	public void setCreateEndTime(Date createEndTime) {
+		this.createEndTime = createEndTime;
+	}
+	/**
+	 * @return the applyUpgradeEndTime
+	 */
+	public Date getApplyUpgradeEndTime() {
+		return applyUpgradeEndTime;
+	}
+	/**
+	 * @param applyUpgradeEndTime the applyUpgradeEndTime to set
+	 */
+	public void setApplyUpgradeEndTime(Date applyUpgradeEndTime) {
+		this.applyUpgradeEndTime = applyUpgradeEndTime;
+	}
+	/**
+	 * @return the createCountDown
+	 */
+	public String getCreateCountDown() {
+		return createCountDown;
+	}
+	/**
+	 * @param createCountDown the createCountDown to set
+	 */
+	public void setCreateCountDown(String createCountDown) {
+		this.createCountDown = createCountDown;
+	}
+	/**
+	 * @return the applyUpgradeCountDown
+	 */
+	public String getApplyUpgradeCountDown() {
+		return applyUpgradeCountDown;
+	}
+	/**
+	 * @param applyUpgradeCountDown the applyUpgradeCountDown to set
+	 */
+	public void setApplyUpgradeCountDown(String applyUpgradeCountDown) {
+		this.applyUpgradeCountDown = applyUpgradeCountDown;
+	}
 }

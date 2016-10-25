@@ -2,36 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   #headInclude()
-  <style >
+  <style>
 	.acolor{
 		color:red;
 	}
   </style>
   <script type="text/javascript">
   #if($message)alert("#javaScriptEscape($message)");#end
-
-  function doEdit(memberId) {
-    var url = "../member/memberEdit.do?token=$!{command.token}&memberId=" + memberId;
-    document.location.href = url;
-  }
-
-  function doDelete() {
-    if (!hasCheckBoxSelect("memberId")) {
-      alert("请选择要删除的玩家！");
-      return;
-    }
-    if (confirm("您确定要删除所选择的玩家吗?")) {
-      var f =  document.listForm;
-      f.action = "../member/memberDelete.do";
-      f.submit();      
-    }
-  }
-  
   </script>
 </head>
 <body>
 <div class="PageHeader">
-  <div class="LeftBox Title">玩家管理列表</div>
+  <div class="LeftBox Title">倒计时列表</div>
 </div>
 <!--搜索div开始 -->
 <div class="SearchBox" id="divSearch">
@@ -146,24 +128,6 @@
 </form>
 </div>
 <!--审核申请参与游戏div结束 -->
-<!--修改级别  开始-->
-<div class="SearchBox" id="uplevel">
-<form name="uplevelForm" action="" method="post" class="indieui-form" id="uplevelform">
-  <table class="TbCommon">
-    <tr>
-      <td class="TdLabel" style="width:100px;">玩家级别：</td>
-      <td class="TdInput" colspan="3">
-		<input type="hidden" id="id" name="memberId"/>
-		#formSingleSelectDictionary("memberlevleId" "" ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
-      </td>
-    </tr>
-  </table>
-  <div class="CommandTool">
-    <input type="button" value="提交" onClick="uplevel();"/>
-  </div>
-</form>
-</div>
-<!--修改级别 结束 -->
 
 <!--升级审核  开始-->
 <div class="SearchBox" id="gradeAudit">
@@ -193,38 +157,11 @@
 </form>
 </div>
 <!--升级审核 结束 -->
-<!--孝字审核  开始-->
-<div class="SearchBox" id="xzAudit">
-<form name="zxAuditform" action="" method="post" class="indieui-form" id="zxAuditform">
-  <table class="TbCommon">
-    <tr>
-      <td class="TdLabel" style="width:100px;">玩家编号：</td>
-      <td class="TdInput" colspan="3">
-		<input type="text" id="zx_username" name="userName" readonly />
-      </td>
-    </tr>
-	<tr>
-      <td class="TdLabel" style="width:100px;">审核结果：</td>
-      <td class="TdInput" colspan="3">
-		 <input type="radio" id="male" name="istrue" value="2"/><label for="male"  >同意</label>&nbsp;&nbsp;
-			<input type="radio" id="male" name="istrue" value="3" checked="checked"/><label for="male"  >拒绝</label>
-      </td>
-    </tr>
-  </table>
-  <div class="CommandTool">
-    <input type="button" value="提交" onClick="zxAudit();"/>
-  </div>
-</form>
-</div>
-<!--孝字认证审核 结束 -->
-
 
 <div class="PageTool">
   <div class="LeftBox Tool">
-    <input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
+    ##<input type="button" class="BtnSearch" value="查询"  title="查询" onclick="javascript:showDiv('divSearch');"/>
 	<input type="button" class="BtnRefresh" value="刷新"  title="刷新" onclick="javascript:dorefresh();"/>
-    ##<input type="button" class="BtnAdd" value="玩家注册"  title="新增" onclick="javascript:doEdit('');"/>
-    <input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
   </div>
 </div>
 
@@ -235,27 +172,18 @@
 <table class="TbList">
   <thead> 
     <tr>
-      <th style="width:20px;" nowrap>
-        <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
-      </th>
         <th >玩家编号</th>
 		<th >玩家昵称</th>
-		<th width="150px">二维码</th> 
-        <th >目前认证人品面</th>
-		<th >推荐人编号</th> 
-		<th >归属人编号</th> 
-		<th >“廉”通道</th> 
-		<th >“勇”通道</th> 
-		<th >注册时间</th> 
-		<th >参与游戏时间</th>
-		<th >状态</th>
+		<th >提示</th> 
+		<th >开始时间</th> 
+		<th >截止时间</th>
+        <th>剩余时间</th>
 		<th >操作</th> 
     </tr>
   </thead>
   <tbody>
   #foreach( $data in $page.data )
     <tr>
-      <td><input type="checkbox" name="memberId" value="$!{data.memberId}"></td>
       <td><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">
 			<span style="color:red;">
 				#if($!{data.rzstatus}==2)
@@ -265,54 +193,24 @@
 			$!{data.userName}
 	  </a></td>
 	  <td>$!{data.bsid}</td>
-      <td>
-		#if(!${data.qRCodeImageUrl})
-			暂无二维码
-		#else
-			<img src="../imgss.jsp?file=$!{data.qRCodeImageUrl}"height="50%"	>
-		#end	
-		</td>
-      <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
-      <td >$!{data.referenceName}</td>
-	  <td >
-		#if(!${data.noteUsername})
-			暂未归属
-		#else
-			$!{data.noteUsername}
-		#end
-		</td>
-		<td >$!{data.lan}</td>
-		<td >$!{data.yong}</td>
-      <td >#formatTime(${data.createTime})</td>
-	  <td >#if(!${data.activationTime})
-			暂未参加
-			#else
-				#formatTime(${data.activationTime})
-			#end
-		</td>
-		<td >#if(${data.isok}==1)
-				正常
-			#elseif(${data.isok}==2)
-				半永久封号
-			#else
-				永久封号
-			#end
-		</td>
+	  #if($!{data.isActivation}!=2)
+		<td>玩家注册参与游戏</td>
+	  <td>#formatTime($!{data.createTime})</td>
+	  <td>#formatTime($!{data.createEndTime})</td>
+      <td class="acolor">$!{data.createCountDown}</td>
+	  #elseif($!{data.upgradeState}!=0)
+		<td>玩家升级</td>
+		<td>#formatTime($!{data.applyUpgradeTime})</td>
+		<td>#formatTime($!{data.applyUpgradeEndTime})</td>
+		<td class="acolor">$!{data.applyUpgradeCountDown}</td>
+	  #end
 	  <td > 
-		<a href="../member/MemberInfo.do?memberId=$!{data.memberId}">[编辑]</a><br/>
 		#if($!{data.isActivation}==0)
 			<a href="javascript:activation('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.referencelan}')">[申请加入游戏]</a> <br/>
 		#elseif($!{data.isActivation}==1)
 			<a style="color:red;" href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[审核]</a> <br/>
 		#elseif($!{data.isActivation}==2)
-			<a href="javascript:doUpLevel('$!{data.memberId}')">[修改级别]</a><br/>
-			<a href="javascript:doQRCode('$!{data.memberId}')">[生成二维码]</a> <br/>
 		#end
-		#if($!{data.isok}==1)
-			<a href="javascript:frozen('$!{data.memberId}')">[冻结]</a><br/>
-		#else
-			<a href="javascript:thwa('$!{data.memberId}')">[解除]</a><br/>
-		#end	
 		#if(${data.isok}==1)
 			#if($!{data.upgradeState}==1)
 				<a href="javascript:gradelevel('$!{data.memberId}')">[申请升级]</a><br/>
@@ -320,10 +218,6 @@
 				<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a><br/>
 			#end
 		#end
-		#if($!{data.rzstatus}==1)
-			<a style="color:red;" href="javascript:xzAuditDiv('$!{data.userName}')" >[孝字认证审核]</a><br/>
-		#end
-		<a href="javascript:resetPassword('$!{data.memberId}')">[重置密码]</a><br/>
 		</td>
     </tr>
   #end
@@ -336,31 +230,6 @@
 #pageDirector($page "#getRequestUri()" "")
 </div>
 <script type="text/javascript">
-//生成二维码
-function doQRCode(id){
- if (confirm("您确定要生成该玩家的二维码吗?")) {
-		$.ajax({
-        	url: '../member/memberQRCodeAjax.do',
-       	 	type: 'POST',
-			data:"memberId="+id, 
-       	 	cache: false,
-        	success: function(result) {
-				var s=$.parseJSON(result);//内容
-				if(s.length>0){
-					if(s[0].code==1){
-						alert("生成成功");
-						location.reload(); 
-					}else{
-						alert("生成失败");
-					}
-				}else{
-					alert("生成失败");
-				}
-				
-        	}
-   		});
-		}
-}
 
 //弹出审核申请加入游戏 弹出框
 function audit(id,userName,referenceName,noteUsername){
@@ -465,65 +334,6 @@ function doapply(){
 	
 }
 
-/** 弹出修改级别窗口*/
-	function doUpLevel(id){
-		$("#id").val(id);
-		var width = width || 800;
-	    var divobj = $("#uplevel");
-	    if(divobj.is(":visible")) {
-	        divobj.searchBox("close");
-	    } else  {
-	        divobj.searchBox({title: "修改级别", width: width });
-	    }
-	}
-	/** 修改级别*/
-	function uplevel(){
-		if(confirm("确定修改该玩家级别?")){
-			$.ajax({
-        	url: '../member/upLevelMemberAjax.do',
-       	 	type: 'POST',
-			data:$("#uplevelform").serialize(),// 你的formid
-       	 	cache: false,
-        	success: function(result) {
-				var s=$.parseJSON(result);//内容
-				var str=s[0].message;
-				alert(str);
-				location.reload(); 				
-        	}
-   		});
-		}
-	}
-function frozen(id){
-	if(confirm("确认冻结玩家账户？")){
-	   $.ajax({
-        url: '../member/frozenMemberAjax.do',
-        type: 'POST',
-		data:"memberId="+id,
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-					alert(s[0].message);
-					 location.reload()
-				}
-   		 });
-	}
-}
-
-function thwa(id){
-	if(confirm("确认解冻玩家账户？")){
-	   $.ajax({
-        url: '../member/thwaMemberAjax.do',
-        type: 'POST',
-		data:"memberId="+id,
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-					alert(s[0].message);
-					 location.reload()
-				}
-   		 });
-	}
-}	
 
 //升级申请
 function gradelevel(id){
@@ -582,40 +392,12 @@ function xzAuditDiv(id){
 	        divobj.searchBox({title: "认证审核", width: width });
 	    }
 }
-//孝 字认证
-function zxAudit(){
 
-	$.ajax({
-        	url: '../member/zxAudit.do',
-       	 	type: 'POST',
-			data:$("#zxAuditform").serialize(),// 你的formid
-       	 	cache: false,
-        	success: function(result) {
-				var s=$.parseJSON(result);//内容
-				var str=s[0].message;
-				alert(str);
-				location.reload(); 				
-        	}
-   		});
-}
-
-//重置密码
-function resetPassword(id){
-	if(confirm("确认为该玩家重置密码？")){
-		$.ajax({
-        url: '../member/resetPasswordAjax.do',
-        type: 'POST',
-		data:"memberId="+id,
-        cache: false,
-        success: function(result) {
-				var s=$.parseJSON(result);
-					alert(s[0].message);
-					location.reload();
-				}
-   		 });
-	}
-}
-
+ function doEdit(memberId) {
+    var url = "../member/memberEdit.do?token=$!{command.token}&memberId=" + memberId;
+    document.location.href = url;
+  }
+  
 //刷新
 function dorefresh(){
 	location.reload(); 			

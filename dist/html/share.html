@@ -37,7 +37,7 @@
 					<img alt="" src="" width="50%" id="imgs">
 				</div>
 				<div class="form-group">
-				pc端游戏链接:<h2><a href="http://112.74.105.229/IntegrationGame">http://112.74.105.229/IntegrationGame</a></h2> <br/>
+				pc端游戏链接:<h2><a href="" id="pcurlid"></a></h2> <br/>
 				   <b>点击或复制到浏览器打开</b>
 				</div>
 			</form>
@@ -66,11 +66,21 @@
 			var len=urlinfo.length;//获取url的长度
 			var offset=urlinfo.indexOf("?");//设置参数字符串开始的位置
 			var newsidinfo=urlinfo.substr(offset,len)//取出参数字符串 这里会获得类似“id=1”这样的字符串
-			var newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
+			var sd=newsidinfo.split("&");
+			var newsids=sd[0].split("=");//对获得的参数字符串按照“=”进行分割
 			var newsid=newsids[1];//得到参数值
 			var newsname=newsids[0];//得到参数名字
+			
+			var newsids2=sd[1].split("=");//对获得的参数字符串按照“=”进行分割
+			var newsid2=newsids2[1];//得到参数值
+			var newsname2=newsids2[0];//得到参数名字
+			var df=newsids2[2];//得到参数名字
+			console.log(df);
+			var sf=newsid2+"="+df;
 			$("#imgs").attr("src","");
 			$("#imgs").attr("src","../imgss.jsp?file="+newsid);
+			$("#pcurlid").attr("href",sf);
+			$("#pcurlid").html(sf);
 		　　} 
 	</script>
 

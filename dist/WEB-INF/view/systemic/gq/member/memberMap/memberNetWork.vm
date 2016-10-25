@@ -40,10 +40,8 @@
 							"<td colspan='"+maxtd+"'>"+
 							"<div>"+
 							"<a href='' "+
-							"	onmouseover='yidao(event,this)' onmousemove='yidong(event)'"+
-							"	onmouseout='yichu(this)'  "+
 							"	title=' "+s[1].name+" '>"+
-							"	<img src='"+s[1].icon+"' height='32'> <br> <span>"+s[1].id+"</span>"+
+							"	<img src='"+s[1].icon+"' height='32'> <br> <span>"+s[1].name+"</span>"+
 							"</a>"+
 							"</div>"+
 							"</td>"+
@@ -78,10 +76,8 @@
 							  		temps++;
 									tdstrs+="<td colspan='"+clstd+"'><div>"+
 									 "<a href='javascript:clickBIN("+val.id+");' "+
-									 "	onmouseover='yidao(event,this)' onmousemove='yidong(event)'"+
-									 "	onmouseout='yichu(this)'  "+
 									 "	title=' "+val.name+" '>"+
-									 "	<img src='"+val.icon+"' height='32'> <br> <span>"+val.id+"</span>"+
+									 "	<img src='"+val.icon+"' height='32'> <br> <span>"+val.name+"</span>"+
 									 "  </a></div></td>";
 									 shangyicengnode+=val.id+","
 								}
@@ -136,10 +132,8 @@
 							  		temps++;
 									tdstrs+="<td colspan='"+clstd+"'><div>"+
 									 "<a href='javascript:clickBIN("+vaw.id+");' "+
-									 "	onmouseover='yidao(event,this)' onmousemove='yidong(event)'"+
-									 "	onmouseout='yichu(this)'  "+
 									 "	title=' "+vaw.name+" '>"+
-									 "	<img src='"+vaw.icon+"' height='32'> <br> <span>"+vaw.id+"</span>"+
+									 "	<img src='"+vaw.icon+"' height='32'> <br> <span>"+vaw.name+"</span>"+
 									 "  </a></div></td>";
 									 shangyicengnode+=vaw.id+","
 									}
@@ -244,7 +238,6 @@
 	</div>  
 	<div id="toolbar" style="padding:5px;height:auto;margin: 5px;">
 			            
-		<div class="cRed" style="text-align: center;margin: 4px 0px;font-size: 12px;">单位：单<span class="cDRed">(每单=)</span></div>
 		<div class="map" id="divMapTree">
             <div id="textdiv"></div>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" id="networktable">

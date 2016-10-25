@@ -341,7 +341,7 @@ public class MemberMapController {
 	}
 
 	private TreeModel settlementNode(Member memberinfo,int reginNum) {
-		String regionStr;
+		String regionStr="";
 		TreeModel tm;
 		Member nodeRegionMember;
 		String temp = "";// 临时变量
@@ -350,22 +350,22 @@ public class MemberMapController {
 		String temp4 = "";// 临时变量
 		for (int i = 0; i < reginNum; i++) {
 			// 根据当前节点id，区域id： 查询当前节点下规定区域节点 信息
-			nodeRegionMember = this.springMemberService.selectMemberByNode(memberinfo.getStaffId(), String.valueOf(i));
-			if (nodeRegionMember != null) {
-				temp = nodechildMemberTotalMoney(nodeRegionMember.getStaffId());
-				if (temp != null && !temp.equals("")) {
-					temp2 += "区域" + (i + 1) + ":" + temp.split(",")[1]+" ";
-					temp3 += "区域" + (i + 1) + "单数:" + temp.split(",")[0]+" ";
-					temp4 += "区域" + (i + 1) + "新增:"+temp.split(",")[2]+" ";
-				}
-			} else {
-				temp2 += "区域" + (i + 1) + ":0"+" ";
-				temp3 += "区域" + (i + 1) + "单数:0"+" ";
-				temp4 += "区域" + (i + 1) + "新增:0.0"+" ";
-			}
+//			nodeRegionMember = this.springMemberService.selectMemberByNode(memberinfo.getStaffId(), String.valueOf(i));
+//			if (nodeRegionMember != null) {
+//				temp = nodechildMemberTotalMoney(nodeRegionMember.getStaffId());
+//				if (temp != null && !temp.equals("")) {
+//					temp2 += "区域" + (i + 1) + ":" + temp.split(",")[1]+" ";
+//					temp3 += "区域" + (i + 1) + "单数:" + temp.split(",")[0]+" ";
+//					temp4 += "区域" + (i + 1) + "新增:"+temp.split(",")[2]+" ";
+//				}
+//			} else {
+//				temp2 += "区域" + (i + 1) + ":0"+" ";
+//				temp3 += "区域" + (i + 1) + "单数:0"+" ";
+//				temp4 += "区域" + (i + 1) + "新增:0.0"+" ";
+//			}
 
 		}
-		regionStr = temp2 + "</br>" + temp4 + "</br>" + temp3 + "</br>";
+		//regionStr = temp2 + "</br>" + temp4 + "</br>" + temp3 + "</br>";
 
 		tm = addstaffmemberNetWorkNode(memberinfo, regionStr);
 		return tm;
@@ -391,8 +391,8 @@ public class MemberMapController {
 			teamTotal = totalAndCount.split(",")[1];
 		}
 
-		nodename = "总业绩：" + teamTotal + " <br></a>" + regionStr + " <br/>";
-
+		//nodename = "总业绩：" + teamTotal + " <br></a>" + regionStr + " <br/>";
+		nodename=member.getUserName()+" <br> 玩家昵称:"+member.getBsid()+" <br> 玩家等级:V"+member.getStock().getGradeNum()+"<br/>";
 		TreeModel tm = new TreeModel();
 		tm.setPid(member.getReferenceName());
 		tm.setId(member.getUserName());

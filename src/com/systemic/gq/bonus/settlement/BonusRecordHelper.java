@@ -77,6 +77,7 @@ public class BonusRecordHelper {
 			// 如果到了可以升级时候，修改用户状态为 可升级
 			if (level.getV1_upgrade_num() == member.getApplyUpgradeNum()) {
 				member.setUpgradeState(1);
+				member.setApplyUpgradeTime(new Date());
 			}
 			ConsoleHelper.getInstance().getSpringMemberService().updateMermberInfo(member);
 		}

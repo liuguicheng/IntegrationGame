@@ -24,6 +24,13 @@ import com.google.gson.GsonBuilder;
  *
  */
 public class ConUnit {
+	private static final long ONE_MINUTE = 60;
+	private static final long ONE_HOUR = 3600;
+	private static final long ONE_DAY = 86400;
+	private static final long ONE_MONTH = 2592000;
+	private static final long ONE_YEAR = 31104000;
+
+	public static Calendar calendar = Calendar.getInstance();
 
 	// 换算两位小数
 	public static double takePercentage(double a, double b) {
@@ -163,10 +170,45 @@ public class ConUnit {
 			e.printStackTrace();
 		}
 	}
-	public static void main(String[] args) {
-		for (int i = 0; i < 100; i++) {
-			System.out.println(uid(10));
+	
+	public static Date dateCalculation(Date date,int num){
+		try{ 	
+	        Calendar rightNow = Calendar.getInstance();
+	        rightNow.setTime(date);
+	        rightNow.add(Calendar.HOUR,num);
+	        Date dt1=rightNow.getTime();
+	        return dt1;
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
+		return null;
+	}
+	
+	/**
+	 * 距离截止日期还有多长时间
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String fromDeadline(Date date) {
+		long deadline = date.getTime() / 1000;
+		long now = (new Date().getTime()) / 1000;
+		long remain = deadline - now;
+		if (remain <= ONE_HOUR)
+			return  remain / ONE_MINUTE + "分钟";
+		else if (remain <= ONE_DAY)
+			return  remain / ONE_HOUR + "小时"
+					+ (remain % ONE_HOUR / ONE_MINUTE) + "分钟";
+		else {
+			long day = remain / ONE_DAY;
+			long hour = remain % ONE_DAY / ONE_HOUR;
+			long minute = remain % ONE_DAY % ONE_HOUR / ONE_MINUTE;
+			return  day + "天" + hour + "小时" + minute + "分钟";
+		}
+
+	}
+	
+	public static void main(String[] args) {
 	}
 }

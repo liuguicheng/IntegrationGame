@@ -33,4 +33,6 @@ public interface IMemberDao extends ICommonDao {
 	List<Member> selectMemberByAuditTime(MemberInfo info, int applynum,int timenum);
 
 	int selectMemberCount(MemberInfo info);
+
+	Page selectCountDownMember(MemberInfo info, int crtime, int upda);
 }

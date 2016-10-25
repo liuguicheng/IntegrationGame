@@ -16,6 +16,13 @@ import com.systemic.unit.ConUnit;
 
 public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao {
 	private IQueryStringUtil memberQueryStringUtil;
+	private IQueryStringUtil countDownMemberQuyerStringUtil;
+	/**
+	 * @param countDownMemberQuyerStringUtil the countDownMemberQuyerStringUtil to set
+	 */
+	public void setCountDownMemberQuyerStringUtil(IQueryStringUtil countDownMemberQuyerStringUtil) {
+		this.countDownMemberQuyerStringUtil = countDownMemberQuyerStringUtil;
+	}
 
 	public void setMemberQueryStringUtil(IQueryStringUtil memberQueryStringUtil) {
 		this.memberQueryStringUtil = memberQueryStringUtil;
@@ -320,6 +327,52 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 			return list.size();
 		}
 		return 0;
+	}
+
+	@Override
+	public Page selectCountDownMember(MemberInfo info,int crtime, int upda) {
+		Object[] values = new Object[25];
+        int idx = 0;
+        StringBuffer select = new StringBuffer(" from ").append(Member.class.getName()).append(" as me  ");
+        StringBuffer where = new StringBuffer(200);
+        where.append(" 1=1 ");
+        if (info != null) {
+        	if(info.getIsok()!=null){
+        		where.append(" and me.isok=? ");
+        		  values[idx++] =info.getIsok()   ;
+        	}
+        	if(info.getIsdel()!=null){
+        		where.append(" and me.isdel=? ");
+      		  values[idx++] =info.getIsdel()   ;
+        	}
+        	if(info.getReferenceId()!=null&&info.getAuditGradeUserName()!=null){
+        		where.append(" and ( me.referenceId=?  or me.auditGradeUserName = ?)");
+        		  values[idx++] =info.getReferenceId()   ;
+        		  values[idx++] =info.getAuditGradeUserName()   ;
+        	}
+			if(info.getIsActivation()==2&&info.getUpgradeState()==0){
+				where.append(" and ( me.isActivation != 2 or me.upgradeState != 0 )");
+			}
+			if(info.getCreateTime()!=null&&!"".equals(info.getCreateTime())){
+				where.append(" and  (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(me.createTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>=?))");
+			    values[idx++] = crtime  ;
+			}
+			if(info.getApplyUpgradeTime()!=null&&!"".equals(info.getApplyUpgradeTime())){
+				where.append(" and (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(me.applyUpgradeTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>=?))");
+				values[idx++] =upda   ;
+			}
+			where.append(" ) ");
+		}
+        Object[] param = new Object[idx];
+        System.arraycopy(values, 0, param, 0, idx);
+		IQueryObject io = this.countDownMemberQuyerStringUtil.getQueryObject(info,where.toString(), param);
+		select.append(" where ").append(io.getWhereClause());
+		if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
+			List data = super.doQuery(select.toString(), io.getParam());
+			info.setNotPage(false);
+			return super.putDataToPage(data);
+		}
+		return super.find(io.getQueryString(), io.getParam(), info.getPageNumber(), info.getPageSize());
 	}
 
 }

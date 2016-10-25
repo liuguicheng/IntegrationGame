@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -215,7 +216,81 @@ public class MemberController {
 		model.addAttribute("message", request.getParameter("message"));
 		return returnurl;
 	}
-
+	
+	/**
+	 * 倒计时
+	 */
+	@RequestMapping(value = "/member/memberCountDown.do")
+	public String memberCountDown(HttpServletRequest request, HttpServletResponse response, Model model,
+			MemberInfo info) {
+		Page page;
+		String returnurl = "";
+		try {
+			returnurl = "gq/member/memberCountDownManage";
+			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+			Member loginmember=this.springMemberService.selectMemberByStaffid(staff.getId());
+			IntegrationGameRule rule=	ConsoleHelper.getInstance().getIntegrationGameRuleService().selectIntegrationGameRule();
+			
+			if (!staff.getName().equals("系统管理员")) {
+				info.setReferenceId(staff.getId());
+				info.setAuditGradeUserName(loginmember.getUserName());
+			}
+			info.setIsActivation(2);
+			info.setUpgradeState(0);
+			info.setIsdel(1);
+			info.setIsok(1);
+			int crtime=rule.getRegisterAuditTime();
+			int upda=rule.getUpgradeAuditTime();
+			
+			page = this.springMemberService.selectCountDownMember(info,crtime,upda);
+			List list=page.getData();
+			List<MemberInfo> memberinfolist=new ArrayList<MemberInfo>();
+			if(list!=null&&!list.isEmpty()){
+				MemberInfo memberinfo=null;
+				for (Object object : list) {
+					Member member=(Member) object;
+					memberinfo=new MemberInfo();
+					BeanUtils.copyProperties(member, memberinfo);
+					if(member.getIsActivation()!=2){
+						memberinfo.setCreateEndTime(ConUnit.dateCalculation(member.getCreateTime(), crtime));
+						memberinfo.setCreateCountDown(ConUnit.fromDeadline(memberinfo.getCreateEndTime()));
+					}else if(member.getUpgradeState()!=0){
+						memberinfo.setApplyUpgradeEndTime(ConUnit.dateCalculation(member.getApplyUpgradeTime(), upda));
+						memberinfo.setApplyUpgradeCountDown(ConUnit.fromDeadline(memberinfo.getApplyUpgradeEndTime()));
+					}
+					memberinfolist.add(memberinfo);
+				}
+				page.getData().clear();
+				page.setData(memberinfolist);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("获取数据失败！请联系管理员！" + e.getMessage());
+		}
+		model.addAttribute("page", page);
+		model.addAttribute("message", request.getParameter("message"));
+		return returnurl;
+	}
+	/**
+	 * 获取最新倒计时秒数
+	 */
+	
+	@RequestMapping(value = "/member/djsAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String djsAjax(HttpServletRequest request) {
+		String msg = "";
+		return msg;
+	}
+	
+	/**
+	 * 去注册
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param token
+	 * @param memberId
+	 * @return
+	 */
 	@RequestMapping(value = "/member/memberEdit.do", method = RequestMethod.GET)
 	public String memberEdit(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
 			String memberId) {
@@ -1292,7 +1367,12 @@ public class MemberController {
 		}
 		return msg;
 	}
-
-	/////////////////////////////////////////////// h5页面//////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////h5//////////////////////
+	/**
+	 * H5登陆
+	 */
+	
+	
 
 }

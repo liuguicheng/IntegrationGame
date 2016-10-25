@@ -170,11 +170,20 @@ function closeApp() {
     top.location.href = "../main/logout.do";
   }
 }
-
+function refreshTab(title, code, url){
+     $('#moduleTab').tabs('close',title);
+	 $('#moduleTab').tabs('add',{
+    title:title,
+    content:'<iframe style=width:100%;height:100%; src="' + url + '" scrolling=no frameborder=0></iframe>',
+    iconCls:'icon-topic',
+    id:code,
+    closable:true
+   });
+}
 function addContentPanel(title, code, url) {
 if ($('#moduleTab').tabs('exists', title)){//如果tab已经存在,则选中并刷新该tab         
               $('#moduleTab').tabs('select', title);  //选中
-              //refreshTab({tabTitle:node.text, url:href});//刷新tab
+              refreshTab(title, code, url);//刷新tab
               return;
           }
 /*

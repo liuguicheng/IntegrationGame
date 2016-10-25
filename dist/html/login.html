@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=gb2312" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+<link href="../skins/skinsH/css/bootstrap.min.css?v=3.3.5"
+	rel="stylesheet">
+<link href="..//skins/skinsH/css/font-awesome.min.css-v=4.4.0.css"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/animate.min.css" rel="stylesheet">
+<link href="../skins/skinsH/css/plugins/iCheck/custom.css"
+	rel="stylesheet">
+<link href="../skins/skinsH/css/style.min.css?v=4.0.0" rel="stylesheet">
+<style type="text/css">
+.wrap_4 {
+	height: 150px;
+	display: table-cell;
+	vertical-align: middle;
+}
+</style>
+</head>
+
+<body class="gray-bg" style="background-color: #DBCCC5;">
+
+	<div class="middle-box text-center loginscreen   animated fadeInDown">
+		<div>
+			<div class="wrap_4">
+				<img alt="" src="../images/logo.png" width="100%">
+			</div>
+			<h3></h3>
+			<p></p>
+			<form class="m-t" role="form" action="../main/login.action"
+			 onsubmit="return ock();">
+				<div class="form-group">
+					<input type="text" class="form-control" id="bsidxs"
+						placeholder="请输入用户名" required=""
+						style="border: 1px solid #DBCCC5;">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" name="password"
+						id="password" placeholder="请输入密码" required=""
+						style="border: 1px solid #DBCCC5;">
+				</div>
+				<div class="form-group">
+					<img id="image" src="../colourCode.jsp" alt="暂无图片" width="80"
+						height="30"
+						style="float: left; margin-left: 5px; margin-right: 15px"
+						onClick="change()" /> <input type="text" class="form-control"
+						style="width: 200px; margin-left: 32px;" name="code" id="codeid"
+						placeholder="验证码" required="" />
+				</div>
+				<button type="submit" class="btn btn-primary block full-width m-b"
+					style="background-color: #B13A34; border-color: #B13A34;">登陆</button>
+
+
+			</form>
+		</div>
+	</div>
+
+	<!-- Mainly scripts -->
+	<script src="../skins/skinsH/js/jquery.min.js"></script>
+	<script src="../skins/skinsH/js/bootstrap.min.js"></script>
+	<!-- iCheck -->
+	<script src="../skins/skinsH/js/plugins/iCheck/icheck.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('.i-checks').iCheck({
+				checkboxClass : 'icheckbox_square-green',
+				radioClass : 'iradio_square-green',
+			});
+		});
+		
+		 function  change(){	
+				document.getElementById("image").src="../colourCode.jsp?"+Date.parse(new Date());	
+			}
+		 function ock(){
+			 var code=$("#codeid").val();
+			 var password=$("#password").val();
+			 var bsidxs=$("#bsidxs").val();
+			 if(bsidxs==""){
+				 alert("用户名不能为空!");
+				 return false;
+			 }
+			 if(password==""){
+				 alert("密码不能为空!");
+				 return false;
+			 }
+			 if(code!=""){
+			 	return true;
+			 }else{
+				 alert("验证码不能为空!");
+				 return false;
+			 }
+		 }
+		 
+	</script>
+
+
+</body>
+
+</html>

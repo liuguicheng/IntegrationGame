@@ -9,6 +9,7 @@ import org.springline.beans.cache.CacheHelper;
 import org.springline.beans.dictionary.IDictionaryMapValueItem;
 import org.springline.web.view.support.HtmlHelper;
 
+import com.console.backup.service.IDBBackupService;
 import com.console.entity.Department;
 import com.console.entity.Staff;
 import com.console.main.service.IMainService;
@@ -199,4 +200,5 @@ public abstract class ConsoleHelper extends Observable {
 	public abstract ILevelService getIlevelService();
 	public abstract IStockService getStockService();
 	public abstract IMsgService getMsgService();
+	public abstract	IDBBackupService getBackupService();
 }

@@ -21,11 +21,11 @@ public class DBBackupUnit {
 
 	// 数据库备份
 	public static String dbbackup() {
-		String hostIP = "112.74.105.229";
+		String hostIP = "127.0.0.1";
 		String userName = "root";
 		String password = "cisoft";
 		String databaseName = "integrationgame";
-		String savePath = "E:/file/";
+		String savePath = "D:/db/";
 		String fileName = "";
 		String returnstr = "";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
@@ -51,7 +51,7 @@ public class DBBackupUnit {
 	public static void load(String filename) {
 
 		 try {
-			 String path = "E:\\";
+			 String path = "D:\\";
 				String commad = "cmd /c " + path+"mysql -u root -pcisoft jeecms "; 
 	            Runtime rt = Runtime.getRuntime();
 	            // 调用 mysql 的 cmd:
@@ -119,7 +119,7 @@ public class DBBackupUnit {
 			printWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(savePath + fileName), "utf8"));
 			String backup = "mysqldump -h" + hostIP + " -u" + userName + " -p" + password + " " + databaseName
 					+ " --set-charset=UTF8 ";
-			String path = "E:\\";
+			String path = "D:\\";
 			String commad = "cmd /c " + path + backup + ">" + savePath + fileName;
 			System.out.println(commad);
 			Runtime.getRuntime().exec(commad);

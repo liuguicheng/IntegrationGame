@@ -138,7 +138,7 @@ function upgradeAudit(){
 	  <td >#formatTime(${data.applyUpgradeTime})</td>
       <td >
 		#if(${data.isok}==1)
-		<a href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a></td>
+		<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a></td>
 		#elseif(${data.isok}==2)
 				当前该玩家账户状态:半永久封号
 			#else

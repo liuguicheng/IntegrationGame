@@ -10,6 +10,7 @@ import org.springline.beans.cache.CacheHelper;
 import org.springline.beans.cache.ICacheConnector;
 
 import com.console.ConsoleHelper;
+import com.console.backup.service.IDBBackupService;
 import com.console.entity.Department;
 import com.console.entity.Power;
 import com.console.entity.Role;
@@ -87,7 +88,7 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 	private ILevelService ilevelService;
 	private IStockService stockService;
 	private IMsgService msgService;
-
+	private IDBBackupService backupService;
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
@@ -350,6 +351,23 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 
 	public void setMsgService(IMsgService msgService) {
 		this.msgService = msgService;
+	}
+
+	/**
+	 * @return the backupService
+	 */
+	public IDBBackupService getBackupService() {
+		if(backupService==null){
+			throw new RuntimeException("ConsoleHeler无法提供backupService接口！");
+		}
+		return backupService;
+	}
+
+	/**
+	 * @param backupService the backupService to set
+	 */
+	public void setBackupService(IDBBackupService backupService) {
+		this.backupService = backupService;
 	}
 	
 }

@@ -38,13 +38,36 @@
 			<value>0 0 0/1 * * ? *</value><!-- 每小时触发一次 -->
 		</property>
 	</bean>
-
+	
+	<bean id="backupid" class="com.console.backup.timer.BackupTimer" autowire="byType"></bean>
+	<bean id="backupTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject">
+			<ref bean="backupid" />
+		</property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+			<value>backup</value>
+		</property>
+	</bean>
+	<bean id="backupTime"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="backupTask" />
+		</property>
+		<!-- cron表达式 -->
+		<property name="cronExpression">
+			<value>0 0 0 1/1 * ? </value><!-- 每天凌晨 -->
+		</property>
+	</bean>
 	<bean lazy-init="false"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<!-- 这里添加多个定时任务触发器，对应第2步的bean id -->
 				<ref bean="eTime" />
+				<ref bean="backupTime" />
 			</list>
 		</property>
 	</bean>

@@ -28,9 +28,20 @@
             </list>
         </property>
     </bean>
+     <bean id="countDownMemberQuyerStringUtil" class="org.springline.beans.dataquery.support.SimpleQueryMethod">
+        <property name="valueObjectClassName"><value>com.systemic.gq.entity.Member</value></property>
+        <property name="tableAlias"><value>me</value></property>
+        <property name="orderByClause"><value>createTime desc</value></property>
+       <property name="queryParam">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
     <bean id="memberDao" class="com.systemic.gq.member.service.dao.hibernate.HibernateMemberDao">
         <property name="sessionFactory"><ref bean="sessionFactory" /></property>
         <property name="memberQueryStringUtil"><ref bean="memberQueryStringUtil" /></property>
+        <property name="countDownMemberQuyerStringUtil"><ref bean="countDownMemberQuyerStringUtil" /></property>
     </bean>    
     <bean id="springMemberService" class="com.systemic.gq.member.service.spring.SpringMemberSerivce"  autowire="byType"/>
 </beans>

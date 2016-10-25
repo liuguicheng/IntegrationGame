@@ -34,7 +34,7 @@
 	<div style="overflow: auto; overflow-x: hidden" id="mainid">
 		<div class="row  border-bottom white-bg dashboard-header">
 			<div class="col-sm-4">
-				<h2>
+				<h2><input type="hidden" id="urlid">
 					欢迎您,<span id="username"></span><span class="badge badge-danger"
 						id="xzspan">孝</span>
 				</h2>
@@ -49,14 +49,15 @@
 				<b>当前人品认证面：</b><span style="font-size: 50px;" id="levelid"> 忠</span><span
 					class=""></span> <br /> <br /> <br />
 				<p>
-					<b>人品认证按钮(<span class="btn-success">蓝色</span>表示可升级,<span
-						class="btn-danger">红色</span>表示认证成功,<span class="btn-warning">黄色</span>标识升级申请中)：
+					<b>人品认证按钮(<span class="btn-primary">绿色</span>标记争取获得认证,<span
+						class="btn-danger">红色</span>标记已完成认证,<span class="btn-warning">黄色</span>标记可申请认证)：
 					</b>
 				</p>
 				<div id="levelbuttonc"></div>
 				<br /> <br />
 				<p>
 					<b>倒计时(最新)：</b>
+					<input type="hidden" id="djstime">
 				<h1 id="djs">暂无倒计时</h1>
 				</p>
 				<br>
@@ -153,11 +154,9 @@
 			selectcygameAjax();
 			//获取升级审批
 			selectspdAjax();
+			//获取最新倒计时
+			djsfunct();
 			
-			//双机关闭Tab页
-			  $('#moduleTab').tabs('bindDblclick', function(index, title){
-			        $('#moduleTab').tabs('close',index);
-			    });
 		});
 
 		// 获取页面的高度、宽度
@@ -221,6 +220,7 @@
 						success : function(result) {
 							var s = $.parseJSON(result);
 							var xzbutton="";
+							$("#urlid").val(s[0].qRCodeContent);
 							$("#memberid").val(s[0].memberId);
 							$("#username").html(s[0].bsid);
 							var qrimg = s[0].qRCodeImageUrl;
@@ -232,13 +232,16 @@
 							if (xz == 0) {
 								$("#xzspan").css("display", "none");
 								$("#xzspan").html("未认证");
-								xzbutton="<button type='button' class='btn btn-outline btn-success'>孝</button>";
+								xzbutton="<button type='button' class='btn btn-outline btn-warning' onclick='rzxz();'>孝</button>"
+								+"<span style='margin-left:30px;'></span>";
 							} else if (xz == 1) {
 								$("#xzspan").css("display", "none");
 								$("#xzspan").html("认证申请中");
-								xzbutton="<button type='button' class='btn btn-outline btn-warning'>孝</button>";
+								xzbutton="<button type='button' class='btn btn-outline btn-primary'>孝</button>"
+									+"<span style='margin-left:30px;'></span>";
 							}else{
-								xzbutton="<button type='button' class='btn btn-outline btn-danger'>孝</button>";
+								xzbutton="<button type='button' class='btn btn-outline btn-danger'>孝</button>"
+									+"<span style='margin-left:30px;'></span>";
 							}
 							var level = s[0].stock.gradeNum;
 							var upgradeState = s[0].upgradeState;
@@ -257,7 +260,7 @@
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"+xzbutton
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
-											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
@@ -266,7 +269,7 @@
 
 									levelbutton += "<br/><p>"+xzbutton
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
-											+ "<button type='button' class='btn btn-outline btn-warning'>信</button>"
+											+ "<button type='button' class='btn btn-outline btn-primary'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
@@ -287,7 +290,7 @@
 									levelbutton += "<br/><p>"+xzbutton
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
-											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
@@ -296,7 +299,7 @@
 									levelbutton += "<br/><p>"+xzbutton
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
-											+ "<button type='button' class='btn btn-outline btn-warning'>智</button>"
+											+ "<button type='button' class='btn btn-outline btn-primary'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
@@ -317,7 +320,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
-											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
@@ -326,7 +329,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
-											+ "<button type='button' class='btn btn-outline btn-warning'>礼</button>"
+											+ "<button type='button' class='btn btn-outline btn-primary'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								}
@@ -347,7 +350,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
-											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
 
@@ -356,7 +359,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
-											+ "<button type='button' class='btn btn-outline btn-warning'>义</button>"
+											+ "<button type='button' class='btn btn-outline btn-primary'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								}
 							}
@@ -377,7 +380,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger' >义</button>"
-											+ "<button type='button' class='btn btn-outline btn-success' onclick='gradelevel()'>仁</button></p>";
+											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>仁</button></p>";
 								} else {
 
 									levelbutton += "<br/><p>"+xzbutton
@@ -386,7 +389,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>礼</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>义</button>"
-											+ "<button type='button' class='btn btn-outline btn-warning'>仁</button></p>";
+											+ "<button type='button' class='btn btn-outline btn-primary'>仁</button></p>";
 								}
 							}
 							if (level == 6) {
@@ -612,11 +615,11 @@
 		}
 	function share(){
 		var qrcodeurl=$("#qRCodeImageUrl").attr("src");
-		
+		var qRCodeContent=$("#urlid").val();
 		if(qrcodeurl!=""){
 			var sd=qrcodeurl.split("?file=");
 			console.log(sd);
-			window.open("share.html?id="+sd[1])
+			window.open("share.html?id="+sd[1]+"&url="+qRCodeContent)
 			//window.location.href="share.html?id="+sd[1];
 		}
 		
@@ -641,6 +644,65 @@
 	function openurl(url){
 		window.open(url);
 	}
+	//孝字认证申请
+	function rzxz(){
+		var id=$("#memberid").val();
+		$.ajax({
+        url: '../member/xzrzAjax.do',
+        type: 'POST',
+		data:"memberId="+id,
+        cache: false,
+        success: function(result) {
+				var s=$.parseJSON(result);
+				alert(s[0].message);
+				location.reload(); 
+        	}
+   		 });
+	}
+	//最新倒计时
+	function djsfunct(){
+		var id=$("#memberid").val();
+		if(id!=""){
+			$.ajax({
+		        url: '../member/djsAjax.do',
+		        type: 'POST',
+				data:"memberId="+id,
+		        cache: false,
+		        success: function(result) {
+						var s=$.parseJSON(result);
+						$("#djstime").val(s[0].message);
+		        	}
+		   		 });
+			
+			//倒计时秒数
+			var djs=$("#djstime").val();
+			if(djs!=""){
+				var intDiff = parseInt(djs); 
+				//倒计时
+				timer();
+			}
+		}
+	}
+	//倒计时
+	function timer(intDiff) {
+		  window.setInterval(function () {
+		    var day = 0,
+		      hour = 0,
+		      minute = 0,
+		      second = 0; //时间默认值
+		    if (intDiff > 0) {
+		      day = Math.floor(intDiff / (60 * 60 * 24));
+		      hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+		      minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+		      second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+		    }
+		    if (minute <= 9) minute = '0' + minute;
+		    if (second <= 9) second = '0' + second;
+		    var djtime=day + "天-"+'<s id="h"></s>' + hour + '时-'+'<s></s>' + minute + '分-'+'<s></s>' + second + '秒';
+		    $('#"djs"').html(djtime);
+		    intDiff--;
+		  }, 1000);
+		}
 	</script>
 </body>
 </html>

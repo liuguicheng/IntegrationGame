@@ -172,11 +172,7 @@
 		#if($!{command.updateInfoNum}==1)
 			$!{command.lan}
 	    #else
-			<textarea name="lan" cols=40 rows=4>
-			#if(${command.lan})
-				$!{command.lan}
-			#end
-		</textarea>
+			<textarea name="lan" cols=40 rows=4>#if(${command.lan})$!{command.lan}#end</textarea>
 		#end
 		
 	  </td>
@@ -187,11 +183,7 @@
 		#if($!{command.updateInfoNum}==1)
 			$!{command.yong}
 	    #else
-		<textarea name="yong" cols=40 rows=4>
-			#if(${command.yong})
-				$!{command.yong}
-			#end	
-		</textarea>
+		<textarea name="yong" cols=40 rows=4>#if(${command.yong})$!{command.yong}#end</textarea>
 		#end
       </td>
     </tr>
