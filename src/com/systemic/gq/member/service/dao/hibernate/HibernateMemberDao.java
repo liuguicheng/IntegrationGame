@@ -330,7 +330,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 	}
 
 	@Override
-	public Page selectCountDownMember(MemberInfo info,int crtime, int upda) {
+	public Page selectCountDownMember(MemberInfo info, int upda) {
 		Object[] values = new Object[25];
         int idx = 0;
         StringBuffer select = new StringBuffer(" from ").append(Member.class.getName()).append(" as me  ");
@@ -345,21 +345,18 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
         		where.append(" and me.isdel=? ");
       		  values[idx++] =info.getIsdel()   ;
         	}
-        	if(info.getReferenceId()!=null&&info.getAuditGradeUserName()!=null){
-        		where.append(" and ( me.referenceId=?  or me.auditGradeUserName = ?)");
+        	if(info.getApplyUpgradeNum()!=null){
+        		where.append(" and ( me.applyUpgradeNum >= ? )");
+      		  values[idx++] =upda  ;
+        	}
+        	if(info.getReferenceId()!=null&&info.getAuditGradeUserName()!=null&&info.getUserName()!=null){
+        		where.append(" and ( me.referenceId=?  or me.auditGradeUserName = ? or me.userName =? )");
         		  values[idx++] =info.getReferenceId()   ;
         		  values[idx++] =info.getAuditGradeUserName()   ;
+        		  values[idx++] =info.getUserName()   ;
         	}
 			if(info.getIsActivation()==2&&info.getUpgradeState()==0){
 				where.append(" and ( me.isActivation != 2 or me.upgradeState != 0 )");
-			}
-			if(info.getCreateTime()!=null&&!"".equals(info.getCreateTime())){
-				where.append(" and  (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(me.createTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>=?))");
-			    values[idx++] = crtime  ;
-			}
-			if(info.getApplyUpgradeTime()!=null&&!"".equals(info.getApplyUpgradeTime())){
-				where.append(" and (((TIMESTAMPDIFF(hour,FROM_UNIXTIME(UNIX_TIMESTAMP(me.applyUpgradeTime),'%Y-%m-%d %H:%i:%s'),FROM_UNIXTIME(UNIX_TIMESTAMP(now()),'%Y-%m-%d %H:%i:%s')))>=?))");
-				values[idx++] =upda   ;
 			}
 			where.append(" ) ");
 		}

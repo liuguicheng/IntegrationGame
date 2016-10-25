@@ -229,20 +229,24 @@ public class MemberController {
 			returnurl = "gq/member/memberCountDownManage";
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member loginmember=this.springMemberService.selectMemberByStaffid(staff.getId());
-			IntegrationGameRule rule=	ConsoleHelper.getInstance().getIntegrationGameRuleService().selectIntegrationGameRule();
-			
+			Level level=ConsoleHelper.getInstance().getIlevelService().selectlevel(loginmember.getLevleId());
+			IntegrationGameRule rule= ConsoleHelper.getInstance().getIntegrationGameRuleService().selectIntegrationGameRule();
 			if (!staff.getName().equals("系统管理员")) {
 				info.setReferenceId(staff.getId());
 				info.setAuditGradeUserName(loginmember.getUserName());
+				info.setUserName(loginmember.getUserName());
+				model.addAttribute("typee", loginmember.getUserName());
+			}else{
+				model.addAttribute("typee", "0");
 			}
 			info.setIsActivation(2);
 			info.setUpgradeState(0);
 			info.setIsdel(1);
 			info.setIsok(1);
+			int djsnum=level.getV1_yjnum();
 			int crtime=rule.getRegisterAuditTime();
 			int upda=rule.getUpgradeAuditTime();
-			
-			page = this.springMemberService.selectCountDownMember(info,crtime,upda);
+			page = this.springMemberService.selectCountDownMember(info,upda);
 			List list=page.getData();
 			List<MemberInfo> memberinfolist=new ArrayList<MemberInfo>();
 			if(list!=null&&!list.isEmpty()){

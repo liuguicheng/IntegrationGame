@@ -28,5 +28,11 @@
          <property name="v1_bonus_content" type="java.lang.String">
             <column name="v1_bonus_content"  length="100" not-null="false"/>
         </property>
+          <property name="v1_totalnum" type="java.lang.Integer">
+            <column name="v1_totalnum" not-null="false"/>
+        </property>
+         <property name="v1_yjnum" type="java.lang.Integer">
+            <column name="v1_yjnum"  not-null="false"/>
+        </property>
     </class>
 </hibernate-mapping>

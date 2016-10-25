@@ -56,7 +56,19 @@
 	<tr>
       <td class="TdLabel">#requiredInput("升级所需个数")</td>
       <td class="TdInput">
-		<input type="text" name="v1_upgrade_num" value="$!{command.v1_upgrade_num}" style="width:30%;" />个#formSingleSelectDictionary("" $!{command.v1_zdtype} ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
+		<input type="text" name="v1_upgrade_num" value="$!{command.v1_upgrade_num}" style="width:30%;" />个#formSingleSelectDictionary("" $!{command.v1_zdtype} ${dicData.dicStockV} "style='width:120'" " ---- 请选择 ---- ")
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel">#requiredInput("限时升级数量")</td>
+      <td class="TdInput">
+		<input type="text" name="v1_yjnum" value="$!{command.v1_yjnum}" style="width:30%;" />个#formSingleSelectDictionary("" $!{command.v1_zdtype} ${dicData.dicStockV} "style='width:120'" " ---- 请选择 ---- ")
+      </td>
+    </tr>
+	<tr>
+      <td class="TdLabel">#requiredInput("可收总数量")</td>
+      <td class="TdInput">
+		<input type="text" name="v1_totalnum" value="$!{command.v1_totalnum}" style="width:30%;" />个#formSingleSelectDictionary("" $!{command.v1_zdtype} ${dicData.dicStockV} "style='width:120'" " ---- 请选择 ---- ")
       </td>
     </tr>
 	<tr>
@@ -74,7 +86,7 @@
 	<tr>
       <td class="TdLabel">#requiredInput("奖励内容")</td>
       <td class="TdInput">
-		#formSingleSelectDictionary("v1_bonus_content" $!{command.v1_bonus_content} ${dicData.dicStockLevel} "style='width:120'" " ---- 请选择 ---- ")
+		#formSingleSelectDictionary("v1_bonus_content" $!{command.v1_bonus_content} ${dicData.dicStockV} "style='width:120'" " ---- 请选择 ---- ")
       </td>
     </tr>
   </table>

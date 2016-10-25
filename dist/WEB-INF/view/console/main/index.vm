@@ -111,6 +111,7 @@ function  change(){
 	</div>
      <div class="InputBox">
     <form name="loginForm" method="post" action="../main/login.action">
+		 <input type="hidden" name="lantype" value="1">
            <input type="hidden" name="browser" id="browser" value="" /><!—提交是否IE浏览器参数>
         <input class="Txt Username" name="userName" type="text"  value="$!{userName}" placeholder="用户名" />
         <input class="Txt Password" name="password" type="password"  placeholder="密码" />

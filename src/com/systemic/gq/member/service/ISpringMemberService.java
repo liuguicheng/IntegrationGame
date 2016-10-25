@@ -69,5 +69,5 @@ public interface ISpringMemberService {
 	void update(Member member);
 	int selectMemberCount(MemberInfo info);
 	Member saveMermberAjax(MemberEditInfo info);
-	Page selectCountDownMember(MemberInfo info, int crtime, int upda);
+	Page selectCountDownMember(MemberInfo info, int upda);
 }

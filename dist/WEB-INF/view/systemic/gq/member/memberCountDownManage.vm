@@ -197,25 +197,29 @@
 		<td>玩家注册参与游戏</td>
 	  <td>#formatTime($!{data.createTime})</td>
 	  <td>#formatTime($!{data.createEndTime})</td>
-      <td class="acolor">$!{data.createCountDown}</td>
+      <td style="color:red;">$!{data.createCountDown}</td>
 	  #elseif($!{data.upgradeState}!=0)
 		<td>玩家升级</td>
 		<td>#formatTime($!{data.applyUpgradeTime})</td>
 		<td>#formatTime($!{data.applyUpgradeEndTime})</td>
-		<td class="acolor">$!{data.applyUpgradeCountDown}</td>
+		<td style="color:red;">$!{data.applyUpgradeCountDown}</td>
 	  #end
 	  <td > 
 		#if($!{data.isActivation}==0)
 			<a href="javascript:activation('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.referencelan}')">[申请加入游戏]</a> <br/>
 		#elseif($!{data.isActivation}==1)
+			#if($!{typee}==0||$!{typee}==$!{data.referenceName})
 			<a style="color:red;" href="javascript:audit('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.noteUsername}')">[审核]</a> <br/>
+			#end
 		#elseif($!{data.isActivation}==2)
 		#end
 		#if(${data.isok}==1)
 			#if($!{data.upgradeState}==1)
-				<a href="javascript:gradelevel('$!{data.memberId}')">[申请升级]</a><br/>
+				<a style="color:red;" href="javascript:gradelevel('$!{data.memberId}')">[申请升级]</a><br/>
 			#elseif($!{data.upgradeState}==2)	
+				#if($!{typee}==0||$!{typee}==$!{data.auditGradeUserName})
 				<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a><br/>
+				#end
 			#end
 		#end
 		</td>

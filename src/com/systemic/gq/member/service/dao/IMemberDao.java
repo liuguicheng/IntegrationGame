@@ -34,5 +34,5 @@ public interface IMemberDao extends ICommonDao {
 
 	int selectMemberCount(MemberInfo info);
 
-	Page selectCountDownMember(MemberInfo info, int crtime, int upda);
+	Page selectCountDownMember(MemberInfo info, int upda);
 }

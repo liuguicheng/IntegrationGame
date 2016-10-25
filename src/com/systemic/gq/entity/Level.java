@@ -12,6 +12,8 @@ public class Level {
 	     private Integer v1_upgrade_tj;//升级审核匹配向上层数
 	     private Integer v1_bonus_num;//奖励数量
 	     private String v1_bonus_content;//奖励内容
+	     private Integer v1_totalnum;//收到总个数
+	     private Integer v1_yjnum;//时间限制个数
 	     
 		public String getId() {
 			return id;
@@ -54,6 +56,18 @@ public class Level {
 		}
 		public void setV1_bonus_content(String v1_bonus_content) {
 			this.v1_bonus_content = v1_bonus_content;
+		}
+		public Integer getV1_totalnum() {
+			return v1_totalnum;
+		}
+		public void setV1_totalnum(Integer v1_totalnum) {
+			this.v1_totalnum = v1_totalnum;
+		}
+		public Integer getV1_yjnum() {
+			return v1_yjnum;
+		}
+		public void setV1_yjnum(Integer v1_yjnum) {
+			this.v1_yjnum = v1_yjnum;
 		}
 	     
 	     

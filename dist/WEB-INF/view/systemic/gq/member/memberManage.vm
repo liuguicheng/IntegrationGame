@@ -293,9 +293,9 @@
 		<td >#if(${data.isok}==1)
 				Õı³£
 			#elseif(${data.isok}==2)
-				°ëÓÀ¾Ã·âºÅ
+                <span style="color:red;">°ëÓÀ¾Ã·âºÅ</span>
 			#else
-				ÓÀ¾Ã·âºÅ
+				<span style="color:red;">ÓÀ¾Ã·âºÅ</span>
 			#end
 		</td>
 	  <td > 
@@ -315,7 +315,7 @@
 		#end	
 		#if(${data.isok}==1)
 			#if($!{data.upgradeState}==1)
-				<a href="javascript:gradelevel('$!{data.memberId}')">[ÉêÇëÉı¼¶]</a><br/>
+				<a style="color:red;" href="javascript:gradelevel('$!{data.memberId}')">[ÉêÇëÉı¼¶]</a><br/>
 			#elseif($!{data.upgradeState}==2)	
 				<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[Éı¼¶ÉóºË]</a><br/>
 			#end

@@ -45,9 +45,10 @@ function  change(){
 			<p></p>
 			<form class="m-t" role="form" action="../main/login.action"
 			 onsubmit="return ock();">
+			 <input type="hidden" name="lantype" value="2">
 				<div class="form-group">
 					<input type="text" class="form-control" id="bsidxs"
-						placeholder="请输入用户名" required=""
+						placeholder="请输入用户名" required="" name="userName"
 						style="border: 1px solid #DBCCC5;">
 				</div>
 				<div class="form-group">

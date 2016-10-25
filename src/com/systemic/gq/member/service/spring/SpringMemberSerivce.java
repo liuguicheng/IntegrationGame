@@ -366,9 +366,9 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	}
 
 	@Override
-	public Page selectCountDownMember(MemberInfo info, int crtime, int upda) {
+	public Page selectCountDownMember(MemberInfo info, int upda) {
 		// TODO Auto-generated method stub
-		return memberDao.selectCountDownMember(info, crtime,  upda);
+		return memberDao.selectCountDownMember(info,  upda);
 	}
 
 	

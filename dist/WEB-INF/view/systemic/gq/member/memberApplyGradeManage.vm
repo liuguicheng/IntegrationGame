@@ -77,7 +77,7 @@ function upgradeAudit(){
       </td>
 	  <td class="TdLabel" style="width:100px;">Éý¼¶£º</td>
       <td class="TdInput" >
-		´Ó<input type="text" id="gradeAudit_1" readonly width="20px"/> -><input type="text" id="gradeAudit_2"  readonly width="20px"/>
+		´Ó<input style="width: 20px;" type="text" id="gradeAudit_1" readonly width="20px"/> -><input style="width: 20px;" type="text" id="gradeAudit_2"  readonly width="20px"/>
       </td>
     </tr>
 	<tr>

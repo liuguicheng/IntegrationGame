@@ -55,8 +55,10 @@ function dorefresh(){
       </th>
 	  <th>等级名称</th>
       <th>等级代号</th>
-      <th>升级所需数量</th>
-      <th>升级审核匹配向上层数</th>
+      <th>升级数量</th>
+	  <th>限时升级数量</th>
+	  <th>可收总数量</th>
+      <th>升级审核匹配向上层数<br/>(排除升级用户本身)</th>
 	  <th>奖励数量/奖励内容</th>
     </tr>
   </thead>
@@ -64,11 +66,19 @@ function dorefresh(){
   #foreach( $data in $page.data )
     <tr>
       <td><input type="checkbox" name="id" value="$!{data.id}"></td>
-      <td><a href="javascript:doEdit('$!{data.id}');;">#lookUpDict($dicData.dicStockLevel "$!{data.v1_zdtype}")</a></td>
+      <td><a href="javascript:doEdit('$!{data.id}');;">#lookUpDict($dicData.dicStockV "$!{data.v1_zdtype}")</a></td>
       <td>$!{data.v1_type}</td>
-      <td>$!{data.v1_upgrade_num}个 #lookUpDict($dicData.dicStockLevel "$!{data.v1_zdtype}")</td>
+      <td>
+		#if($!{data.v1_upgrade_num}==0)
+			0
+		#else
+			$!{data.v1_upgrade_num}个 #lookUpDict($dicData.dicStockV "$!{data.v1_zdtype}")
+		#end
+		</td>
+		 <td>$!{data.v1_yjnum}个 #lookUpDict($dicData.dicStockV "$!{data.v1_zdtype}")</td>
+		  <td>$!{data.v1_totalnum}个 #lookUpDict($dicData.dicStockV "$!{data.v1_zdtype}")</td>
 	  <td>$!{data.v1_upgrade_tj}</td>
-	  <td>$!{data.v1_bonus_num}/#lookUpDict($dicData.dicStockLevel "$!{data.v1_bonus_content}")</td>
+	  <td>$!{data.v1_bonus_num}/#lookUpDict($dicData.dicStockV "$!{data.v1_bonus_content}")</td>
     </tr>
   #end
   </tbody>   

@@ -73,11 +73,21 @@ public class BonusRecordHelper {
 			Level level = ConsoleHelper.getInstance().getIlevelService().selectlevel(member.getLevleId());
 			member.getLevleId();
 			int num = member.getApplyUpgradeNum();
+			
 			member.setApplyUpgradeNum(num + 1);
 			// 如果到了可以升级时候，修改用户状态为 可升级
 			if (level.getV1_upgrade_num() == member.getApplyUpgradeNum()) {
 				member.setUpgradeState(1);
+			}
+			if(level.getV1_yjnum() == member.getApplyUpgradeNum()){
+				//到一定数量需要限制
 				member.setApplyUpgradeTime(new Date());
+			}
+			if(level.getV1_zdtype().equals("6")){
+					if(level.getV1_totalnum() == member.getApplyUpgradeNum()){
+						//v6达到总量封号
+						member.setIsok(2);
+					}
 			}
 			ConsoleHelper.getInstance().getSpringMemberService().updateMermberInfo(member);
 		}

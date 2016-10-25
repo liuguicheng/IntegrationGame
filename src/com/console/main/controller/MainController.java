@@ -59,9 +59,21 @@ public class MainController extends SpringlineMultiActionController {
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HashMap model)
 			throws Exception {
 		// model.put("apkU", value)
-		return new ModelAndView("main/index", model);
+		String type=request.getParameter("lantype");
+		if(type==null){
+			model.put("lantype", "1");
+			return new ModelAndView("main/index", model);
+		}
+		model.put("lantype", type);
+		if(type.equals("1")){
+			
+			return new ModelAndView("main/index", model);
+		}else{
+			return new ModelAndView("main/index_h5", model);
+		}
+		
 	}
-
+	
 	/**
 	 * 登录操作，不成功返回索引，成功转到 mainView
 	 *
@@ -75,7 +87,7 @@ public class MainController extends SpringlineMultiActionController {
 		StaffSecurity staffTimes = null;
 		StaffSecurity inputTimes = null;
 		//是h5 还是pc
-		
+		String lantype = request.getParameter("lantype");
 		String loginName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		// 获取页面是用什么浏览器访问的值
@@ -197,8 +209,8 @@ public class MainController extends SpringlineMultiActionController {
 		// 登录成功后显示登录日志
 		String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上登录系统";
 		ConsoleHelper.getInstance().getLogService().saveOperateLog(OperateLog.LOG_TYPE_SYSTEM, staff, logContent);
-
-		return new ModelAndView(new RedirectView("../main/home.do"));
+		model.put("lantype", lantype);
+		return new ModelAndView(new RedirectView("../main/home.do?lantype="+lantype));
 	}
 
 	/**
@@ -211,6 +223,7 @@ public class MainController extends SpringlineMultiActionController {
 	 * @return ModelAndView实例
 	 */
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String lantype = request.getParameter("lantype");
 		HashMap model = new HashMap();
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 		Member member=ConsoleHelper.getInstance().getSpringMemberService().selectMemberByStaffid(staff.getId());
@@ -224,6 +237,7 @@ public class MainController extends SpringlineMultiActionController {
 		ITreeNode menu = MenuManager.buildMenuTree(data, staff, ancestorDep);
 		if (menu == null || menu.getChildren().size() == 0) {
 			model.put("message", staff.getName() + " 没有使用系统的权限，请联系系统管理员进行相应的授权操作！");
+			model.put("lantype", lantype);
 			return index(request, response, model);
 		}
 
@@ -252,7 +266,7 @@ public class MainController extends SpringlineMultiActionController {
 		model.put("leftMenuView", "../main/menuTree.do");
 		// 企业行为信息提示，审核、发布信息
 		model.put("staff", staff);
-
+		model.put("lantype", lantype);
 		return new ModelAndView("main/mainView", model);
 	}
 
@@ -300,7 +314,10 @@ public class MainController extends SpringlineMultiActionController {
 	 * @return
 	 */
 	public Map mamagehomepage(HttpServletRequest request, HttpServletResponse response) {
-		return new HashMap();
+		HashMap model = new HashMap();
+		String lantype = request.getParameter("lantype");
+		model.put("lantype", lantype);
+		return model;
 	}
 	
 	/**
@@ -310,7 +327,10 @@ public class MainController extends SpringlineMultiActionController {
 	 * @return
 	 */
 	public Map YKhomepage(HttpServletRequest request, HttpServletResponse response) {
-		return new HashMap();
+		HashMap model = new HashMap();
+		String lantype = request.getParameter("lantype");
+		model.put("lantype", lantype);
+		return model;
 	}
 	/**
 	 * 退出系统.
@@ -322,6 +342,7 @@ public class MainController extends SpringlineMultiActionController {
 	 * @return ModelAndView实例
 	 */
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String lantype = request.getParameter("lantype");
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 		request.getSession().invalidate();
 		AuthenticationFilter.cancelAuthentication(request);
@@ -330,7 +351,9 @@ public class MainController extends SpringlineMultiActionController {
 		// 退出系统后显示登录日志
 		String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上退出系统";
 		ConsoleHelper.getInstance().getLogService().saveOperateLog(OperateLog.LOG_TYPE_SYSTEM, staff, logContent);
-		return index(request, response, null);
+		HashMap model = new HashMap();
+		model.put("lantype", lantype);
+		return index(request, response, model);
 	}
 
 	/**
