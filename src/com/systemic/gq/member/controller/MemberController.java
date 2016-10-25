@@ -246,7 +246,7 @@ public class MemberController {
 			int djsnum=level.getV1_yjnum();
 			int crtime=rule.getRegisterAuditTime();
 			int upda=rule.getUpgradeAuditTime();
-			page = this.springMemberService.selectCountDownMember(info,upda);
+			page = this.springMemberService.selectCountDownMember(info,djsnum);
 			List list=page.getData();
 			List<MemberInfo> memberinfolist=new ArrayList<MemberInfo>();
 			if(list!=null&&!list.isEmpty()){

@@ -66,7 +66,7 @@ function dorefresh(){
   #foreach( $data in $page.data )
     <tr>
       <td><input type="checkbox" name="id" value="$!{data.id}"></td>
-      <td><a href="javascript:doEdit('$!{data.id}');;">#lookUpDict($dicData.dicStockV "$!{data.v1_zdtype}")</a></td>
+      <td><a href="javascript:doEdit('$!{data.id}');;">#lookUpDict($dicData.dicStockLevel "$!{data.v1_zdtype}")</a></td>
       <td>$!{data.v1_type}</td>
       <td>
 		#if($!{data.v1_upgrade_num}==0)
