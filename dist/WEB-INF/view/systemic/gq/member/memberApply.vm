@@ -9,7 +9,7 @@
 function doapply(){
 	  if(confirm("是否确定赠送1个V1?")){
 	
- 		var note=$("#note").val();
+ 		var note=$("#applynote").val();
 		if(note!=""){
 			$.ajax({
         	url: '../member/activationMemberAjax.do',
@@ -47,17 +47,17 @@ function selectNote(){
 					var str=s[0].message;
 					if(s[0].code==1){
 						var res=str.split(",");
-				 		$("#notelan").val(res[0]);
-				 		$("#noteyong").val(res[1]);
+				 		$("#notelan").html(res[0]);
+				 		$("#noteyong").html(res[1]);
 					}else{
 						alert(str);
-						$("#notelan").val("");
-				 		$("#noteyong").val("");
+						$("#notelan").html("");
+				 		$("#noteyong").html("");
 					}
 				}else{
 					    alert("您输入的归属节点编号不存在!");
-				 		$("#notelan").val("");
-				 		$("#noteyong").val("");
+				 		$("#notelan").html("");
+				 		$("#noteyong").html("");
 				}
 				
         	}
@@ -92,9 +92,9 @@ function selectNote(){
       <td class="TdInput">
         <input type="text" name="referenceName" value="$!{command.referenceName}" id="referenceName" readonly>
       </td>
-      <td class="TdLabel" style="width:100px;">推荐点'廉'认证:</td>
+      <td class="TdLabel" style="width:100px;">推荐点廉认证:</td>
       <td class="TdInput">
-        <input type="text" value="$!{command.referencelan}" id="referencelan" readonly>
+		<textarea   id="referencelan" cols=40 rows=4 readonly >$!{command.referencelan}</textarea>
       </td>
     </tr>
 	<tr>
@@ -102,10 +102,10 @@ function selectNote(){
       <td class="TdInput">
         <input type="text" name="noteUsername" value="" id="applynote" onchange="selectNote();">
       </td>
-      <td class="TdLabel" style="width:100px;">#requiredInput("归属点<span style="font-weight: bold;">廉</span>认证:")</td>
+      <td class="TdLabel" style="width:100px;">#requiredInput("归属点廉认证:")</td>
       <td class="TdInput">
-        <input type="text" name="notelan" value="" id="notelan" readonly >
-			  <input type="hidden" name="noteyong" value="" id="noteyong" >
+        <input type="hidden"  name="notelan" value="" id="notelan" readonly >
+			  <textarea name="noteyong"  readonly  id="noteyong" cols=40 rows=4></textarea>
       </td>
     </tr>
   </table>

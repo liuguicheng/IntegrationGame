@@ -54,12 +54,20 @@
 					</b>
 				</p>
 				<div id="levelbuttonc"></div>
-				<br /> <br />
+				<br />
+				<div id="sprdiv" style="display: none;">
 				<p>
+				<b>匹配审批人编号:<span style="color:red;" id="spr"></span></b>
+				</p><br/>
+				<p>
+				 <b>匹配审批人廉通道:</b><span style="color:red;" id="sprlan"><a href="javascript:sprlanajax();">查看</a></span></p>
+				<br /> <br />
+				</div>
+				<!--  <p>
 					<b>倒计时(最新)：</b>
 					<input type="hidden" id="djstime">
 				<h1 id="djs">暂无倒计时</h1>
-				</p>
+				</p>-->
 				<br>
 			</div>
 			<div class="col-sm-4">
@@ -83,7 +91,7 @@
 							</div>
 						</div>
 						<div class="ibox-content no-padding">
-							<ul class="list-group" id="cygameid">
+							<ul class="list-group" id="spdiv">
 							</ul>
 						</div>
 
@@ -101,7 +109,7 @@
 							</div>
 						</div>
 						<div class="ibox-content no-padding">
-							<ul class="list-group" id="spdiv">
+							<ul class="list-group" id="cygameid">
 
 							</ul>
 						</div>
@@ -154,8 +162,6 @@
 			selectcygameAjax();
 			//获取升级审批
 			selectspdAjax();
-			//获取最新倒计时
-			djsfunct();
 			
 		});
 
@@ -248,6 +254,13 @@
 							var upgradeState = s[0].upgradeState;
 							var levelstr = "";
 							var levelbutton = "";
+							//显示审核人信息
+							if(upgradeState==2){
+								$("#sprdiv").css("display","block")
+								$("#spr").html(s[0].auditGradeUserName);
+							}else{
+								$("#sprdiv").css("display","none")
+							}
 							if (level == 1) {
 								levelstr = "忠";
 								if (upgradeState == 0) {
@@ -470,6 +483,62 @@
 		//查询升级审批
 		function selectspdAjax() {
 			$.ajax({
+				url : '../member/selectspmessageAjax.do',
+				type : 'POST',
+				cache : false,
+				success : function(result) {
+					var divs="";
+					if(result!=""){
+						var s = $.parseJSON(result);
+						if(s!=""){
+						$.each(s, function(key, val) {
+							if(s.length>3){
+								if(key<3){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href=javascript:openurl('../member/memberApplyGradeManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"</li>";
+								}else{
+									if(key<12){
+									divs+="<li class='list-group-item'>"+
+									"<p>"+
+									"<a class='text-info' href=javascript:openurl('../member/memberApplyGradeManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
+									"玩家编号:"+val.userName+",申请升级"+
+								"</p> <small class='block text-muted'><i"+
+									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+								"</li>";
+									}
+								}
+							}else{
+								divs+="<li class='list-group-item'>"+
+								"<p>"+
+								"<a class='text-info' href=javascript:openurl('../member/memberApplyGradeManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
+								"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
+							"</p> <small class='block text-muted'><i"+
+								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
+							"</li>";
+							}
+							
+						});
+					    $("#cygameid").html(divs);
+						}else{
+							divs+="<li class='list-group-item'>暂无升级申请审核</li>";
+							$("#cygameid").html(divs);
+						}
+					}else{
+						divs+="<li class='list-group-item'>暂无升级申请审核</li>";
+						$("#cygameid").html(divs);
+					}
+				}
+			});
+		}
+		
+		//查询参与游戏审批
+		function selectcygameAjax() {
+			$.ajax({
 				url : '../member/selectcymemberAjax.do',
 				type : 'POST',
 				cache : false,
@@ -482,58 +551,7 @@
 								if(key<3){
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
-									"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
-									"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
-								"</p> <small class='block text-muted'><i"+
-									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-								"</li>";
-								}else{
-									if(key<12){
-									divs+="<li class='list-group-item'>"+
-									"<p>"+
-									"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
-									"玩家编号:"+val.userName+",申请升级"+
-								"</p> <small class='block text-muted'><i"+
-									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-								"</li>";
-									}
-								}
-							}else{
-								divs+="<li class='list-group-item'>"+
-								"<p>"+
-								"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
-								"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
-							"</p> <small class='block text-muted'><i"+
-								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-							"</li>";
-							}
-							
-						});
-					    $("#spdiv").html(divs);
-					}else{
-						divs+="<li class='list-group-item'>暂无升级申请审核</li>";
-						$("#spdiv").html(divs);
-					}
-				}
-			});
-		}
-		
-		//查询参与游戏审批
-		function selectcygameAjax() {
-			$.ajax({
-				url : '../member/selectspmessageAjax.do',
-				type : 'POST',
-				cache : false,
-				success : function(result) {
-					var divs="";
-					if(result!=""){
-						var s = $.parseJSON(result);
-						$.each(s, function(key, val) {
-							if(s.length>3){
-								if(key<3){
-									divs+="<li class='list-group-item'>"+
-									"<p>"+
-									"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
+									"<a class='text-info' href=javascript:openurl('../member/memberAuditManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
 									"玩家编号:"+val.userName+",申请参与游戏 <span class='badge badge-danger'>new</span>"+
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
@@ -542,7 +560,7 @@
 									if(key<12){
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
-									"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
+									"<a class='text-info' href=javascript:openurl('../member/memberAuditManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
 									"玩家编号:"+val.userName+",申请参与游戏"+
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
@@ -552,7 +570,7 @@
 							}else{
 								divs+="<li class='list-group-item'>"+
 								"<p>"+
-								"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
+								"<a class='text-info' href=javascript:openurl('../member/memberAuditManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
 								"玩家编号:"+val.userName+",申请参与游戏 <span class='badge badge-danger'>new</span>"+
 							"</p> <small class='block text-muted'><i"+
 								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
@@ -560,10 +578,10 @@
 							}
 							
 						});
-					    $("#cygameid").html(divs);
+					    $("#spdiv").html(divs);
 					}else{
 						divs+="<li class='list-group-item'>暂无申请参与游戏审核</li>";
-						$("#cygameid").html(divs);
+						$("#spdiv").html(divs);
 					}
 				}
 			});
@@ -584,7 +602,7 @@
 							if(s.length>3){
 								if(key<3){
 									divs+="<p class='text-success'>"+
-									"<a href='javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')';>"+
+									"<a href=javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"');>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+" <span class='badge badge-danger'>new</span>"+
 									"</a>"+
@@ -592,7 +610,7 @@
 								}else{
 									if(key<12){
 									divs+="<p class='text-success'>"+
-									"<a href='javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')'>"+
+									"<a href=javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+
 									"</a>"+
@@ -601,7 +619,7 @@
 								}
 							}else{
 								divs+="<p class='text-success'>"+
-								"<a href='javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')'>"+
+								"<a href=javascript:openurl('../plugins/toNoticeMessage.do?id="+val.sysMessageInfoId+"')>"+
 								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 								" "+val.content+" <span class='badge badge-danger'>new</span>"+
 								"</a>"+
@@ -660,50 +678,24 @@
         	}
    		 });
 	}
-	//最新倒计时
-	function djsfunct(){
-		var id=$("#memberid").val();
-		if(id!=""){
-			$.ajax({
-		        url: '../member/djsAjax.do',
-		        type: 'POST',
-				data:"memberId="+id,
-		        cache: false,
-		        success: function(result) {
-						var s=$.parseJSON(result);
-						$("#djstime").val(s[0].message);
-		        	}
-		   		 });
-			
-			//倒计时秒数
-			var djs=$("#djstime").val();
-			if(djs!=""){
-				var intDiff = parseInt(djs); 
-				//倒计时
-				timer();
-			}
-		}
+	//查看匹配申请人
+	function sprlanajax(){
+		var id=$("#spr").html();
+		$.ajax({
+        url: '../member/selectMemberAjax.do',
+        type: 'POST',
+		data:"staffId="+id,
+        cache: false,
+        success: function(result) {
+        	if(result!=""){
+        		var s=$.parseJSON(result);
+        			$("#sprlan").html(s[0].lan);
+        		}
+				
+        	}
+   		 });
 	}
-	//倒计时
-	function timer(intDiff) {
-		  window.setInterval(function () {
-		    var day = 0,
-		      hour = 0,
-		      minute = 0,
-		      second = 0; //时间默认值
-		    if (intDiff > 0) {
-		      day = Math.floor(intDiff / (60 * 60 * 24));
-		      hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
-		      minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
-		      second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-		    }
-		    if (minute <= 9) minute = '0' + minute;
-		    if (second <= 9) second = '0' + second;
-		    var djtime=day + "天-"+'<s id="h"></s>' + hour + '时-'+'<s></s>' + minute + '分-'+'<s></s>' + second + '秒';
-		    $('#"djs"').html(djtime);
-		    intDiff--;
-		  }, 1000);
-		}
+	
 	</script>
 </body>
 </html>

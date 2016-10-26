@@ -74,7 +74,7 @@
       </td>
       <td class="TdLabel" style="width:100px;">推荐点'廉'通道:</td>
       <td class="TdInput">
-        <input type="text" value="" id="referencelan" readonly>
+       <textarea   id="referencelan" cols=40 rows=4 readonly ></textarea>
       </td>
     </tr>
 	<tr>
@@ -84,8 +84,8 @@
       </td>
       <td class="TdLabel" style="width:100px;">#requiredInput("归属点'廉'通道:")</td>
       <td class="TdInput">
-        <input type="text" name="notelan" value="" id="notelan" readonly >
-			  <input type="hidden" name="noteyong" value="" id="noteyong" >
+        <input type="hidden" name="notelan" value="" id="notelan" readonly >
+				<textarea name="noteyong"  readonly  id="noteyong" cols=40 rows=4></textarea>
       </td>
     </tr>
   </table>
@@ -271,7 +271,7 @@ function activation(id,userName,referenceName,referencelan){
 	    $("#applystaffId").val(id);
 		$("#referenceName").val(referenceName);
 		$("#userName").val(userName);
-		$("#referencelan").val(referencelan);
+		$("#referencelan").html(referencelan);
 		var width = width || 800;
 	    var divobj = $("#apply");
 	    if(divobj.is(":visible")) {
@@ -316,7 +316,7 @@ function selectNote(){
 //申请加入游戏
 function doapply(){
 	
- 	var note=$("#note").val();
+ 	var note=$("#applynote").val();
 	if(note!=""){
 		if(confirm("是否确定赠送1个V1?")){
 		$.ajax({

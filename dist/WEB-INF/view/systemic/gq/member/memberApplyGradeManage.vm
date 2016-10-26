@@ -117,6 +117,7 @@ function upgradeAudit(){
     ##  </th>
         <th >玩家编号</th>
 		<th >玩家昵称</th>
+		<th >廉通道</th>
         <th >当前级别</th>
 		<th >升级后级别</th> 
 		<th >申请时间</th> 
@@ -128,6 +129,7 @@ function upgradeAudit(){
     <tr>
       <td>$!{data.userName}</td>
 	  <td>$!{data.bsid}</td>
+	   <td>$!{data.lan}</td>
       <td>V$!{data.stock.gradeNum}</td>
 	  <td > #set($vasd=$!{data.stock.gradeNum})
 			#set($Integer = 0)

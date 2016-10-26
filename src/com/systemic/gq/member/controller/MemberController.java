@@ -1253,7 +1253,18 @@ public class MemberController {
 		msg = ConUnit.tojson(loginmember);
 		return msg;
 	}
-
+	// 查询用户
+		@RequestMapping(value = "/member/selectMemberAjax.do", produces = "text/plain;charset=gbk")
+		@ResponseBody
+		public String selectMemberAjax(HttpServletRequest request, MemberInfo info) {
+			String msg = "";
+			String staffid=request.getParameter("staffId");
+			Member loginmember = ConsoleHelper.getInstance().getSpringMemberService().selectMemberByUserName(staffid);
+			if (loginmember != null) {
+			}
+			msg = ConUnit.tojson(loginmember);
+			return msg;
+		}
 	// 查询统计
 
 	@RequestMapping(value = "/member/statisticsAjax.do", produces = "text/plain;charset=gbk")
@@ -1340,13 +1351,25 @@ public class MemberController {
 		MemberInfo info = new MemberInfo();
 		info.setIsdel(1);
 		info.setUpgradeState(2);
+		
+		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+		
 		List<Member> list = this.springMemberService.selectMemberBy(info);
 		List relist = new ArrayList<SysMessage>();
 		if (list != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			for (Member me : list) {
-				me.setReferenceQRCodeContent(sdf.format(me.getApplyUpgradeTime()));
-				relist.add(me);
+				if(me.getUserName().equals(loginmember.getUserName())){
+					//排除自己
+				}else{
+					if(me.getApplyUpgradeTime()!=null&&!"".equals(me.getApplyUpgradeTime())){
+						me.setReferenceQRCodeContent(sdf.format(me.getApplyUpgradeTime()));
+					}else{
+						me.setReferenceQRCodeContent("");
+					}
+					relist.add(me);
+				}
 			}
 			msg = ConUnit.tojson(relist);
 		}
