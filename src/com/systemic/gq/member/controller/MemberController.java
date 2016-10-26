@@ -835,7 +835,7 @@ public class MemberController {
 	 * @return
 	 */
 	private String queryRegion(String note) {
-		String region = "";
+		String region = "0";
 		// 查询归属节点信息
 		List<Member> noteMember = this.springMemberService.selectMemberListByNodeUsername(note);
 		if (noteMember != null && !noteMember.isEmpty()) {
@@ -844,7 +844,9 @@ public class MemberController {
 				region = "-1";
 			} else {
 				for (Member member2 : noteMember) {
-					regoin += Integer.parseInt(member2.getRegion());
+					if(member2.getRegion()!=null&&member2.getRegion()!=""){
+						regoin += Integer.parseInt(member2.getRegion());
+					}
 				}
 				if (regoin == 0) {
 					region = "1";
@@ -877,7 +879,7 @@ public class MemberController {
 				// 审核同意 计算积分
 				BonusRecordHelper.doComputationalIntegral(member);
 				// 生成二维码
-				String qRCodeContent = BarcodeFactory.qRCodeContent + member.getMemberId();
+				String qRCodeContent = BarcodeFactory.qRCodeContent + member.getStaffId();
 				String qRCodeImageUrl = BarcodeFactory.path + member.getStaffId() + ".png";
 				try {
 					BarcodeFactory.doQRCode(qRCodeContent, qRCodeImageUrl);
@@ -980,7 +982,7 @@ public class MemberController {
 		Member member = this.springMemberService.selectMemberById(info.getMemberId());
 		if (member != null) {
 			// 生成二维码
-			String qRCodeContent = BarcodeFactory.qRCodeContent + member.getMemberId();
+			String qRCodeContent = BarcodeFactory.qRCodeContent + member.getStaffId();
 			String qRCodeImageUrl = BarcodeFactory.path + member.getStaffId() + ".png";
 			String logourl = BarcodeFactory.logoImgUrl;
 			try {

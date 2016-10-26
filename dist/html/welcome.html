@@ -35,7 +35,7 @@
 		<div class="row  border-bottom white-bg dashboard-header">
 			<div class="col-sm-4">
 				<h2><input type="hidden" id="urlid">
-					欢迎您,<span id="username"></span><span class="badge badge-danger"
+					欢迎您,<span id="username"></span>(账号:<span id="bhid" style="color:red;"></span>)<span class="badge badge-danger"
 						id="xzspan">孝</span>
 				</h2>
 				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">暂未参与游戏</a>
@@ -75,7 +75,7 @@
 				<div class="col-sm-6 ui-sortable">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
-							<h5>直推审批</h5>
+							<h5>直推审批-提醒</h5>
 							<div class="ibox-tools">
 								<a class="collapse-link ui-sortable" href="../member/memberAuditManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
@@ -93,7 +93,7 @@
 				<div class="col-sm-6 ui-sortable">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
-							<h5>升级审批</h5>
+							<h5>升级审批-提醒</h5>
 							<div class="ibox-tools">
 								<a class="collapse-link ui-sortable" href="../member/memberApplyGradeManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
@@ -220,6 +220,7 @@
 						success : function(result) {
 							var s = $.parseJSON(result);
 							var xzbutton="";
+							$("#bhid").html(s[0].userName);
 							$("#urlid").val(s[0].qRCodeContent);
 							$("#memberid").val(s[0].memberId);
 							$("#username").html(s[0].bsid);
@@ -482,10 +483,10 @@
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
 									"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
-									"玩家编号:"+val.userName+",申请升级"+
+									"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-								"<span class='badge badge-danger'>new</span></li>";
+								"</li>";
 								}else{
 									if(key<12){
 									divs+="<li class='list-group-item'>"+
@@ -501,10 +502,10 @@
 								divs+="<li class='list-group-item'>"+
 								"<p>"+
 								"<a class='text-info' href='javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')'>玩家呢称:#"+val.bsid+"#</a>"+
-								"玩家编号:"+val.userName+",申请升级"+
+								"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
 							"</p> <small class='block text-muted'><i"+
 								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-							"<span class='badge badge-danger'>new</span></li>";
+							"</li>";
 							}
 							
 						});
@@ -533,10 +534,10 @@
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
 									"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
-									"玩家编号:"+val.userName+",申请参与游戏"+
+									"玩家编号:"+val.userName+",申请参与游戏 <span class='badge badge-danger'>new</span>"+
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-								"<span class='badge badge-danger'>new</span></li>";
+								"</li>";
 								}else{
 									if(key<12){
 									divs+="<li class='list-group-item'>"+
@@ -552,10 +553,10 @@
 								divs+="<li class='list-group-item'>"+
 								"<p>"+
 								"<a class='text-info' href=''>玩家呢称:#"+val.bsid+"#</a>"+
-								"玩家编号:"+val.userName+",申请参与游戏"+
+								"玩家编号:"+val.userName+",申请参与游戏 <span class='badge badge-danger'>new</span>"+
 							"</p> <small class='block text-muted'><i"+
 								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-							"<span class='badge badge-danger'>new</span></li>";
+							"</li>";
 							}
 							
 						});

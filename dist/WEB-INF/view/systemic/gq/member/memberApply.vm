@@ -17,10 +17,13 @@ function doapply(){
 			data:$("#applyform").serialize(),// 你的formid
        	 	cache: false,
         	success: function(result) {
+				if(result!=""){
 				var s=$.parseJSON(result);//内容
 				var str=s[0].message;
 				alert(str);
-				location.reload(); 				
+				location.reload(); 
+				}
+								
         	}
    			});
 		}else{
@@ -29,7 +32,7 @@ function doapply(){
 	}
 	
 }
-//动态获取用户输入的归属点编号 的廉通道信息
+//动态获取用户输入的归属点编号 的廉认证信息
 function selectNote(){
  	var note=$("#applynote").val();
 	if(note!=""){
@@ -89,7 +92,7 @@ function selectNote(){
       <td class="TdInput">
         <input type="text" name="referenceName" value="$!{command.referenceName}" id="referenceName" readonly>
       </td>
-      <td class="TdLabel" style="width:100px;">推荐点'廉'通道:</td>
+      <td class="TdLabel" style="width:100px;">推荐点'廉'认证:</td>
       <td class="TdInput">
         <input type="text" value="$!{command.referencelan}" id="referencelan" readonly>
       </td>
@@ -99,7 +102,7 @@ function selectNote(){
       <td class="TdInput">
         <input type="text" name="noteUsername" value="" id="applynote" onchange="selectNote();">
       </td>
-      <td class="TdLabel" style="width:100px;">#requiredInput("归属点'廉'通道:")</td>
+      <td class="TdLabel" style="width:100px;">#requiredInput("归属点<span style="font-weight: bold;">廉</span>认证:")</td>
       <td class="TdInput">
         <input type="text" name="notelan" value="" id="notelan" readonly >
 			  <input type="hidden" name="noteyong" value="" id="noteyong" >

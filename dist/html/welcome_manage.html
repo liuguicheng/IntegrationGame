@@ -34,7 +34,7 @@
 		<div class="row  border-bottom white-bg dashboard-header">
 			<div class="col-sm-4">
 				<h2>
-					欢迎您,<span id="username"></span>
+					欢迎您,<span id="username"></span>(账号:<span id="bhid" style="color:red;"></span>)
 				</h2><input type="hidden" id="urlid">
 				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">http://localhost:8080/IntegrationGame/main/home.do</a>
 					<a class="btn btn-success" href="javascript:share();"> <i class="fa fa-weixin"> </i> 马上分享
@@ -106,7 +106,7 @@
 				<div class="col-sm-12 ui-sortable">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
-							<h5>待审批</h5>
+							<h5>待审批-提醒</h5>
 							<div class="ibox-tools">
 								<a class="collapse-link ui-sortable" href="../member/memberApplyGradeManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
@@ -230,6 +230,7 @@
 				cache : false,
 				success : function(result) {
 					var s = $.parseJSON(result);
+					$("#bhid").html(s[0].userName);
 					$("#urlid").val(s[0].qRCodeContent);
 					var jsd="javascript:openurl('"+s[0].qRCodeContent+"')";
 					$("#qRCodeContent").attr("href",jsd);
@@ -322,7 +323,7 @@
 							if(s.length>3){
 								if(key<3){
 									divs+="<p class='text-success'>"+
-									"<a href=javascript:openurl('../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"')>"+
+									"<a href=javascript:openurl('../plugins/messageList.do?sysMessageInfoId="+val.sysMessageInfoId+"')>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+" <span class='badge badge-danger'>new</span>"+
 									"</a>"+
@@ -330,7 +331,7 @@
 								}else{
 									if(key<12){
 									divs+="<p class='text-success'>"+
-									"<a href=javascript:openurl('../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"')>"+
+									"<a href=javascript:openurl('../plugins/messageList.do?sysMessageInfoId="+val.sysMessageInfoId+"')>"+
 									" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 									" "+val.content+
 									"</a>"+
@@ -339,7 +340,7 @@
 								}
 							}else{
 								divs+="<p class='text-success'>"+
-								"<a href=javascript:openurl('../plugins/messageEmailList.do?sysMessageInfoId="+val.sysMessageInfoId+"')>"+
+								"<a href=javascript:openurl('../plugins/messageList.do?sysMessageInfoId="+val.sysMessageInfoId+"')>"+
 								" <span class='col-sm-6'>"+val.messageTitel+"</span> <span class='col-sm-1'></span>"+
 								" "+val.content+" <span class='badge badge-danger'>new</span>"+
 								"</a>"+
@@ -369,16 +370,16 @@
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
 									"<a class='text-info' href=javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
-									"玩家编号:"+val.userName+",申请升级"+
+									"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-								"<span class='badge badge-danger'>new</span></li>";
+								"</li>";
 								}else{
 									if(key<12){
 									divs+="<li class='list-group-item'>"+
 									"<p>"+
 									"<a class='text-info' href=javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
-									"玩家编号:"+val.userName+",申请升级"+
+									"玩家编号:"+val.userName+",申请升级" +
 								"</p> <small class='block text-muted'><i"+
 									" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
 								"</li>";
@@ -388,10 +389,10 @@
 								divs+="<li class='list-group-item'>"+
 								"<p>"+
 								"<a class='text-info' href=javascript:openurl('..member/memberApplyGradeManage.do?memberId="+val.memberId+"')>玩家呢称:#"+val.bsid+"#</a>"+
-								"玩家编号:"+val.userName+",申请升级"+
+								"玩家编号:"+val.userName+",申请升级 <span class='badge badge-danger'>new</span>"+
 							"</p> <small class='block text-muted'><i"+
 								" class='fa fa-clock-o'></i> "+val.referenceQRCodeContent+"</small>"+
-							"<span class='badge badge-danger'>new</span></li>";
+							"</li>";
 							}
 							
 						});

@@ -8,6 +8,7 @@ public class MessageQueryInfo extends PaginationInfo {
 
 	/**  */
 	private static final long serialVersionUID = 1520952086309936800L;
+	private String sysMessageInfoId;
 	/** 用户编号 */
 	private String staffId;
 	/** 是否已读 */
@@ -151,5 +152,20 @@ public class MessageQueryInfo extends PaginationInfo {
 	public void setReceiveLevel(String receiveLevel) {
 		this.receiveLevel = receiveLevel;
 	}
+
+	/**
+	 * @return the sysMessageInfoId
+	 */
+	public String getSysMessageInfoId() {
+		return sysMessageInfoId;
+	}
+
+	/**
+	 * @param sysMessageInfoId the sysMessageInfoId to set
+	 */
+	public void setSysMessageInfoId(String sysMessageInfoId) {
+		this.sysMessageInfoId = sysMessageInfoId;
+	}
+
 
 }

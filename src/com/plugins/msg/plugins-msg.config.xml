@@ -42,6 +42,8 @@
           <prop key="plugins/toUpEmailMessage.do">pluginMsgController</prop>
           <!-- 提交回复反馈 -->
           <prop key="plugins/doUpEmailMessage.do">pluginMsgController</prop>
+          <!-- 删除消息 -->
+           <prop key="plugins/doDelMessage.do">pluginMsgController</prop>
           
         </props>
       </property>
@@ -148,6 +150,8 @@
              <prop key="toaddView">../plugins/toaddEmailMessage.do</prop>
              <!--回复反馈  -->
              <prop key="toUpEmailMessage">msg/msgEmailUp</prop>
+             <!-- 消息列表 -->
+             <prop key="addMessageView">../plugins/messageList.do</prop>
              
         </props>
       </property>

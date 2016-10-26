@@ -228,7 +228,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.noteUsername =? and m.isok=1 and m.isdel=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.noteUsername =? and m.isdel=1");
 		values[idx++] = note;
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);

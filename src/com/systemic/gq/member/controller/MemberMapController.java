@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,13 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springline.beans.cache.CacheHelper;
 import org.springline.web.filter.AuthenticationFilter;
 
 import com.console.ConsoleHelper;
 import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.plugins.dictionary.DictionaryHelper;
+import com.plugins.dictionary.entity.DicData;
 import com.systemic.gq.entity.IntegrationGameRule;
+import com.systemic.gq.entity.Level;
 import com.systemic.gq.entity.Member;
 import com.systemic.gq.entity.Rule;
 import com.systemic.gq.member.service.ISpringMemberService;
@@ -390,9 +395,10 @@ public class MemberMapController {
 		if (totalAndCount != null && !"".equals(totalAndCount)) {
 			teamTotal = totalAndCount.split(",")[1];
 		}
-
+		 DictionaryHelper helper= DictionaryHelper.getInstance();
+	     String level = helper.getDictionaryService().getDicDataByType("dicStockLevel",member.getStock().getGradeNum()); 
 		//nodename = "总业绩：" + teamTotal + " <br></a>" + regionStr + " <br/>";
-		nodename=member.getUserName()+" <br> 玩家昵称:"+member.getBsid()+" <br> 玩家等级:V"+member.getStock().getGradeNum()+"<br/>";
+		nodename=member.getUserName()+" <br> 玩家昵称:"+member.getBsid()+" <br> 玩家等级:"+level+"<br/>";
 		TreeModel tm = new TreeModel();
 		tm.setPid(member.getReferenceName());
 		tm.setId(member.getUserName());

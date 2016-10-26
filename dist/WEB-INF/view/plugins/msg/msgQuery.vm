@@ -1,26 +1,65 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  #headInclude()
+   #headInclude()
   <script type="text/javascript">
-  function readMsg() {
-    var e = document.listForm;
-    if (e.submitFlag.value=="1") {
-      alert("页面已提交，请稍候！");
+  #if($message)alert("#javaScriptEscape($message)");#end
+
+  function doDelete(){
+  if (!hasCheckBoxSelect("sysMessageid")) {
+      alert("请选择要删除的信息！");
       return;
     }
-    if (!hasCheckBoxSelect("msgId")) {
-      return;
+    if (confirm("您确定要删除所选择的信息吗?")) {
+      var f =  document.listForm;
+      f.action = "../plugins/doDelMessage.do";
+      f.submit();      
     }
-    e.submitFlag.value = "1";
-    e.submit();    
   }
+  //刷新
+function dorefresh(){
+	location.reload(); 			
+}
   </script>
 </head>
 <body>
+<div class="PageHeader">
+  <div class="LeftBox Title">消息信息列表</div>
+</div>
+<!--搜索div开始 -->
+<div class="SearchBox" id="divSearch">
+<form name="queryForm" action="#getRequestUri()" method="post" class="indieui-form">
+  <table class="TbCommon">
+    <tr>
+      <td class="TdLabel" style="width:100px;">玩家编号编号：</td>
+      <td class="TdInput" colspan="3">
+        <input type="text" name="sendMan" value="" >
+      </td>
+    </tr>
+	<tr>
+    <td class="TdLabel" style="width:100px;">发送时间：</td>
+    <td class="TdInput" colspan="3">
+        <input type="text" name="sendTimeUp" value="" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+        至
+        <input type="text" name="sendTimeDown" value="" style="width:30%;" dateFormat="yyyy-MM-dd"/>
+    </td>
+</tr>
+  </table>
+  <div class="CommandTool">
+    <input type="button" value="确 定" onClick="javascript:document.queryForm.submit();jQuery('body').processMask();"/>
+    <input type="button" value="清 空" onClick="javascript:clearQuery(document.queryForm);"/>
+    <input type="button" value="取 消" onClick="javascript:showDiv('divSearch');">    
+  </div>
+</form>
+</div>
+<!--搜索div结束-->
+
 <div class="PageTool">
-  <div class="RightBox Pager">
-    #pageDirector( $page "#getRequestUri()" false)
+  <div class="LeftBox Tool">
+	<input type="button" class="BtnRefresh" value="刷新"  title="刷新" onclick="javascript:dorefresh();"/>
+	#if($!{member}==1)
+	<input type="button" class="BtnDel" value="删除"  title="删除" onclick="javascript:doDelete();"/>
+	#end
   </div>
 </div>
 
@@ -31,6 +70,9 @@
 <table class="TbList">
   <thead> 
     <tr>
+		<th style="width:10px;" nowrap>
+        <input type="checkbox" onclick="javascript:setCheckBoxValue('sysMessageid', this.checked);">
+      </th>
       <th style="width:35px;">序号</th>
       <th>消息内容</th>
       <th style="width:140px;">发送时间</th>
@@ -39,6 +81,7 @@
   <tbody>
   #foreach( $data in $page.data )
     <tr>
+	  <td><input type="checkbox" name="sysMessageid" value="$!{data.sysMessageInfoId}"></td>
       <td>$velocityCount</td>
       <td style="text-align:left;" class="TdTxtover">#htmlEscape($!{data.content})</td>
       <td>#customFormatDate(${data.sendTime} "yyyy-MM-dd HH:mm")</td>
@@ -47,6 +90,11 @@
   </tbody>   
 </table>
 </form>
+</div>
+
+
+<div data-options="region:'south'" style="overflow-y:hidden"> 
+#pageDirector($page "#getRequestUri()" "")
 </div>
 </body>
 </html>

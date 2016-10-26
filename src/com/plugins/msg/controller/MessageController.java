@@ -540,5 +540,21 @@ public class MessageController extends SpringlineMultiActionController {
 		}
 		return new ModelAndView(new GBRedirectView(getViewMap().get("addemailMessageView").toString()), model);
 	}
+	
+
+	/**
+	 * É¾³ýÏûÏ¢
+	 */
+	public ModelAndView doDelMessage(HttpServletRequest request, 
+			HttpServletResponse response) {
+		Map model = new HashMap();
+		model.put("message", "É¾³ýÊ§°Ü");
+		String[] sysMessageid=request.getParameterValues("sysMessageid");
+		if (sysMessageid != null && sysMessageid.length > 0) {
+			this.msgService.deletePhyMessage(sysMessageid);
+			model.put("message", "É¾³ý³É¹¦");
+		}
+		return new ModelAndView(new GBRedirectView(getViewMap().get("addMessageView").toString()), model);
+	}
 
 }

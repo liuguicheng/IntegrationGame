@@ -10,9 +10,11 @@ import org.springline.web.filter.AuthenticationFilter;
 import org.springline.web.pagination.PaginationInfo;
 import org.springline.web.pagination.PaginationQueryController;
 
+import com.console.ConsoleHelper;
 import com.console.entity.Staff;
 import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.service.IMsgService;
+import com.systemic.gq.entity.Member;
 
 public class MessageQueryController extends PaginationQueryController {
 	
@@ -28,13 +30,19 @@ public class MessageQueryController extends PaginationQueryController {
     protected Page selectQueryResult(HttpServletRequest request, HttpServletResponse response, PaginationInfo command,
             Map model) throws Exception {
         MessageQueryInfo info = (MessageQueryInfo) command;
-        info.setSendMan(info.getSendMan());
-        if (info.getStaffId() == null || info.getStaffId().trim().length() < 1) {
-            Staff self = (Staff) AuthenticationFilter.getAuthenticator(request);
-            if (self != null) {
-                info.setStaffId(self.getId());
-            }
-        }
+        Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
+		Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
+		String sysMessageInfoId=request.getParameter("sysMessageInfoId");
+		if(sysMessageInfoId!=null&&!"".equals(sysMessageInfoId)){
+			info.setSysMessageInfoId(sysMessageInfoId);
+		}
+		if (!staff.getName().equals("系统管理员")) {
+			info.setSendMan(member.getUserName());
+			model.put("member", 0);
+		}else{
+			model.put("member", 1);
+		}
+		info.setMessageType("1");
          
         Page page = this.msgService.selectMessage(info);
         return page;

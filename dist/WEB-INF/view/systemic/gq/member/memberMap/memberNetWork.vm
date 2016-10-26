@@ -202,8 +202,19 @@
 			}
 			//点击玩家节点
 			function clickBIN(id){
-				 $("#staffId").val(id);
-			   onmynode();
+			if(id!=""){
+			   $("#staffId").val(id);
+			   var isd= $("#staffId").val();
+				console.log(isd.length);
+				if(isd.length!=8){
+					console.log(1);
+					var sd="0"+$("#staffId").val();
+					$("#staffId").val(sd);
+				}
+				 onmynode();
+			}
+				 
+			  
 			}
 			//注册
 			function register(id){
