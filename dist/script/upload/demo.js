@@ -1,106 +1,60 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<!--å¼•å…¥CSS-->
-<link rel="stylesheet" type="text/css" href="../script/upload/webuploader.css">
 
-</head>
-<body>
-	<!--domç»“æ„éƒ¨åˆ†-->
-	<div id="uploader-demo">
-		<!--ç”¨æ¥å­˜æ”¾item-->
-		<div id="fileList" class="uploader-list"></div>
-		<div id="filePicker">é€‰æ‹©å›¾ç‰‡</div>
-	</div>
-	<script id="editor" type="text/plain" style="width:98%;"></script>
-	<!--å¼•å…¥JS-->
-	<script type="text/javascript" src="../script/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="../script/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" src="../script/ueditor/ueditor.all.min.js"></script>
-	 <script type="text/javascript" src="../script/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script type="text/javascript" src="../script/upload/webuploader.min.js"></script>
-	<script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
-							var ue = UE.getEditor('editor', {
-							    toolbars: [
-							        [
-							        'undo', //æ’¤é”€
-							        'redo', //é‡åš
-							        'bold', //åŠ ç²—
-							        'indent', //é¦–è¡Œç¼©è¿›
-							        'italic', //æ–œä½“
-							        'underline', //ä¸‹åˆ’çº¿
-							        'fontfamily', //å­—ä½“
-							        'fontsize', //å­—å·
-							        'paragraph', //æ®µè½æ ¼å¼
-							        'forecolor', //å­—ä½“é¢œè‰²
-							        'backcolor', //èƒŒæ™¯è‰²
-							        'insertorderedlist' //æœ‰åºåˆ—è¡¨
-									]
-							    ],
-							    autoHeightEnabled: true,
-							    autoFloatEnabled: true
-							});
 							
 							var $ = jQuery, $list = $('#fileList'),
-							// ä¼˜åŒ–retina, åœ¨retinaä¸‹è¿™ä¸ªå€¼æ˜¯2
+							// ÓÅ»¯retina, ÔÚretinaÏÂÕâ¸öÖµÊÇ2
 							ratio = window.devicePixelRatio || 1,
 
-							// ç¼©ç•¥å›¾å¤§å°
+							// ËõÂÔÍ¼´óĞ¡
 							thumbnailWidth = 0, thumbnailHeight = 0,
 
-							// Web Uploaderå®ä¾‹
+							// Web UploaderÊµÀı
 							uploader;
-							// åˆå§‹åŒ–Web Uploader
+							// ³õÊ¼»¯Web Uploader
 							uploader = WebUploader
 									.create({
 
-										// é€‰å®Œæ–‡ä»¶åï¼Œæ˜¯å¦è‡ªåŠ¨ä¸Šä¼ ã€‚
+										// Ñ¡ÍêÎÄ¼şºó£¬ÊÇ·ñ×Ô¶¯ÉÏ´«¡£
 										auto : true,
 
-										// swfæ–‡ä»¶è·¯å¾„
+										// swfÎÄ¼şÂ·¾¶
 										swf : '../script/upload/Uploader.swf',
 
-										// æ–‡ä»¶æ¥æ”¶æœåŠ¡ç«¯ã€‚
+										// ÎÄ¼ş½ÓÊÕ·şÎñ¶Ë¡£
 										server : '../upload/save.do',
 
-										// é€‰æ‹©æ–‡ä»¶çš„æŒ‰é’®ã€‚å¯é€‰ã€‚
-										// å†…éƒ¨æ ¹æ®å½“å‰è¿è¡Œæ˜¯åˆ›å»ºï¼Œå¯èƒ½æ˜¯inputå…ƒç´ ï¼Œä¹Ÿå¯èƒ½æ˜¯flash.
+										// Ñ¡ÔñÎÄ¼şµÄ°´Å¥¡£¿ÉÑ¡¡£
+										// ÄÚ²¿¸ù¾İµ±Ç°ÔËĞĞÊÇ´´½¨£¬¿ÉÄÜÊÇinputÔªËØ£¬Ò²¿ÉÄÜÊÇflash.
 										pick : {
 											id : '#filePicker',
-											label : 'ç‚¹å‡»é€‰æ‹©å›¾ç‰‡'
+											label : 'µã»÷Ñ¡ÔñÍ¼Æ¬'
 										},
-										chunked : false,
+										chunked : true,
 										chunkSize : 512 * 1024,
 										thumb : {
 											width : 220,
 											height : 200,
-											// æ˜¯å¦å…è®¸æ”¾å¤§ï¼Œå¦‚æœæƒ³è¦ç”Ÿæˆå°å›¾çš„æ—¶å€™ä¸å¤±çœŸï¼Œæ­¤é€‰é¡¹åº”è¯¥è®¾ç½®ä¸ºfalse.
+											// ÊÇ·ñÔÊĞí·Å´ó£¬Èç¹ûÏëÒªÉú³ÉĞ¡Í¼µÄÊ±ºò²»Ê§Õæ£¬´ËÑ¡ÏîÓ¦¸ÃÉèÖÃÎªfalse.
 											allowMagnify : true,
-											// æ˜¯å¦å…è®¸è£å‰ªã€‚
+											// ÊÇ·ñÔÊĞí²Ã¼ô¡£
 											crop : false
 										},
-										// åªå…è®¸é€‰æ‹©å›¾ç‰‡æ–‡ä»¶ã€‚
+										// Ö»ÔÊĞíÑ¡ÔñÍ¼Æ¬ÎÄ¼ş¡£
 										accept : {
 											title : 'Images',
 											extensions : 'gif,jpg,jpeg,bmp,png',
-											mimeTypes : 'image/jpg,image/jpeg,image/png' //ä¿®æ”¹è¿™è¡Œ
+											mimeTypes : 'image/jpg,image/jpeg,image/png' //ĞŞ¸ÄÕâĞĞ
 										},
 										formData : {
 											"messageid" : 123
 										},
-										// ç¦æ‰å…¨å±€çš„æ‹–æ‹½åŠŸèƒ½ã€‚è¿™æ ·ä¸ä¼šå‡ºç°å›¾ç‰‡æ‹–è¿›é¡µé¢çš„æ—¶å€™ï¼ŒæŠŠå›¾ç‰‡æ‰“å¼€ã€‚
+										// ½ûµôÈ«¾ÖµÄÍÏ×§¹¦ÄÜ¡£ÕâÑù²»»á³öÏÖÍ¼Æ¬ÍÏ½øÒ³ÃæµÄÊ±ºò£¬°ÑÍ¼Æ¬´ò¿ª¡£
 										disableGlobalDnd : true,
 										fileNumLimit : 300,
 										fileSizeLimit : 200 * 1024 * 1024, // 200 M
-										fileSingleSizeLimit : 50 * 1024 * 1024
-									// 50 M
+										fileSingleSizeLimit : 50 * 1024 * 1024// 50 M
+									
 									});
-							// å½“æœ‰æ–‡ä»¶æ·»åŠ è¿›æ¥çš„æ—¶å€™
+							// µ±ÓĞÎÄ¼şÌí¼Ó½øÀ´µÄÊ±ºò
 							uploader
 									.on(
 											'fileQueued',
@@ -112,16 +66,16 @@
 														+ file.name
 														+ '</div><span class="cancel"  onclick=javascript:dodel("'
 														+ file.id
-														+ '")>åˆ é™¤</span>'
+														+ '")>É¾³ı</span>'
 														+ '</div>'), $img = $li
 														.find('img');
 
-												// $listä¸ºå®¹å™¨jQueryå®ä¾‹
+												// $listÎªÈİÆ÷jQueryÊµÀı
 												$list.append($li);
 
-												// åˆ›å»ºç¼©ç•¥å›¾
-												// å¦‚æœä¸ºéå›¾ç‰‡æ–‡ä»¶ï¼Œå¯ä»¥ä¸ç”¨è°ƒç”¨æ­¤æ–¹æ³•ã€‚
-												// thumbnailWidth x thumbnailHeight ä¸º 100 x 100
+												// ´´½¨ËõÂÔÍ¼
+												// Èç¹ûÎª·ÇÍ¼Æ¬ÎÄ¼ş£¬¿ÉÒÔ²»ÓÃµ÷ÓÃ´Ë·½·¨¡£
+												// thumbnailWidth x thumbnailHeight Îª 100 x 100
 												uploader
 														.makeThumb(
 																file,
@@ -129,7 +83,7 @@
 																		src) {
 																	if (error) {
 																		$img
-																				.replaceWith('<span>ä¸èƒ½é¢„è§ˆ</span>');
+																				.replaceWith('<span>²»ÄÜÔ¤ÀÀ</span>');
 																		return;
 																	}
 
@@ -141,7 +95,7 @@
 																thumbnailWidth,
 																thumbnailHeight);
 											});
-							// æ–‡ä»¶ä¸Šä¼ è¿‡ç¨‹ä¸­åˆ›å»ºè¿›åº¦æ¡å®æ—¶æ˜¾ç¤ºã€‚
+							// ÎÄ¼şÉÏ´«¹ı³ÌÖĞ´´½¨½ø¶ÈÌõÊµÊ±ÏÔÊ¾¡£
 							uploader
 									.on(
 											'uploadProgress',
@@ -149,7 +103,7 @@
 												var $li = $('#' + file.id), $percent = $li
 														.find('.progress span');
 
-												// é¿å…é‡å¤åˆ›å»º
+												// ±ÜÃâÖØ¸´´´½¨
 												if (!$percent.length) {
 													$percent = $(
 															'<p class="progress"><span></span></p>')
@@ -161,46 +115,51 @@
 														percentage * 100 + '%');
 											});
 
-							// æ–‡ä»¶ä¸Šä¼ æˆåŠŸï¼Œç»™itemæ·»åŠ æˆåŠŸclass, ç”¨æ ·å¼æ ‡è®°ä¸Šä¼ æˆåŠŸã€‚
+							// ÎÄ¼şÉÏ´«³É¹¦£¬¸øitemÌí¼Ó³É¹¦class, ÓÃÑùÊ½±ê¼ÇÉÏ´«³É¹¦¡£
 							uploader.on('uploadSuccess', function(file) {
 								$('#' + file.id).addClass('upload-state-done');
+								create();
 							});
 
-							// æ–‡ä»¶ä¸Šä¼ å¤±è´¥ï¼Œæ˜¾ç¤ºä¸Šä¼ å‡ºé”™ã€‚
+							// ÎÄ¼şÉÏ´«Ê§°Ü£¬ÏÔÊ¾ÉÏ´«³ö´í¡£
 							uploader.on('uploadError', function(file) {
 								var $li = $('#' + file.id), $error = $li
 										.find('div.error');
 
-								// é¿å…é‡å¤åˆ›å»º
+								// ±ÜÃâÖØ¸´´´½¨
 								if (!$error.length) {
 									$error = $('<div class="error"></div>')
 											.appendTo($li);
 								}
 
-								$error.text('ä¸Šä¼ å¤±è´¥');
+								$error.text('ÉÏ´«Ê§°Ü');
+								create();
 							});
 
-							// å®Œæˆä¸Šä¼ å®Œäº†ï¼ŒæˆåŠŸæˆ–è€…å¤±è´¥ï¼Œå…ˆåˆ é™¤è¿›åº¦æ¡ã€‚
+							// Íê³ÉÉÏ´«ÍêÁË£¬³É¹¦»òÕßÊ§°Ü£¬ÏÈÉ¾³ı½ø¶ÈÌõ¡£
 							uploader.on('uploadComplete', function(file) {
 
 								$('#' + file.id).find('.progress').remove();
+								create();
+								
 							});
 							uploader.on('uploadAccept',
 									function(file, response) {
 										if (response.code == 0) {
-											// é€šè¿‡return falseæ¥å‘Šè¯‰ç»„ä»¶ï¼Œæ­¤æ–‡ä»¶ä¸Šä¼ æœ‰é”™ã€‚
+											// Í¨¹ıreturn falseÀ´¸æËß×é¼ş£¬´ËÎÄ¼şÉÏ´«ÓĞ´í¡£
 											return false;
-										} else {
+										} 
 											$('#' + file.file.id).find(
 													'.imgname').val(
 													response.message);
-										}
+											create();
+										
 									});
 							dodel = function(id) {
 								var filename = $('#' + id).find(".imgname")
 										.val();
 								if (filename != "") {
-									//åˆ é™¤æœåŠ¡å™¨æ–‡ä»¶
+									//É¾³ı·şÎñÆ÷ÎÄ¼ş
 									$
 											.ajax({
 												url : '../upload/delAjax.do',
@@ -212,17 +171,19 @@
 														var s = $
 																.parseJSON(result);
 														if (s.code == 1) {
-															//ç§»é™¤åˆ—é˜Ÿ
+															//ÒÆ³ıÁĞ¶Ó
 															uploader
 																	.removeFile(
 																			uploader
 																					.getFile(id),
-																			true);//åˆ é™¤å…¶ä¸­æŸä¸ª
-															//ç§»é™¤å…ƒç´ 
+																			true);//É¾³ıÆäÖĞÄ³¸ö
+															//ÒÆ³ıÔªËØ
 															$('#' + id)
 																	.remove();
+															create();
 														} else {
-															alert("åˆ é™¤å¤±è´¥");
+															alert("É¾³ıÊ§°Ü");
+															create();
 														}
 													}
 
@@ -230,9 +191,11 @@
 											});
 
 								}
-
+								
 							}
-						});
-	</script>
-</body>
-</html>
+							 create=function(){
+							     uploader.addButton({
+							     id: '#filePicker',
+							     innerHTML: 'µã»÷Ñ¡ÔñÍ¼Æ¬'
+							     });
+							}		
