@@ -42,7 +42,7 @@ function upgradeAudit(){
 </head>
 <body>
 <div class="PageHeader">
-  <div class="LeftBox Title">申请升级玩家列表</div>
+  <div class="LeftBox Title">申请认证玩家列表</div>
 </div>
 
 <div class="SearchBox" id="divSearch">

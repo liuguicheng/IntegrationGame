@@ -35,8 +35,10 @@
 		<div class="row  border-bottom white-bg dashboard-header">
 			<div class="col-sm-4">
 				<h2><input type="hidden" id="urlid">
-					欢迎您,<span id="username"></span>(账号:<span id="bhid" style="color:red;"></span>)<span class="badge badge-danger"
-						id="xzspan">孝</span>
+					欢迎您 &nbsp;<span id="username"></span>
+					<br/>
+					账&nbsp;&nbsp; 号:&nbsp;<span id="bhid" style="color:red;"></span><span class="badge badge-danger"
+						id="xzspan">孝</span><br/>
 				</h2>
 				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">暂未参与游戏</a>
 					<a class="btn btn-success" href="javascript:share();"> <i
@@ -49,9 +51,13 @@
 				<b>当前人品认证面：</b><span style="font-size: 50px;" id="levelid"> 忠</span><span
 					class=""></span> <br /> <br /> <br />
 				<p>
-					<b>人品认证按钮(<span class="btn-primary">绿色</span>标记争取获得认证,<span
-						class="btn-danger">红色</span>标记已完成认证,<span class="btn-warning">黄色</span>标记可申请认证)：
-					</b>
+					<!--  <b>人品认证按钮(<span class="btn-primary">绿色</span>标记争取获得认证,<span
+						class="btn-danger">红色</span>标记已完成认证,<span class="btn-warning">黄色</span>标记可申请认证)：</b>-->
+						<b>人品认证面按钮:</b><br>
+						<b><span class="btn-danger">红色</span>表示已完成的人品认证面</b><br>
+						<b><span class="btn-warning">黄色</span>表示目前可申请认证的人品认证面</b><br>
+						<b><span class="btn-primary">绿色</span>表示正在努力争取符合人品认证面的条件</b><br>
+					
 				</p>
 				<div id="levelbuttonc"></div>
 				<br />
@@ -83,7 +89,7 @@
 				<div class="col-sm-6 ui-sortable">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
-							<h5>直推审批-提醒</h5>
+							<h5>新玩家参与游戏-提醒</h5>
 							<div class="ibox-tools">
 								<a class="collapse-link ui-sortable" href="../member/memberAuditManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
@@ -101,7 +107,7 @@
 				<div class="col-sm-6 ui-sortable">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
-							<h5>升级审批-提醒</h5>
+							<h5>认证申请-提醒</h5>
 							<div class="ibox-tools">
 								<a class="collapse-link ui-sortable" href="../member/memberApplyGradeManage.do"> <!--  <i class="fa fa-chevron-up"></i>-->
 									查看更多
@@ -264,7 +270,7 @@
 							if (level == 1) {
 								levelstr = "忠";
 								if (upgradeState == 0) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
@@ -272,7 +278,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else if (upgradeState == 1) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
@@ -281,7 +287,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
 
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-primary'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
@@ -293,7 +299,7 @@
 							if (level == 2) {
 								levelstr = "信";
 								if (upgradeState == 0) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>智</button>"
@@ -301,7 +307,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else if (upgradeState == 1) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>智</button>"
@@ -310,7 +316,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
 
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-primary'>智</button>"
@@ -322,7 +328,7 @@
 							if (level == 3) {
 								levelstr = "智";
 								if (upgradeState == 0) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -330,7 +336,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else if (upgradeState == 1) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -339,7 +345,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
 
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -351,7 +357,7 @@
 							if (level == 4) {
 								levelstr = "礼";
 								if (upgradeState == 0) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -359,7 +365,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else if (upgradeState == 1) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -368,7 +374,7 @@
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else {
 
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -380,7 +386,7 @@
 							if (level == 5) {
 								levelstr = "义";
 								if (upgradeState == 0) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -388,7 +394,7 @@
 											+ "<button type='button' class='btn btn-outline btn-danger'>义</button>"
 											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
 								} else if (upgradeState == 1) {
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -397,7 +403,7 @@
 											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>仁</button></p>";
 								} else {
 
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -408,7 +414,7 @@
 							}
 							if (level == 6) {
 								levelstr = "仁";
-									levelbutton += "<br/><p>"+xzbutton
+									levelbutton += "<br/><p>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>忠</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>信</button>"
 											+ "<button type='button' class='btn btn-outline btn-danger'>智</button>"
@@ -525,11 +531,11 @@
 						});
 					    $("#cygameid").html(divs);
 						}else{
-							divs+="<li class='list-group-item'>暂无升级申请审核</li>";
+							divs+="<li class='list-group-item'>暂无认证申请审核</li>";
 							$("#cygameid").html(divs);
 						}
 					}else{
-						divs+="<li class='list-group-item'>暂无升级申请审核</li>";
+						divs+="<li class='list-group-item'>暂无认证申请审核</li>";
 						$("#cygameid").html(divs);
 					}
 				}
@@ -580,7 +586,7 @@
 						});
 					    $("#spdiv").html(divs);
 					}else{
-						divs+="<li class='list-group-item'>暂无申请参与游戏审核</li>";
+						divs+="<li class='list-group-item'>暂无新玩家参与游戏申请</li>";
 						$("#spdiv").html(divs);
 					}
 				}

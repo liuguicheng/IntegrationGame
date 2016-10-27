@@ -398,7 +398,7 @@ public class MemberMapController {
 		 DictionaryHelper helper= DictionaryHelper.getInstance();
 	     String level = helper.getDictionaryService().getDicDataByType("dicStockLevel",member.getStock().getGradeNum()); 
 		//nodename = "总业绩：" + teamTotal + " <br></a>" + regionStr + " <br/>";
-		nodename=member.getUserName()+" <br> 玩家昵称:"+member.getBsid()+" <br> 玩家等级:"+level+"<br/>";
+		nodename=member.getUserName()+" <br> 玩家昵称:"+member.getBsid()+" <br> 人品认证面:"+level+"<br/>";
 		TreeModel tm = new TreeModel();
 		tm.setPid(member.getReferenceName());
 		tm.setId(member.getUserName());
