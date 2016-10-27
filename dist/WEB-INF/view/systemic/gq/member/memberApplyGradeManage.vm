@@ -115,13 +115,13 @@ function upgradeAudit(){
      ## <th style="width:20px;" nowrap>
       ##  <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
     ##  </th>
-        <th >玩家编号</th>
-		<th >玩家昵称</th>
-		<th >廉通道</th>
-        <th >当前级别</th>
-		<th >升级后级别</th> 
-		<th >申请时间</th> 
-		<th >操作</th> 
+        <th style="width:10%;">玩家编号</th>
+		<th style="width:10%;">玩家昵称</th>
+		<th >廉认证</th>
+        <th style="width:10%;">当前人品面</th>
+		<th style="width:10%;">认证后人品面</th> 
+		<th style="width:15%;">申请时间</th> 
+		<th style="width:10%;">操作</th> 
     </tr>
   </thead>
   <tbody>
