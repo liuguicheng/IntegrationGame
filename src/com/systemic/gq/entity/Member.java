@@ -10,7 +10,7 @@ public class Member implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -1948363514837972869L;
 	private String memberId;
-	/**昵称 */
+	/** 昵称 */
 	private String bsid;
 	/** 用户名 */
 	private String userName;
@@ -18,21 +18,21 @@ public class Member implements java.io.Serializable {
 	private String password;
 	/** 二级密码 passwodTwo */
 	private String passwodTwo;
-	/** 三级密码*/
+	/** 三级密码 */
 	private String passwordThree;
 	/** 推荐人id */
 	private String referenceId;
 	/** 推荐人 */
 	private String referenceName;
-	/** 推荐人 二维码*/
-	private String referenceQRCodeContent;//推荐人二维码内容（推广链接）
-	private String referenceQRCodeImageUrl;//推荐人二维码图片地址
-	/** 推荐人 廉通道*/
+	/** 推荐人 二维码 */
+	private String referenceQRCodeContent;// 推荐人二维码内容（推广链接）
+	private String referenceQRCodeImageUrl;// 推荐人二维码图片地址
+	/** 推荐人 廉通道 */
 	private String referencelan;
-	/** 推荐人 勇通道*/
+	/** 推荐人 勇通道 */
 	private String referenceyong;
-	/** 推荐人 勇通道*/
-	/** 股权等级id 这个项目不用*/
+	/** 推荐人 勇通道 */
+	/** 股权等级id 这个项目不用 */
 	private Stock stock;
 	/** 股权等级id */
 	private String productgradeId;
@@ -52,71 +52,75 @@ public class Member implements java.io.Serializable {
 	private Date createTime;
 	/** 参与游戏时间 */
 	private Date activationTime;
-	/**申请参与游戏时间 */
+	/** 申请参与游戏时间 */
 	private Date applyTime;
-	/**申请升级时间 */
+	/** 申请升级时间 */
 	private Date applyUpgradeTime;
-	/**已收到所需升级数量*/
+	/** 已收到所需升级数量 */
 	private Integer applyUpgradeNum;
-	/**升级状态 */
+	/** 升级状态 */
 	private Integer upgradeState; // 0不可升级 1 可升级 2申请中
-	//升级审核时间
-	private Date  auditGradeTime;
-	//申请升级指定审核人
+	// 升级审核时间
+	private Date auditGradeTime;
+	// 申请升级指定审核人
 	private String auditGradeUserName;
-	/**修改个人资料次数*/
+	/** 修改个人资料次数 */
 	private Integer updateInfoNum;
-	/**是否激活*/
-	private Integer isActivation;//0未参与 1申请中 2参与 
+	/** 是否激活 */
+	private Integer isActivation;// 0未参与 1申请中 2参与
 	/** 是否正常 */
-	private Integer isok; //1正常 0永久封号 2半永久封号
+	private Integer isok; // 1正常 0永久封号 2半永久封号
 	/** 删除标识 */
-	private Integer isdel; //0删除 1正常
+	private Integer isdel; // 0删除 1正常
 	/** 所在区域 */
-	private String region;//默认0  -左边0 右边1  
-	/***系统登录*/
+	private String region;// 默认0 -左边0 右边1
+	/*** 系统登录 */
 	private String staffId;
-	/***节点*/
+	/*** 节点 */
 	private String note;
-	//归属节点编号
+	// 归属节点编号
 	private String noteUsername;
-	/** 节点 二维码*/
-	private String noteQRCodeContent;//归属点二维码内容（推广链接）
-	private String noteQRCodeImageUrl;//归属点二维码图片地址
-	/** 归属点 廉通道*/
+	/** 节点 二维码 */
+	private String noteQRCodeContent;// 归属点二维码内容（推广链接）
+	private String noteQRCodeImageUrl;// 归属点二维码图片地址
+	/** 归属点 廉通道 */
 	private String notelan;
-	/** 归属点 勇通道*/
+	/** 归属点 勇通道 */
 	private String noteyong;
-	//密保问题
+	// 密保问题
 	private String mbwt;
-	//密保问题答案
+	// 密保问题答案
 	private String mbwtDn;
-	//真实姓名
+	// 密保问题2
+	private String mbwtTwo;
+	// 密保问题答案2
+	private String mbwtDn2Two;
+	// 真实姓名
 	private String zsxm;
 	private String sfzhm;
-	//联系电话
+	// 联系电话
 	private String lxdh;
-	//联系地址
+	// 联系地址
 	private String lxdz;
-	//电子邮箱
+	// 电子邮箱
 	private String email;
-	//银行信息
+	// 银行信息
 	private String yhxx;
-	//开户姓名
+	// 开户姓名
 	private String khxm;
-	//银行卡号
+	// 银行卡号
 	private String yhkh;
-	
+
 	/**
 	 * 二维码内容
 	 */
-	private String qRCodeContent;//二维码内容（推广链接）
-	private String qRCodeImageUrl;//二维码图片地址
-	private String lan;//廉通道
-	private String yong;//勇通道
-	
-	private Integer rzstatus;//认证状态 0未认证 1申请中 2孝字认证
-	
+	private String qRCodeContent;// 二维码内容（推广链接）
+	private String qRCodeImageUrl;// 二维码图片地址
+	private String lan;// 廉通道
+	private String yong;// 勇通道
+
+	private Integer rzstatus;// 认证状态 0未认证 1申请中 2孝字认证
+
 	// Constructors
 
 	/** default constructor */
@@ -129,11 +133,10 @@ public class Member implements java.io.Serializable {
 		return productgradeId;
 	}
 
-	public Member(String memberId, String bsid, String userName,
-			String password, String passwodTwo, String referenceId,
-			String referenceName, Stock stock, String productgradeId,
-			Double goldAward, Double electroniccurrency, Date createTime,
-			Date activationTime, String note ,Integer isok, Integer isdel, String region,String staffId) {
+	public Member(String memberId, String bsid, String userName, String password, String passwodTwo, String referenceId,
+			String referenceName, Stock stock, String productgradeId, Double goldAward, Double electroniccurrency,
+			Date createTime, Date activationTime, String note, Integer isok, Integer isdel, String region,
+			String staffId) {
 		super();
 		this.memberId = memberId;
 		this.bsid = bsid;
@@ -163,7 +166,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param isActivation the isActivation to set
+	 * @param isActivation
+	 *            the isActivation to set
 	 */
 	public void setIsActivation(Integer isActivation) {
 		this.isActivation = isActivation;
@@ -317,7 +321,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param mbwt the mbwt to set
+	 * @param mbwt
+	 *            the mbwt to set
 	 */
 	public void setMbwt(String mbwt) {
 		this.mbwt = mbwt;
@@ -331,7 +336,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param zsxm the zsxm to set
+	 * @param zsxm
+	 *            the zsxm to set
 	 */
 	public void setZsxm(String zsxm) {
 		this.zsxm = zsxm;
@@ -345,7 +351,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param lxdh the lxdh to set
+	 * @param lxdh
+	 *            the lxdh to set
 	 */
 	public void setLxdh(String lxdh) {
 		this.lxdh = lxdh;
@@ -359,7 +366,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param lxdz the lxdz to set
+	 * @param lxdz
+	 *            the lxdz to set
 	 */
 	public void setLxdz(String lxdz) {
 		this.lxdz = lxdz;
@@ -373,7 +381,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param yhxx the yhxx to set
+	 * @param yhxx
+	 *            the yhxx to set
 	 */
 	public void setYhxx(String yhxx) {
 		this.yhxx = yhxx;
@@ -387,7 +396,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param khxm the khxm to set
+	 * @param khxm
+	 *            the khxm to set
 	 */
 	public void setKhxm(String khxm) {
 		this.khxm = khxm;
@@ -401,7 +411,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param yhkh the yhkh to set
+	 * @param yhkh
+	 *            the yhkh to set
 	 */
 	public void setYhkh(String yhkh) {
 		this.yhkh = yhkh;
@@ -415,7 +426,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param passwordThree the passwordThree to set
+	 * @param passwordThree
+	 *            the passwordThree to set
 	 */
 	public void setPasswordThree(String passwordThree) {
 		this.passwordThree = passwordThree;
@@ -429,7 +441,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param mbwtDn the mbwtDn to set
+	 * @param mbwtDn
+	 *            the mbwtDn to set
 	 */
 	public void setMbwtDn(String mbwtDn) {
 		this.mbwtDn = mbwtDn;
@@ -443,7 +456,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -457,7 +471,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param sfzhm the sfzhm to set
+	 * @param sfzhm
+	 *            the sfzhm to set
 	 */
 	public void setSfzhm(String sfzhm) {
 		this.sfzhm = sfzhm;
@@ -471,7 +486,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param qRCodeContent the qRCodeContent to set
+	 * @param qRCodeContent
+	 *            the qRCodeContent to set
 	 */
 	public void setqRCodeContent(String qRCodeContent) {
 		this.qRCodeContent = qRCodeContent;
@@ -485,7 +501,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param qRCodeImageUrl the qRCodeImageUrl to set
+	 * @param qRCodeImageUrl
+	 *            the qRCodeImageUrl to set
 	 */
 	public void setqRCodeImageUrl(String qRCodeImageUrl) {
 		this.qRCodeImageUrl = qRCodeImageUrl;
@@ -499,7 +516,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param referenceQRCodeContent the referenceQRCodeContent to set
+	 * @param referenceQRCodeContent
+	 *            the referenceQRCodeContent to set
 	 */
 	public void setReferenceQRCodeContent(String referenceQRCodeContent) {
 		this.referenceQRCodeContent = referenceQRCodeContent;
@@ -513,7 +531,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param referenceQRCodeImageUrl the referenceQRCodeImageUrl to set
+	 * @param referenceQRCodeImageUrl
+	 *            the referenceQRCodeImageUrl to set
 	 */
 	public void setReferenceQRCodeImageUrl(String referenceQRCodeImageUrl) {
 		this.referenceQRCodeImageUrl = referenceQRCodeImageUrl;
@@ -527,7 +546,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param noteQRCodeContent the noteQRCodeContent to set
+	 * @param noteQRCodeContent
+	 *            the noteQRCodeContent to set
 	 */
 	public void setNoteQRCodeContent(String noteQRCodeContent) {
 		this.noteQRCodeContent = noteQRCodeContent;
@@ -541,7 +561,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param noteQRCodeImageUrl the noteQRCodeImageUrl to set
+	 * @param noteQRCodeImageUrl
+	 *            the noteQRCodeImageUrl to set
 	 */
 	public void setNoteQRCodeImageUrl(String noteQRCodeImageUrl) {
 		this.noteQRCodeImageUrl = noteQRCodeImageUrl;
@@ -555,7 +576,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param integral the integral to set
+	 * @param integral
+	 *            the integral to set
 	 */
 	public void setIntegral(int integral) {
 		this.integral = integral;
@@ -569,7 +591,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param addIntegral the addIntegral to set
+	 * @param addIntegral
+	 *            the addIntegral to set
 	 */
 	public void setAddIntegral(int addIntegral) {
 		this.addIntegral = addIntegral;
@@ -583,7 +606,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param giveIntegral the giveIntegral to set
+	 * @param giveIntegral
+	 *            the giveIntegral to set
 	 */
 	public void setGiveIntegral(int giveIntegral) {
 		this.giveIntegral = giveIntegral;
@@ -597,7 +621,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param lan the lan to set
+	 * @param lan
+	 *            the lan to set
 	 */
 	public void setLan(String lan) {
 		this.lan = lan;
@@ -611,7 +636,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param yong the yong to set
+	 * @param yong
+	 *            the yong to set
 	 */
 	public void setYong(String yong) {
 		this.yong = yong;
@@ -625,7 +651,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param levleId the levleId to set
+	 * @param levleId
+	 *            the levleId to set
 	 */
 	public void setLevleId(String levleId) {
 		this.levleId = levleId;
@@ -639,7 +666,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param referencelan the referencelan to set
+	 * @param referencelan
+	 *            the referencelan to set
 	 */
 	public void setReferencelan(String referencelan) {
 		this.referencelan = referencelan;
@@ -653,7 +681,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param referenceyong the referenceyong to set
+	 * @param referenceyong
+	 *            the referenceyong to set
 	 */
 	public void setReferenceyong(String referenceyong) {
 		this.referenceyong = referenceyong;
@@ -667,7 +696,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param notelan the notelan to set
+	 * @param notelan
+	 *            the notelan to set
 	 */
 	public void setNotelan(String notelan) {
 		this.notelan = notelan;
@@ -681,7 +711,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param noteyong the noteyong to set
+	 * @param noteyong
+	 *            the noteyong to set
 	 */
 	public void setNoteyong(String noteyong) {
 		this.noteyong = noteyong;
@@ -695,7 +726,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param noteUsername the noteUsername to set
+	 * @param noteUsername
+	 *            the noteUsername to set
 	 */
 	public void setNoteUsername(String noteUsername) {
 		this.noteUsername = noteUsername;
@@ -732,7 +764,7 @@ public class Member implements java.io.Serializable {
 	public void setUpdateInfoNum(Integer updateInfoNum) {
 		this.updateInfoNum = updateInfoNum;
 	}
-	
+
 	/**
 	 * @return the upgradeState
 	 */
@@ -741,7 +773,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param upgradeState the upgradeState to set
+	 * @param upgradeState
+	 *            the upgradeState to set
 	 */
 	public void setUpgradeState(Integer upgradeState) {
 		this.upgradeState = upgradeState;
@@ -755,7 +788,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param auditGradeTime the auditGradeTime to set
+	 * @param auditGradeTime
+	 *            the auditGradeTime to set
 	 */
 	public void setAuditGradeTime(Date auditGradeTime) {
 		this.auditGradeTime = auditGradeTime;
@@ -769,7 +803,8 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param auditGradeUserName the auditGradeUserName to set
+	 * @param auditGradeUserName
+	 *            the auditGradeUserName to set
 	 */
 	public void setAuditGradeUserName(String auditGradeUserName) {
 		this.auditGradeUserName = auditGradeUserName;
@@ -783,11 +818,27 @@ public class Member implements java.io.Serializable {
 	}
 
 	/**
-	 * @param rzstatus the rzstatus to set
+	 * @param rzstatus
+	 *            the rzstatus to set
 	 */
 	public void setRzstatus(Integer rzstatus) {
 		this.rzstatus = rzstatus;
 	}
-	
-	
+
+	public String getMbwtTwo() {
+		return mbwtTwo;
+	}
+
+	public void setMbwtTwo(String mbwtTwo) {
+		this.mbwtTwo = mbwtTwo;
+	}
+
+	public String getMbwtDn2Two() {
+		return mbwtDn2Two;
+	}
+
+	public void setMbwtDn2Two(String mbwtDn2Two) {
+		this.mbwtDn2Two = mbwtDn2Two;
+	}
+
 }

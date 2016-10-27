@@ -670,6 +670,8 @@ public class MemberController {
 			Member member = this.springMemberService.selectMemberById(info.getId());
 			member.setMbwt(info.getMbwt());
 			member.setMbwtDn(info.getMbwtDn());
+			member.setMbwtTwo(info.getMbwtTwo());
+			member.setMbwtDn2Two(info.getMbwtDn2Two());
 			member.setLan(info.getLan());
 			member.setYong(info.getYong());
 			member.setUpdateInfoNum(1);

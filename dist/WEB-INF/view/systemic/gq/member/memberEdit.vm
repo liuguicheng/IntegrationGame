@@ -10,6 +10,8 @@
   validator.addNormalCheckPoint("password", "登陆密码", "checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("mbwt", "密保问题", "checkNotNull;checkNotEmpty");
   validator.addNormalCheckPoint("mbwtDn", "密保答案", "checkNotNull;checkNotEmpty");
+    validator.addNormalCheckPoint("mbwtTwo", "密保问题2", "checkNotNull;checkNotEmpty");
+  validator.addNormalCheckPoint("mbwtDn2Two", "密保答案2", "checkNotNull;checkNotEmpty");
  function confirmPassword()
   {
     var e = document.editForm;
@@ -144,8 +146,11 @@
 	<tr>
       <td class="TdLabel">#requiredInput("密保问题")</td>
       <td class="TdInput">
-		问题: #formSingleSelectDictionary("mbwt" $!{command.mbwt} ${dicData.dicSecurityQuestion} "style='width:120'" " ---- 请选择 ---- ")
-		答案:<input type="text" name="mbwtDn" value="" style="width:16.5%;"/>
+		问题1: #formSingleSelectDictionary("mbwt" $!{command.mbwt} ${dicData.dicSecurityQuestion} "style='width:180px'" " ---- 请选择 ---- ")
+		答案1:<input type="text" name="mbwtDn" value="" style="width:16.5%;"/>
+		<br/><br/>
+		问题2: #formSingleSelectDictionary("mbwtTwo" $!{command.mbwtTwo} ${dicData.dicSecurityQuestionTwo} "style='width:180px'" " ---- 请选择 ---- ")
+		答案2:<input type="text" name="mbwtDn2Two" value="" style="width:16.5%;"/>
       </td>
     </tr>
   </table>

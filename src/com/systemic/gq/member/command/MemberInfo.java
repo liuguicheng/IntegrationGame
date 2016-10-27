@@ -74,6 +74,10 @@ public class MemberInfo extends PaginationInfo{
 	private String mbwt;
 	//密保问题答案
 	private String mbwtDn;
+	// 密保问题2
+	private String mbwtTwo;
+	// 密保问题答案2
+	private String mbwtDn2Two;
 	//真实姓名
 	private String zsxm;
 	private String sfzhm;
@@ -821,4 +825,17 @@ public class MemberInfo extends PaginationInfo{
 	public void setApplyUpgradeCountDown(String applyUpgradeCountDown) {
 		this.applyUpgradeCountDown = applyUpgradeCountDown;
 	}
+	public String getMbwtTwo() {
+		return mbwtTwo;
+	}
+	public void setMbwtTwo(String mbwtTwo) {
+		this.mbwtTwo = mbwtTwo;
+	}
+	public String getMbwtDn2Two() {
+		return mbwtDn2Two;
+	}
+	public void setMbwtDn2Two(String mbwtDn2Two) {
+		this.mbwtDn2Two = mbwtDn2Two;
+	}
+	
 }

@@ -547,9 +547,12 @@ public class MainController extends SpringlineMultiActionController {
 		String username = request.getParameter("userName")!=null?request.getParameter("userName").trim():"";
 		String mbwt = request.getParameter("mbwt")!=null?request.getParameter("mbwt"):"";
 		String mbwtDn = request.getParameter("mbwtDn")!=null?request.getParameter("mbwtDn"):"";
+		String mbwtTwo = request.getParameter("mbwtTwo")!=null?request.getParameter("mbwtTwo"):"";
+		String mbwtDn2Two = request.getParameter("mbwtDn2Two")!=null?request.getParameter("mbwtDn2Two"):"";
 		Member member=ConsoleHelper.getInstance().getSpringMemberService().selectMemberByUserName(username);
 		if(member!=null){
-			if(member.getMbwt().equals(mbwt)&&member.getMbwtDn().equals(mbwtDn)){
+			if(member.getMbwt().equals(mbwt)&&member.getMbwtDn().equals(mbwtDn)&&
+					member.getMbwtTwo().equals(mbwtTwo)&&member.getMbwtDn2Two().equals(mbwtDn2Two)){
 				url="main/newPassword";
 				message=null;
 				model.put("id", member.getStaffId());

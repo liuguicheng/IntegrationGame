@@ -91,6 +91,12 @@
 		<property name="mbwtDn" type="java.lang.String">
 			<column name="mbwt_dn" length="125"/>
 		</property>
+		<property name="mbwtTwo" type="java.lang.String">
+			<column name="mbwtTwo" length="100" />
+		</property>
+		<property name="mbwtDn2Two" type="java.lang.String">
+			<column name="mbwtDn2Two" length="125"/>
+		</property>
 		<property name="email" type="java.lang.String">
 			<column name="email" length="50"/>
 		</property>
