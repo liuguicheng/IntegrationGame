@@ -47,6 +47,7 @@ function selectNote(){
 					var str=s[0].message;
 					if(s[0].code==1){
 						var res=str.split(",");
+						
 				 		$("#notelan").html(res[0]);
 				 		$("#noteyong").html(res[1]);
 					}else{
@@ -104,8 +105,8 @@ function selectNote(){
       </td>
       <td class="TdLabel" style="width:100px;">#requiredInput("πÈ Ùµ„¡Æ»œ÷§:")</td>
       <td class="TdInput">
-        <input type="hidden"  name="notelan" value="" id="notelan" readonly >
-			  <textarea name="noteyong"  readonly  id="noteyong" cols=40 rows=4></textarea>
+        <input type="hidden" name="noteyong"  value=""  id="noteyong" readonly >
+			  <textarea  name="notelan" id="notelan" cols=40 rows=4 readonly></textarea>
       </td>
     </tr>
   </table>

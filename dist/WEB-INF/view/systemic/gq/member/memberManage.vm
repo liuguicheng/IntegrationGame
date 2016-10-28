@@ -103,8 +103,8 @@
       </td>
       <td class="TdLabel" style="width:100px;">#requiredInput("πÈ Ùµ„'¡Æ'Õ®µ¿:")</td>
       <td class="TdInput">
-        <input type="text" name="notelan" value="" id="notelan" readonly >
-			  <input type="hidden" name="noteyong" value="" id="noteyong" >
+         <input type="hidden" name="noteyong"  value=""  id="noteyong" readonly >
+			  <textarea  name="notelan" id="notelan" cols=40 rows=4 readonly></textarea>
       </td>
     </tr>
   </table>
