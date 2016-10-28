@@ -204,7 +204,7 @@ public class SpringMsgService implements IMsgService {
 	}
 
 	@Override
-	public void insertMessageForEmail(String receiveMan, String content, String title, String string, String memberId,String sendman) {
+	public SysMessage insertMessageForEmail(String receiveMan, String content, String title, String string, String memberId,String sendman) {
 		SysMessage msg = new SysMessage();
 		msg.setContent(content);
 		msg.setSendTime(new Date());
@@ -215,6 +215,7 @@ public class SpringMsgService implements IMsgService {
 		msg.setMessageType(string);
 		msg.setReceiveMan(receiveMan);
 		this.msgDao.save(msg);
+		return msg;
 	}
 	@Override
 	public void insertMessageForNotice(String receiveMan, String content, String title, String string, String memberId,String sendman,String level) {

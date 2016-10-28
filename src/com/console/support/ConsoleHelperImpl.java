@@ -21,6 +21,7 @@ import com.console.operate.service.IOperateService;
 import com.console.operatelog.service.IOperateLogService;
 import com.console.power.service.IPowerService;
 import com.console.role.service.IRoleService;
+import com.plugins.msg.service.IImagesFileService;
 import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.bonus.service.IBonusRecordServcie;
 import com.systemic.gq.entity.Member;
@@ -89,6 +90,7 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 	private IStockService stockService;
 	private IMsgService msgService;
 	private IDBBackupService backupService;
+	private IImagesFileService imagesfileService;
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
@@ -368,6 +370,23 @@ public class ConsoleHelperImpl extends ConsoleHelper implements
 	 */
 	public void setBackupService(IDBBackupService backupService) {
 		this.backupService = backupService;
+	}
+
+	/**
+	 * @return the imagesfileService
+	 */
+	public IImagesFileService getImagesfileService() {
+		if(imagesfileService==null){
+			throw new RuntimeException("ConsoleHeler无法提供imagesfileService接口！");
+		}
+		return imagesfileService;
+	}
+
+	/**
+	 * @param imagesfileService the imagesfileService to set
+	 */
+	public void setImagesfileService(IImagesFileService imagesfileService) {
+		this.imagesfileService = imagesfileService;
 	}
 	
 }

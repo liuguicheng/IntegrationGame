@@ -178,7 +178,7 @@ public interface IMsgService {
 
 	void deleteMessageForDel(String[] ids);
 
-	void insertMessageForEmail(String receiveMan, String content, String title, String string, String memberId,String sendman);
+	SysMessage insertMessageForEmail(String receiveMan, String content, String title, String string, String memberId,String sendman);
 	void insertMessageForNotice(String receiveMan, String content, String title, String string, String memberId,String sendman,String level);
 
 	Page selectNoticeMessage(MessageQueryInfo info);

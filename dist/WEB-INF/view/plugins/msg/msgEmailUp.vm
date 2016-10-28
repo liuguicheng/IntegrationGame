@@ -9,6 +9,9 @@
    <script type="text/javascript" src="../script/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" src="../script/ueditor/ueditor.all.min.js"></script>
 	 <script type="text/javascript" src="../script/ueditor/lang/zh-cn/zh-cn.js"></script>
+	    <script type="text/javascript" src="../script/upload/jQuery.autoIMG.min.js"></script>
+			<script type="text/javascript" src="../script/upload/webuploader.min.js"></script>
+	   <link rel="stylesheet" type="text/css" href="../script/upload/webuploader.css">
 </head>
 <body>
 <div class="PageHeader">
@@ -36,20 +39,65 @@
       </td>
     </tr>
     <tr>
-      <td class="TdLabel">反馈内容<br/><span style="color:red;font-size:12px;">(可直接拖动图片至文本框内,图片名称不支持中文)</span></td>
+      <td class="TdLabel">反馈内容<br/><span style="color:red;font-size:12px;"></span></td>
       <td class="TdInput" >
 		 <input id="hfcontentid" type="hidden"  value=""  />
-		 <script id="hfeditor" type="text/plain" style="width:1024px;height:500px;">$!{command.content}</script>
+		 <script id="hfeditor" type="text/plain" style="width:98%;">$!{command.content}</script>
       </td>
     </tr>
+	 <tr>
+        <td class="TdLabel">反馈图片</td>
+        <td  class="TdInput" >
+			<div class="demodf">
+				#if(${iamgesfile})
+			  #foreach( $data in $iamgesfile)
+				<div class="demo2">
+				<img alt="" src="../imgss.jsp?file=$!{data.fileurl}"  class="file-item" onclick="fdimg('../imgss.jsp?file=$!{data.fileurl}')" />
+				</div>
+			  #end
+			  #else
+				暂无反馈图片
+			  #end
+			</div>
+		</td>
+	</tr>
 	#if($!{command.isReaded}==2||$!{command.isReaded}==1)
 	<tr>
-      <td class="TdLabel">#requiredInput("回复内容")<br/><span style="color:red;font-size:12px;">(可直接拖动图片至文本框内,图片名称不支持中文)</span></td>
+      <td class="TdLabel">#requiredInput("回复内容")<br/><span style="color:red;font-size:12px;"></span></td>
       <td class="TdInput" >
 		<input id="contentid" type="hidden" name="hfmessage" value=""  />
-		 <script id="editor" type="text/plain" style="width:1024px;height:500px;">$!{command.hfmessage}</script>
+		 <script id="editor" type="text/plain" style="width:98%;">$!{command.hfmessage}</script>
       </td>
     </tr>
+	#if($!{command.isReaded}!=1)
+		 <tr>
+        <td class="TdLabel">回复反馈图片</td>
+        <td  class="TdInput" >
+			<div class="demodf">
+				#if(${hfiamgesfile})
+			  #foreach( $data in $hfiamgesfile)
+				<div class="demo2">
+				<img alt="" src="../imgss.jsp?file=$!{data.fileurl}"  class="file-item" onclick="fdimg('../imgss.jsp?file=$!{data.fileurl}')" />
+				</div>
+			  #end
+			   #else
+				暂无回复反馈图片
+			  #end
+			</div>
+		</td>
+	</tr>
+	#else
+		 <tr>
+        <td class="TdLabel">上传图片</td>
+        <td  class="TdInput" >
+			<div id="uploader-demo">
+				<!--用来存放item-->
+				<div id="fileList" class="uploader-list"></div>
+				<div id="filePicker" >选择图片</div>
+			</div>
+		</td>
+	</tr>
+	#end
 	#end
   </table>
 </form>
@@ -61,11 +109,53 @@
     #end
    <input type="button" id="btnconfirm" value="返回" onclick="javascript:doReturn();"/>
 </div>
+ <div class="bg"></div>
+ <div class="content"></div>
 <script type="text/javascript">  
 validator.formName = "editForm";
   validator.addNormalCheckPoint("content", "回复内容不能为空", "checkNotNull;checkNotEmpty");
-  var ue = UE.getEditor('editor');
-  var ues = UE.getEditor('hfeditor');
+ 
+ var ue = UE.getEditor('editor', {
+    toolbars: [
+        [
+        'undo', //撤销
+        'redo', //重做
+        'bold', //加粗
+        'indent', //首行缩进
+        'italic', //斜体
+        'underline', //下划线
+        'fontfamily', //字体
+        'fontsize', //字号
+        'paragraph', //段落格式
+        'forecolor', //字体颜色
+        'backcolor', //背景色
+        'insertorderedlist' //有序列表
+		]
+    ],
+    autoHeightEnabled: true,
+    autoFloatEnabled: true
+});
+  var ues = UE.getEditor('hfeditor', {
+    toolbars: [
+        [
+        'undo', //撤销
+        'redo', //重做
+        'bold', //加粗
+        'indent', //首行缩进
+        'italic', //斜体
+        'underline', //下划线
+        'fontfamily', //字体
+        'fontsize', //字号
+        'paragraph', //段落格式
+        'forecolor', //字体颜色
+        'backcolor', //背景色
+        'insertorderedlist' //有序列表
+		]
+    ],
+    autoHeightEnabled: true,
+    autoFloatEnabled: true
+});
+
   function doSave(){
     ue.ready(function() {
 		var arr=ue.getContent();
@@ -99,8 +189,7 @@ validator.formName = "editForm";
 
 	var comid=$("#comid").val();
  
-  
-  
 </script>
+<script type="text/javascript" src="../script/upload/demo.js"></script>
 </body>
 </html>

@@ -111,6 +111,8 @@
                   <value>com/systemic/gq/entity/IntegrationGameRule.hbm.xml</value>
                   <!--玩家等级  -->
                   <value>com/systemic/gq/entity/Level.hbm.xml</value>
+                  <!-- 图片记录表 -->
+                  <value>com/plugins/msg/entity/ImagesFile.hbm.xml</value>
             </list>
         </property>
     </bean>

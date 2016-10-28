@@ -1,7 +1,9 @@
 package com.plugins.msg.controller;
 
+import java.awt.image.ImageFilter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.plugins.msg.command.MessageQueryInfo;
+import com.plugins.msg.entity.ImagesFile;
 import com.plugins.msg.entity.SysMessage;
 import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.entity.Member;
@@ -465,28 +468,46 @@ public class MessageController extends SpringlineMultiActionController {
 		Map model = new HashMap();
 		model.put("message", "发送失败");
 		try {
-			
+			String[] filenames=request.getParameterValues("filenames");
 			String title = request.getParameter("messageTitel");
 			String content = request.getParameter("content");
 			String receiveMan = request.getParameter("receiveMan");
 			String messageType=request.getParameter("messageType");
-			
+			SysMessage message=null;
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 			
 			if(messageType.equals("3")){
 				//反馈信息
 				//接收人 系统管理员 运营人员
-				
 				receiveMan="99999999";
-				this.msgService.insertMessageForEmail(receiveMan,content, title, messageType, member.getUserName(),member.getBsid());
+				message=this.msgService.insertMessageForEmail(receiveMan,content, title, messageType, member.getUserName(),member.getBsid());
 			}
-			
+			if(filenames!=null&&!"".equals(filenames)&&message!=null){
+				//如果有图片，则记录图片
+				AddImagefile(filenames, message.getSysMessageInfoId(),"1");
+			}
 			model.put("message", "发送成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ModelAndView(new GBRedirectView(getViewMap().get("toaddView").toString()), model);
+	}
+
+	private void AddImagefile(String[] filenames, String fileid,String type) {
+		ImagesFile imagesfile=null;
+		for (String string : filenames) {
+			imagesfile=new ImagesFile();
+			imagesfile.setFilename(string);
+			imagesfile.setFileurl("D://qcode//"+string);	
+			imagesfile.setCreateTime(new Date());
+			imagesfile.setFiel_id(fileid);
+			imagesfile.setFiletype(type);
+			ConsoleHelper.getInstance().getImagesfileService().insertImagesFile(imagesfile);
+		}
+	}
+	private List<ImagesFile> selectImagesfile(String fileid,String type){
+		 return ConsoleHelper.getInstance().getImagesfileService().selectImagesFileByFileid(fileid,type);
 	}
 	/**
 	 * to 回复反馈 页面
@@ -495,6 +516,8 @@ public class MessageController extends SpringlineMultiActionController {
 		Map model = new HashMap();
 		String id=request.getParameter("id");
 		SysMessage sysmessage= this.msgService.selectMessageById(id);
+		List<ImagesFile> iamgesfile=null;
+		List<ImagesFile> hfiamgesfile=null;
 		if(sysmessage!=null){
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member member = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
@@ -503,8 +526,13 @@ public class MessageController extends SpringlineMultiActionController {
 			sysmessage.setIsReaded("1");
 			this.msgService.updateMessage(sysmessage);
 			}
+			//查询图片
+			iamgesfile= selectImagesfile(sysmessage.getSysMessageInfoId(),"1");
+			hfiamgesfile=selectImagesfile(sysmessage.getSysMessageInfoId(),"2");
 		}
 		model.put("command", sysmessage);
+		model.put("iamgesfile", iamgesfile);
+		model.put("hfiamgesfile", hfiamgesfile);
 		return new ModelAndView(getViewMap().get("toUpEmailMessage").toString(), model);
 	}
 	
@@ -514,6 +542,7 @@ public class MessageController extends SpringlineMultiActionController {
 	public ModelAndView doUpEmailMessage(HttpServletRequest request, HttpServletResponse response) {
 		Map model = new HashMap();
 		model.put("message", "回复失败");
+		String[] filenames=request.getParameterValues("filenames");
 		String sysMessageInfoId=request.getParameter("sysMessageInfoId");
 		String hfmessage=request.getParameter("hfmessage");
 		SysMessage sysmessage= this.msgService.selectMessageById(sysMessageInfoId);
@@ -521,6 +550,11 @@ public class MessageController extends SpringlineMultiActionController {
 			sysmessage.setHfmessage(hfmessage);
 			sysmessage.setIsReaded("2");
 			this.msgService.updateMessage(sysmessage);
+			
+			if(filenames!=null&&!"".equals(filenames)&&sysmessage!=null){
+				//如果有图片，则记录图片
+				AddImagefile(filenames, sysmessage.getSysMessageInfoId(),"2");
+			}
 			model.put("message", "回复成功");
 		}
 		return new  ModelAndView(new GBRedirectView(getViewMap().get("addemailMessageView").toString()), model);
@@ -536,11 +570,15 @@ public class MessageController extends SpringlineMultiActionController {
 		String[] sysMessageid=request.getParameterValues("sysMessageid");
 		if (sysMessageid != null && sysMessageid.length > 0) {
 			this.msgService.deletePhyMessage(sysMessageid);
+			//删除图片
+			delImageFile(sysMessageid);
 			model.put("message", "删除成功");
 		}
 		return new ModelAndView(new GBRedirectView(getViewMap().get("addemailMessageView").toString()), model);
 	}
-	
+	private void delImageFile(String[] id){
+		ConsoleHelper.getInstance().getImagesfileService().deleteImageFile(id);
+	}
 
 	/**
 	 * 删除消息

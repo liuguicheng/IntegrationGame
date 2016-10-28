@@ -19,6 +19,8 @@
 	<import resource="classpath:com/plugins/pending/plugins-pendingitem.config.xml"/>
 	<!-- 短消息 -->
 	<import resource="classpath:com/plugins/sms/plugins-sms.config.xml"/>
+	<!-- 图片文件 -->
+	<import resource="classpath:com/plugins/msg/plugins-imagesfile.config.xml"/>
 	<!-- 放假原因 -->
     <bean class="org.springline.beans.dictionary.support.SystemDictionaryInstance">
         <property name="identifier"><value>dicHolidayReason</value></property>
