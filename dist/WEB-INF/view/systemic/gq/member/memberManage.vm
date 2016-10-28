@@ -311,6 +311,7 @@
 			#if($!{data.upgradeState}==1)
 				<a style="color:red;" href="javascript:gradelevel('$!{data.memberId}')">[…Í«Î…˝º∂]</a><br/>
 			#elseif($!{data.upgradeState}==2)	
+				
 				#set($vasd=$!{data.stock.gradeNum})
 			#set($Integer = 0)
 		   #set($df=$Integer.parseInt($vasd))
@@ -541,10 +542,10 @@ function gradelevel(id){
 }
 
 //…˝º∂…Í«Î…Û∫Àdiv
-function gradeAuditDiv(username,le1){
+function gradeAuditDiv(username,le1,le2){
 		$("#gradeAudit_username").val(username);
-		$("#gradeAudit_1").val("le1);
-		$("#gradeAudit_2").val("le2);
+		$("#gradeAudit_1").val(le1);
+		$("#gradeAudit_2").val(le2);
 		var width = width || 800;
 	    var divobj = $("#gradeAudit");
 	    if(divobj.is(":visible")) {
