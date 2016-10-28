@@ -6,6 +6,7 @@
 	.acolor{
 		color:red;
 	}
+	
   </style>
   <script type="text/javascript">
   #if($message)alert("#javaScriptEscape($message)");#end
@@ -235,41 +236,34 @@
 <table class="TbList">
   <thead> 
     <tr>
-      <th style="width:20px;" nowrap>
+      <th style="width:1%;" nowrap>
         <input type="checkbox" onclick="javascript:setCheckBoxValue('memberId', this.checked);">
       </th>
-        <th >玩家编号</th>
-		<th >玩家昵称</th>
-		<th width="150px">二维码</th> 
-        <th >目前认证人品面</th>
-		<th >推荐人编号</th> 
-		<th >归属人编号</th> 
-		<th width="150px">“廉”通道</th> 
-		<th width="150px">“勇”通道</th> 
-		<th >注册时间</th> 
-		<th >参与游戏时间</th>
-		<th >状态</th>
-		<th >操作</th> 
+        <th width="10%" >玩家编号</th>
+		<th width="5%">玩家昵称</th>
+		<th width="9%">二维码</th> 
+        <th width="5%">目前认证人品面</th>
+		<th width="5%">推荐人编号</th> 
+		<th width="5%">归属人编号</th> 
+		<th width="15%">“廉”认证通道</th> 
+		<th width="15%">“勇”认证通道</th> 
+		<th width="10%">注册时间</th> 
+		<th width="10%">参与游戏时间</th>
+		<th width="5%">状态</th>
+		<th width="10%">操作</th> 
     </tr>
   </thead>
   <tbody>
   #foreach( $data in $page.data )
     <tr>
       <td><input type="checkbox" name="memberId" value="$!{data.memberId}"></td>
-      <td><a href="../member/MemberInfo.do?memberId=$!{data.memberId}">
-			<span style="color:red;">
-				#if($!{data.rzstatus}==2)
-				 【孝】
-				#end
-			</span> 
-			$!{data.userName}
-	  </a></td>
+      <td><a href="../member/MemberInfo.do?memberId=$!{data.memberId}"><span style="color:red;">#if($!{data.rzstatus}==2)【孝】#end</span>$!{data.userName}</a></td>
 	  <td>$!{data.bsid}</td>
       <td>
 		#if(!${data.qRCodeImageUrl})
 			暂无二维码
 		#else
-			<img src="../imgss.jsp?file=$!{data.qRCodeImageUrl}"height="50%"	>
+			<img src="../imgss.jsp?file=$!{data.qRCodeImageUrl}" width="100%"	>
 		#end	
 		</td>
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
@@ -281,16 +275,16 @@
 			$!{data.noteUsername}
 		#end
 		</td>
-		<td >$!{data.lan}</td>
-		<td >$!{data.yong}</td>
-      <td >#formatTime(${data.createTime})</td>
-	  <td >#if(!${data.activationTime})
+		<td>$!{data.lan}</td>
+		<td>$!{data.yong}</td>
+      <td>#formatTime(${data.createTime})</td>
+	  <td>#if(!${data.activationTime})
 			暂未参加
 			#else
 				#formatTime(${data.activationTime})
 			#end
 		</td>
-		<td >#if(${data.isok}==1)
+		<td>#if(${data.isok}==1)
 				正常
 			#elseif(${data.isok}==2)
                 <span style="color:red;">半永久封号</span>
@@ -298,7 +292,7 @@
 				<span style="color:red;">永久封号</span>
 			#end
 		</td>
-	  <td > 
+	  <td> 
 		<a href="../member/MemberInfo.do?memberId=$!{data.memberId}">[编辑]</a><br/>
 		#if($!{data.isActivation}==0)
 			<a href="javascript:activation('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.referencelan}')">[申请加入游戏]</a> <br/>
@@ -317,7 +311,11 @@
 			#if($!{data.upgradeState}==1)
 				<a style="color:red;" href="javascript:gradelevel('$!{data.memberId}')">[申请升级]</a><br/>
 			#elseif($!{data.upgradeState}==2)	
-				<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[升级审核]</a><br/>
+				#set($vasd=$!{data.stock.gradeNum})
+			#set($Integer = 0)
+		   #set($df=$Integer.parseInt($vasd))
+		   #set($dfw=$df+1)
+				<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")','#lookUpDict($dicData.dicStockLevel "$dfw")')">[升级审核]</a><br/>
 			#end
 		#end
 		#if($!{data.rzstatus}==1)
@@ -544,10 +542,9 @@ function gradelevel(id){
 
 //升级申请审核div
 function gradeAuditDiv(username,le1){
-		var le2=parseInt(le1)+1;
 		$("#gradeAudit_username").val(username);
-		$("#gradeAudit_1").val("V"+le1);
-		$("#gradeAudit_2").val("V"+le2);
+		$("#gradeAudit_1").val("le1);
+		$("#gradeAudit_2").val("le2);
 		var width = width || 800;
 	    var divobj = $("#gradeAudit");
 	    if(divobj.is(":visible")) {

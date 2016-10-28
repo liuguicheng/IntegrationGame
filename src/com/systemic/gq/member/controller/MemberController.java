@@ -30,6 +30,7 @@ import com.console.entity.OperateLog;
 import com.console.entity.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.plugins.dictionary.DictionaryHelper;
 import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.entity.SysMessage;
 import com.systemic.gq.bonus.settlement.BonusRecordHelper;
@@ -1064,11 +1065,14 @@ public class MemberController {
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-申请升级,玩家编号为：" + member.getStaffId();
 			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember("申请升级", loginmember, logContent);
-
+	
+			DictionaryHelper helper= DictionaryHelper.getInstance();
+			String levelStr = helper.getDictionaryService().getDicDataByType("dicStockLevel",member.getStock().getGradeNum()); 
+			String levelStrtw = helper.getDictionaryService().getDicDataByType("dicStockLevel",(member.getStock().getGradeNum()+1)); 
 			// 添加提醒记录
 			String title = "玩家升级提醒";
-			String content = "有" + member.getStock().getGradeNum() + "级编号为" + member.getUserName() + "的玩家申请升级为("
-					+ (Integer.parseInt(member.getStock().getGradeNum()) + 1) + ")级，是否通过请审核";
+			String content = "有" + levelStr + "级编号为" + member.getUserName() + "的玩家申请升级为("
+					+levelStrtw + ")级，是否通过请审核";
 			sendMsg(member, auditGradeUserName, title, content);
 		}
 		msg = ConUnit.tojson(edm);

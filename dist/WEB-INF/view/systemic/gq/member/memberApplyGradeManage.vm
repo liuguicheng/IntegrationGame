@@ -5,11 +5,10 @@
   <script type="text/javascript">
   #if($message)alert("#javaScriptEscape($message)");#end
 //…˝º∂…Í«Î…Û∫Àdiv
-function gradeAuditDiv(username,le1){
-		var le2=parseInt(le1)+1;
+function gradeAuditDiv(username,le1,le2){
 		$("#gradeAudit_username").val(username);
-		$("#gradeAudit_1").val("V"+le1);
-		$("#gradeAudit_2").val("V"+le2);
+		$("#gradeAudit_1").val(le1);
+		$("#gradeAudit_2").val(le2);
 		var width = width || 800;
 	    var divobj = $("#gradeAudit");
 	    if(divobj.is(":visible")) {
@@ -130,17 +129,17 @@ function upgradeAudit(){
       <td>$!{data.userName}</td>
 	  <td>$!{data.bsid}</td>
 	   <td>$!{data.lan}</td>
-      <td>V$!{data.stock.gradeNum}</td>
+      <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
 	  <td > #set($vasd=$!{data.stock.gradeNum})
 			#set($Integer = 0)
 		   #set($df=$Integer.parseInt($vasd))
 		   #set($dfw=$df+1)
-		   V$dfw
+		   #lookUpDict($dicData.dicStockLevel "$dfw")
 	  </td>
 	  <td >#formatTime(${data.applyUpgradeTime})</td>
       <td >
 		#if(${data.isok}==1)
-		<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','$!{data.stock.gradeNum}')">[…˝º∂…Û∫À]</a></td>
+		<a style="color:red;" href="javascript:gradeAuditDiv('$!{data.userName}','#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")','#lookUpDict($dicData.dicStockLevel "$dfw")')">[…˝º∂…Û∫À]</a></td>
 		#elseif(${data.isok}==2)
 				µ±«∞∏√ÕÊº“’Àªß◊¥Ã¨:∞Î”¿æ√∑‚∫≈
 			#else

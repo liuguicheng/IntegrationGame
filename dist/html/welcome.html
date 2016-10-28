@@ -37,8 +37,8 @@
 				<h2><input type="hidden" id="urlid">
 					欢迎您 &nbsp;<span id="username"></span>
 					<br/>
-					账&nbsp;&nbsp; 号:&nbsp;<span id="bhid" style="color:red;"></span><span class="badge badge-danger"
-						id="xzspan" style="font-size: 30px;">孝</span><br/>
+					账&nbsp;&nbsp; 号:&nbsp;<span id="bhid" style="color:red;"></span><span 
+						id="xzspan" ></span><br/>
 				</h2>
 				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">暂未参与游戏</a>
 					<a class="btn btn-success" href="javascript:share();"> <i
@@ -243,16 +243,18 @@
 							}
 							var xz = s[0].rzstatus;
 							if (xz == 0) {
-								$("#xzspan").css("display", "none");
-								$("#xzspan").html("未认证");
+								var sdda="&nbsp;<span class='btn btn-outline btn-warning' style='font-size: 18px;' onclick='rzxz();'>申请孝字认证</span>";
+								$("#xzspan").html(sdda);
 								xzbutton="<button type='button' class='btn btn-outline btn-warning' onclick='rzxz();'>孝</button>"
 								+"<span style='margin-left:30px;'></span>";
 							} else if (xz == 1) {
-								$("#xzspan").css("display", "none");
-								$("#xzspan").html("认证申请中");
+								var sdda="&nbsp;<span class='btn btn-outline btn-primary' style='font-size: 18px;'>孝字认证申请中</span>";
+								$("#xzspan").html(sdda);
 								xzbutton="<button type='button' class='btn btn-outline btn-primary'>孝</button>"
 									+"<span style='margin-left:30px;'></span>";
 							}else{
+								var sdda="&nbsp;<span class='badge badge-danger' style='font-size: 30px;'>孝</span>";
+								$("#xzspan").html(sdda);
 								xzbutton="<button type='button' class='btn btn-outline btn-danger'>孝</button>"
 									+"<span style='margin-left:30px;'></span>";
 							}
