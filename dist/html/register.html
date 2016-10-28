@@ -137,7 +137,7 @@
 					 return ;
 				 }
 			 $.ajax({
-					url : '../member/memberRegisterAjax.do',
+					url : '../member/memberRegisterAjax.po',
 					type : 'POST',
 					data:$("#registerid").serialize(),// ÄãµÄformid
 					cache : false,
@@ -165,7 +165,7 @@
 		 function oncheckLognUserName(){
 			 
 			  $.ajax({
-			        url: '../member/nicknameAjax.do',
+			        url: '../member/nicknameAjax.po',
 			        type: 'POST',
 					data:"bsid="+encodeURI(encodeURI($("#bsidxs").val())),// ÄãµÄformid
 			        cache: false,

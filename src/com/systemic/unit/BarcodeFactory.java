@@ -32,7 +32,7 @@ public class BarcodeFactory {
 	public static String qRCodeContent="http://localhost:8080/IntegrationGame/html/register.html?memberId=";
 //    public static String qRCodeContent="http://112.74.105.229/IntegrationGame/html/register.html?memberId="; 
     public static String path="D://qcode//";
-    public static String logoImgUrl="D://qcode//logo.jpg";
+    public static String logoImgUrl="D://qcode//logo.png";
     // ¶þÎ¬ÂëÐ´ÂëÆ÷  
     private static MultiFormatWriter mutiWriter = new MultiFormatWriter();  
   
@@ -189,6 +189,6 @@ public class BarcodeFactory {
     public static void main(String[] args) {  
         BarcodeFactory  
                 .encode("http://coolshell.cn/articles/10590.html",  
-                        300, 300, "D:\\Documents\\Downloads\\logo.jpg", "E://qcode//123.png");  
+                        300, 300, "d://qcode//1.png", "d://qcode//123.png");  
     }  
 }

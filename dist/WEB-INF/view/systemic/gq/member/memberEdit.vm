@@ -86,7 +86,7 @@
   var bsid=$("#bsid").val();
   if(bsid!=""){
   	$.ajax({
-        url: '../member/nicknameAjax.do',
+        url: '../member/nicknameAjax.po',
         type: 'POST',
 		data:"bsid="+encodeURI(encodeURI(bsid)),// ÄãµÄformid
         cache: false,

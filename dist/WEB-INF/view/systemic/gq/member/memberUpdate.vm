@@ -82,7 +82,7 @@
   function oncheckLognUserName(){
   console.log($("#bsid").val());
   $.ajax({
-        url: '../member/nicknameAjax.do',
+        url: '../member/nicknameAjax.po',
         type: 'POST',
 		data:"bsid="+encodeURI(encodeURI($("#bsid").val())),// ÄãµÄformid
         cache: false,

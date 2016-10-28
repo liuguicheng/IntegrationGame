@@ -368,7 +368,7 @@ public class MemberController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "/member/memberRegisterAjax.do", produces = "text/plain;charset=gbk")
+	@RequestMapping(value = "/member/memberRegisterAjax.po", produces = "text/plain;charset=gbk")
 	@ResponseBody
 	public String memberRegisterAjax(HttpServletRequest request, HttpServletResponse response, Model model, Long token,
 			MemberEditInfo info) {
@@ -376,6 +376,7 @@ public class MemberController {
 		ErrorDataMsg edm = new ErrorDataMsg();
 		edm.setCode(0);
 		edm.setMessage("注册失败");
+		
 		try {
 			String code = request.getParameter("code");
 			String rand = (String) request.getSession().getAttribute("rand");
@@ -408,6 +409,7 @@ public class MemberController {
 				return msg;
 				
 			}
+			System.out.println("进入1");
 			// 系统设置
 			IntegrationGameRule rule = MemberQuartz.queryRule();
 			String bh = queryBh(rule);
@@ -419,9 +421,9 @@ public class MemberController {
 			Member member = this.springMemberService.saveMermberAjax(info);
 			edm.setCode(1);
 			edm.setMessage(member.getUserName());
-
+			System.out.println("进入2");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("进入3:"+e.getMessage());
 			edm.setMessage(e.getMessage());
 		}
 		msg = ConUnit.tojson(edm);
@@ -458,7 +460,7 @@ public class MemberController {
 	/**
 	 * 验证昵称是否存在
 	 */
-	@RequestMapping(value = "/member/nicknameAjax.do", produces = "text/plain;charset=gbk")
+	@RequestMapping(value = "/member/nicknameAjax.po", produces = "text/plain;charset=gbk")
 	@ResponseBody
 	public String ajaxNicknameAjax(HttpServletRequest request, HttpServletResponse response, MemberEditInfo infos) {
 		MemberInfo info = new MemberInfo();
@@ -468,6 +470,7 @@ public class MemberController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("basi="+infos.getBsid());
 		info.setBsid(infos.getBsid());
 		info.setIsdel(1);
 		List<Member> memberlist = this.springMemberService.selectMemberBy(info);

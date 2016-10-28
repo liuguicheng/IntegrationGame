@@ -63,7 +63,7 @@ public class PowerFilter  extends HttpServlet implements Filter {
         String threePassword=(String) session.getAttribute("threePassword");
         Staff staff =  (Staff) AuthenticationFilter.getAuthenticator(req);   
         if(staff == null){
-            sresponse.sendRedirect(redirectURl); 
+        		 sresponse.sendRedirect(redirectURl); 
         } else {
              try {    
                     //À˘ Ù≤ø√≈
