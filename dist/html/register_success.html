@@ -75,7 +75,13 @@
 			var newsid=newsids[1];//得到参数值
 			var newsname=newsids[0];//得到参数名字
 			console.log(newsid);
-			$("#memberusername").html(newsid);
+			if(newsid.indexOf("&")>=0){
+				//处理微信
+				var sde=newsid.split("&");//对获得的参数字符串按照“&”进行分割
+				$("#memberusername").val(sde[0]);
+			}else{
+				$("#memberusername").val(newsid);
+			}
 		　　} 
 	</script>
 
