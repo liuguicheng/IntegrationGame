@@ -213,10 +213,10 @@ public class ConUnit {
 	public static Page doPage(Page page){
 		if(page.getData()!=null&&!page.getData().isEmpty()){
         	List<SysMessage> sysmessagelist=page.getData();
-        	List<SysMessage> newmessagesle=new ArrayList<SysMessage>();
         	SysMessage sym=null;
         	SysMessage sym2=null;
         	if(sysmessagelist.size()>1){
+        		
         	for (int i = 0; i < sysmessagelist.size(); i++)  //外循环是循环的次数
             {
         		sym=sysmessagelist.get(i);
@@ -228,17 +228,12 @@ public class ConUnit {
                     		&&fs==true
                     		&&sym.getMessageType().equals(sym2.getMessageType()))
                     {
-                    	newmessagesle.add(sym2);
-                    	sysmessagelist.remove(sym2);
-                    }else{
-                    	newmessagesle.add(sym2);
                     	sysmessagelist.remove(sym2);
                     }
 
                 }
             }
-        	page.getData().clear();
-        	page.setData(newmessagesle);
+        	page.setData(sysmessagelist);
         	return page;
         	}
         }
