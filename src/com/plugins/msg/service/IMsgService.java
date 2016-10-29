@@ -182,4 +182,6 @@ public interface IMsgService {
 	void insertMessageForNotice(String receiveMan, String content, String title, String string, String memberId,String sendman,String level);
 
 	Page selectNoticeMessage(MessageQueryInfo info);
+
+	Page selectMessagebyMsg(MessageQueryInfo info);
 }

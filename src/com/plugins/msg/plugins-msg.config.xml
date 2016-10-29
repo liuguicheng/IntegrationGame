@@ -63,6 +63,17 @@
         </list>
       </property>
     </bean>
+     <bean id="msgtaoQueryUtil" class="org.springline.beans.dataquery.support.SimpleQueryMethod">
+      <property name="valueObjectClassName"><value>com.plugins.msg.entity.SysMessage</value></property>
+      <property name="tableAlias"><value>msg</value></property>
+      <property name="orderByClause"><value>sendTime DESC</value></property>
+      <property name="queryParam">
+        <list>
+          <value>receiveMan,staffId,EQU</value>
+        </list>
+      </property>
+    </bean>
+    
       <bean id="instantMsgQueryUtil" class="org.springline.beans.dataquery.support.SimpleQueryMethod">
       <property name="valueObjectClassName"><value>com.plugins.msg.entity.SysMessage</value></property>
       <property name="tableAlias"><value>msg</value></property>
@@ -120,6 +131,7 @@
         <property name="instantMsgQueryUtil"><ref bean="instantMsgQueryUtil"/></property>
         <property name="chatMsgQueryUtil"><ref bean="chatMsgQueryUtil"/></property>
         <property name="chatnoticeMsgQueryUtil"><ref bean="chatnoticeMsgQueryUtil"/></property>
+          <property name="msgtaoQueryUtil"><ref bean="msgtaoQueryUtil"/></property>
     </bean>
 
    <bean id="msgService" class="com.plugins.msg.service.spring.SpringMsgService">
@@ -138,7 +150,8 @@
           <prop key="messageList">../plugins/messageList.do</prop>
           <prop key="unreadedView">msg/msgUnreadedQuery</prop>
           <!-- 公告 -->
-          <prop key="toaddNoticeMessageView">msg/msgnoticeAdd</prop>
+          <prop key="doaddNoticeMessageView">msg/msgNotice</prop>
+             <prop key="toaddNoticeMessageView">msg/msgnoticeAdd</prop>
            <prop key="toaddNoticeMessage">../plugins/toaddNoticeMessage.do</prop>
            <prop key="addNoticeMessageView">../plugins/messageNoticeList.do</prop>
            <!-- 帮助 -->

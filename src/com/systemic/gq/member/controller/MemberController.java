@@ -807,9 +807,14 @@ public class MemberController {
 
 					// 添加提醒记录
 					String title = "新玩家申请加入游戏提醒";
-					String content = "玩家昵称" + member.getBsid() + "申请加入游戏,是否通过审核";
-					sendMsg(member, member.getReferenceName(), title, content);
-					sendMsg(member, member.getNoteUsername(), title, content);
+					String content = "玩家昵称[" + member.getBsid() + "]申请加入游戏,是否通过审核";
+					if( member.getReferenceName().equals(member.getReferenceName())){
+						sendMsg(member, member.getReferenceName(), title, content,"1");
+						sendMsg(member, member.getNoteUsername(), title, content,"1");
+					}else{
+						sendMsg(member, member.getReferenceName(), title, content,"1");
+					}
+					
 				}
 			}
 		}
@@ -818,7 +823,7 @@ public class MemberController {
 	}
 
 	/**
-	 * 添加邮件
+	 * 添加消息
 	 * 
 	 * @param member
 	 *            發送者
@@ -829,8 +834,8 @@ public class MemberController {
 	 * @param content
 	 *            内容
 	 */
-	private void sendMsg(Member member, String receiveMan, String title, String content) {
-		ConsoleHelper.getInstance().getMsgService().insertMessageForEmail(receiveMan, content, title, "1",
+	private void sendMsg(Member member, String receiveMan, String title, String content,String type) {
+		ConsoleHelper.getInstance().getMsgService().insertMessageForEmail(receiveMan, content, title, type,
 				member.getBsid(), member.getUserName());
 	}
 
@@ -903,10 +908,14 @@ public class MemberController {
 
 				// 添加消息
 				String title = "新玩家注册提醒";
-				String content = "有编号" + member.getUserName() + "新玩家加入,推荐点编号" + member.getReferenceName() + ",归属点编号"
-						+ member.getNoteUsername() + ",请知悉";
-				sendMsg(member, member.getReferenceName(), title, content);
-				sendMsg(member, member.getNoteUsername(), title, content);
+				String content = "有编号[" + member.getUserName() + "]新玩家加入,推荐点编号[" + member.getReferenceName() + "],归属点编号["
+						+ member.getNoteUsername() + "],请知悉";
+				if(member.getReferenceName().equals(member.getNoteUsername())){
+					sendMsg(member, member.getReferenceName(), title, content,"0");
+				}else{
+					sendMsg(member, member.getReferenceName(), title, content,"0");
+					sendMsg(member, member.getNoteUsername(), title, content,"0");
+				}
 			} else {
 				// 封号 双方
 				// 申请人
@@ -1071,9 +1080,9 @@ public class MemberController {
 			String levelStrtw = helper.getDictionaryService().getDicDataByType("dicStockLevel",(member.getStock().getGradeNum()+1)); 
 			// 添加提醒记录
 			String title = "玩家升级提醒";
-			String content = "有" + levelStr + "级编号为" + member.getUserName() + "的玩家申请升级为("
+			String content = "有(" + levelStr + ")级编号为[" + member.getUserName() + "]的玩家申请升级为("
 					+levelStrtw + ")级，是否通过请审核";
-			sendMsg(member, auditGradeUserName, title, content);
+			sendMsg(member, auditGradeUserName, title, content,"1");
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;
@@ -1335,7 +1344,7 @@ public class MemberController {
 		MessageQueryInfo info = new MessageQueryInfo();
 		info.setPageSize(10);
 		info.setMessageType(metype);
-		Page page = ConsoleHelper.getInstance().getMsgService().selectMessage(info);
+		Page page = ConUnit.doPage(ConsoleHelper.getInstance().getMsgService().selectMessage(info));
 		List list = page.getData();
 		List relist = new ArrayList<SysMessage>();
 		if (list != null) {

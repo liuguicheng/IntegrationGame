@@ -236,4 +236,9 @@ public class SpringMsgService implements IMsgService {
 	public Page selectNoticeMessage(MessageQueryInfo info) {
 		return msgDao.selectNoticeMessage(info);
 	}
+
+	@Override
+	public Page selectMessagebyMsg(MessageQueryInfo info) {
+		return msgDao.selectMessagebyMsg(info);
+	}
 }

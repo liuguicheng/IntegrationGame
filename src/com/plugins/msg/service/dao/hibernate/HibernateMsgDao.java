@@ -34,8 +34,18 @@ public class HibernateMsgDao extends HibernateCommonDao implements IMsgDao {
     
     /** ≤È—Øπ§æﬂ */
     private IQueryStringUtil chatnoticeMsgQueryUtil;
+    
+    private IQueryStringUtil msgtaoQueryUtil;
+    
 
-    public void setMsgQueryUtil(IQueryStringUtil msgQueryUtil) {
+    /**
+	 * @param msgtaoQueryUtil the msgtaoQueryUtil to set
+	 */
+	public void setMsgtaoQueryUtil(IQueryStringUtil msgtaoQueryUtil) {
+		this.msgtaoQueryUtil = msgtaoQueryUtil;
+	}
+
+	public void setMsgQueryUtil(IQueryStringUtil msgQueryUtil) {
         this.msgQueryUtil = msgQueryUtil;
     }
 
@@ -171,6 +181,34 @@ public class HibernateMsgDao extends HibernateCommonDao implements IMsgDao {
 	        }
 
 	        return this.find(qo.getQueryString(), qo.getParam(), info.getPageNumber().intValue());
+	}
+
+	@Override
+	public Page selectMessagebyMsg(MessageQueryInfo info) {
+		 Object[] values = new Object[30];
+	        int idx = 0;
+			 StringBuffer hql = new StringBuffer(" ");
+		        IQueryObject qo = this.msgtaoQueryUtil.getQueryObject(info);
+		        if(info.getMessageType()!=null){
+		        	if(info.getMessageType().equals("-1")){
+		        		hql.append(" (msg.messageType!=2 and msg.messageType!=3) ) ");
+			        	 Object[] param = new Object[idx];
+			             System.arraycopy(values, 0, param, 0, idx);
+			        	qo= this.msgtaoQueryUtil.getQueryObject(info,hql.toString(),param);
+		        	}else{
+		        		hql.append(" msg.messageType =? ) ");
+			        	 values[idx++] = info.getMessageType();
+			        	 Object[] param = new Object[idx];
+			             System.arraycopy(values, 0, param, 0, idx);
+			        	qo= this.msgtaoQueryUtil.getQueryObject(info,hql.toString(),param);
+		        	}
+		        }
+		        if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
+		            List<SysMessage> data = super.doQuery(qo.getQueryString(), qo.getParam());
+		            return this.putDataToPage(data);
+		        }
+
+		        return this.find(qo.getQueryString(), qo.getParam(), info.getPageNumber().intValue());
 	}
 
 }

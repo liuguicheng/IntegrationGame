@@ -15,6 +15,7 @@ import com.console.entity.Staff;
 import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.entity.Member;
+import com.systemic.unit.ConUnit;
 
 public class MessageEmailQueryController extends PaginationQueryController {
 

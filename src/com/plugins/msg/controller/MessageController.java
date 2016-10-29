@@ -312,7 +312,7 @@ public class MessageController extends SpringlineMultiActionController {
 			model.put("command", sysmessage);
 		}
 		
-		return new ModelAndView(getViewMap().get("toaddNoticeMessageView").toString(), model);
+		return new ModelAndView(getViewMap().get("doaddNoticeMessageView").toString(), model);
 	}
 
 	/**

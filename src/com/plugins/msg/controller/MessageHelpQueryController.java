@@ -13,6 +13,7 @@ import org.springline.web.pagination.PaginationQueryController;
 import com.console.entity.Staff;
 import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.service.IMsgService;
+import com.systemic.unit.ConUnit;
 
 public class MessageHelpQueryController extends PaginationQueryController {
 	
@@ -34,7 +35,7 @@ public class MessageHelpQueryController extends PaginationQueryController {
         MessageQueryInfo info = (MessageQueryInfo) command;
         info.setMessageType("3");
          
-        Page page = this.msgService.selectMessage(info);
+        Page page = ConUnit.doPage(this.msgService.selectMessage(info));
         return page;
     }
 }

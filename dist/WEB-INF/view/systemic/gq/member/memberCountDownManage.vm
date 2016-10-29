@@ -74,7 +74,7 @@
       </td>
       <td class="TdLabel" style="width:100px;">推荐点'廉'通道:</td>
       <td class="TdInput">
-       <textarea   id="referencelan" cols=40 rows=4 readonly ></textarea>
+       <textarea   id="referencelan" cols=28 rows=4 readonly ></textarea>
       </td>
     </tr>
 	<tr>
@@ -85,7 +85,7 @@
       <td class="TdLabel" style="width:100px;">#requiredInput("归属点'廉'通道:")</td>
       <td class="TdInput">
        <input type="hidden" name="noteyong"  value=""  id="noteyong" readonly >
-			  <textarea  name="notelan" id="notelan" cols=40 rows=4 readonly ></textarea>
+			  <textarea  name="notelan" id="notelan" cols=28 rows=4 readonly ></textarea>
       </td>
     </tr>
   </table>

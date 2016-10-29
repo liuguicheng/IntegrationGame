@@ -93,7 +93,7 @@
       </td>
       <td class="TdLabel" style="width:100px;">推荐点'廉'通道:</td>
       <td class="TdInput">
-        <input type="text" value="" id="referencelan" readonly>
+			 <textarea   id="referencelan" cols=28 rows=4 readonly></textarea>
       </td>
     </tr>
 	<tr>
@@ -104,7 +104,7 @@
       <td class="TdLabel" style="width:100px;">#requiredInput("归属点'廉'通道:")</td>
       <td class="TdInput">
          <input type="hidden" name="noteyong"  value=""  id="noteyong" readonly >
-			  <textarea  name="notelan" id="notelan" cols=40 rows=4 readonly></textarea>
+			  <textarea  name="notelan" id="notelan" cols=28 rows=4 readonly></textarea>
       </td>
     </tr>
   </table>
@@ -397,7 +397,7 @@ function activation(id,userName,referenceName,referencelan){
 	    $("#applystaffId").val(id);
 		$("#referenceName").val(referenceName);
 		$("#userName").val(userName);
-		$("#referencelan").val(referencelan);
+		$("#referencelan").html(referencelan);
 		var width = width || 800;
 	    var divobj = $("#apply");
 	    if(divobj.is(":visible")) {

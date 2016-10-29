@@ -15,6 +15,7 @@ import com.console.entity.Staff;
 import com.plugins.msg.command.MessageQueryInfo;
 import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.entity.Member;
+import com.systemic.unit.ConUnit;
 
 public class MessageNoticeQueryController extends PaginationQueryController {
 	
@@ -43,7 +44,7 @@ public class MessageNoticeQueryController extends PaginationQueryController {
 		}else{
 			model.put("member", 1);
 		}
-        Page page = this.msgService.selectNoticeMessage(info);
+        Page page =this.msgService.selectNoticeMessage(info);
         return page;
     }
 }

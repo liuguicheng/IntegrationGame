@@ -1,5 +1,8 @@
 package com.plugins.msg.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +16,10 @@ import org.springline.web.pagination.PaginationQueryController;
 import com.console.ConsoleHelper;
 import com.console.entity.Staff;
 import com.plugins.msg.command.MessageQueryInfo;
+import com.plugins.msg.entity.SysMessage;
 import com.plugins.msg.service.IMsgService;
 import com.systemic.gq.entity.Member;
+import com.systemic.unit.ConUnit;
 
 public class MessageQueryController extends PaginationQueryController {
 	
@@ -42,9 +47,10 @@ public class MessageQueryController extends PaginationQueryController {
 		}else{
 			model.put("member", 1);
 		}
-		info.setMessageType("1");
+		info.setMessageType("-1");
          
-        Page page = this.msgService.selectMessage(info);
+        Page page =  ConUnit.doPage(this.msgService.selectMessagebyMsg(info));
+        
         return page;
     }
 }

@@ -17,6 +17,7 @@ public class MessageQueryInfo extends PaginationInfo {
 	private String receiveMan;
 	/** 发送人 */
 	private String sendMan;
+	private String sendManId;
 	/** 发送时间 */
 	private Date sendTime;
     private Date sendTimeUp;
@@ -165,6 +166,20 @@ public class MessageQueryInfo extends PaginationInfo {
 	 */
 	public void setSysMessageInfoId(String sysMessageInfoId) {
 		this.sysMessageInfoId = sysMessageInfoId;
+	}
+
+	/**
+	 * @return the sendManId
+	 */
+	public String getSendManId() {
+		return sendManId;
+	}
+
+	/**
+	 * @param sendManId the sendManId to set
+	 */
+	public void setSendManId(String sendManId) {
+		this.sendManId = sendManId;
 	}
 
 

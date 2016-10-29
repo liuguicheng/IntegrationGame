@@ -83,7 +83,7 @@ function dorefresh(){
     <tr>
 	  <td><input type="checkbox" name="sysMessageid" value="$!{data.sysMessageInfoId}"></td>
       <td>$velocityCount</td>
-      <td style="text-align:left;" class="TdTxtover">#htmlEscape($!{data.content})</td>
+      <td style="text-align:left;" class="TdTxtover">#htmlEscape($!{data.content})#if($!{data.messageType}==1)<span style="color:red;margin-left: 5px;">°æ…Û°ø</spa>#end</td>
       <td>#customFormatDate(${data.sendTime} "yyyy-MM-dd HH:mm")</td>
     </tr>
   #end

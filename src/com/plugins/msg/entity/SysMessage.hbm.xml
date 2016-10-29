@@ -16,6 +16,9 @@
         <property name="sendMan" type="java.lang.String">
             <column name="SEND_MAN" length="64" />
         </property>
+        <property name="sendManId" type="java.lang.String">
+            <column name="sendManId" length="64" />
+        </property>
         <property name="receiveMan" type="java.lang.String">
             <column name="RECEIVE_MAN" length="64" />
         </property>

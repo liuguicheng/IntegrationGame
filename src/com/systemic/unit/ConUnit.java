@@ -13,9 +13,11 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.apache.poi.ss.formula.functions.T;
+import org.springline.orm.Page;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.plugins.msg.entity.SysMessage;
 
 /**
  * 工具类
@@ -208,7 +210,40 @@ public class ConUnit {
 		}
 
 	}
-	
+	public static Page doPage(Page page){
+		if(page.getData()!=null&&!page.getData().isEmpty()){
+        	List<SysMessage> sysmessagelist=page.getData();
+        	List<SysMessage> newmessagesle=new ArrayList<SysMessage>();
+        	SysMessage sym=null;
+        	SysMessage sym2=null;
+        	if(sysmessagelist.size()>1){
+        	for (int i = 0; i < sysmessagelist.size(); i++)  //外循环是循环的次数
+            {
+        		sym=sysmessagelist.get(i);
+                for (int j = sysmessagelist.size() - 1 ; j > i; j--)  //内循环是 外循环一次比较的次数
+                {	
+                	sym2=sysmessagelist.get(j);
+                	boolean fs=ConUnit.isSameDate(sym.getSendTime(), sym2.getSendTime());
+                    if (sym.getSendManId().equals(sym2.getSendManId())
+                    		&&fs==true
+                    		&&sym.getMessageType().equals(sym2.getMessageType()))
+                    {
+                    	newmessagesle.add(sym2);
+                    	sysmessagelist.remove(sym2);
+                    }else{
+                    	newmessagesle.add(sym2);
+                    	sysmessagelist.remove(sym2);
+                    }
+
+                }
+            }
+        	page.getData().clear();
+        	page.setData(newmessagesle);
+        	return page;
+        	}
+        }
+		return page;
+	}
 	public static void main(String[] args) {
 	}
 }
