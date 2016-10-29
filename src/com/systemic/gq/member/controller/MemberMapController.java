@@ -226,8 +226,16 @@ public class MemberMapController {
 	public String toMemberNetWork(HttpServletRequest request, Model model) {
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 		Member member=ConsoleHelper.getInstance().getSpringMemberService().selectMemberByStaffid(staff.getId());
+		String url="";
+		if (staff.getName().equals("系统管理员")) {
+			model.addAttribute("xtbs", "1");
+			url="gq/member/memberMap/managememberNetWork";
+		}else{
+			model.addAttribute("xtbs", "0");
+			url="gq/member/memberMap/memberNetWork";
+		}
 		model.addAttribute("command", member);
-		return "gq/member/memberMap/memberNetWork";
+		return url;
 	}
 
 	/**

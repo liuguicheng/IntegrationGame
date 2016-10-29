@@ -26,7 +26,7 @@
                             <h1>$!{command.messageTitel}</h1>
                               	<label>$!{command.sendTime}</label>
                         </div>
-                        <div>
+                        <div style="word-wrap:break-word;word-break:break-all;">
                         	$!{command.content}
                         </div>
 						<hr>
