@@ -122,11 +122,13 @@
 							shangyicenglist=shangyicengnode.split(",");
 							shangyicengnode="";
 							temps=0;
+							var tdtal=0;
 							 tdstrs="<tr>";
 							 //循环节点  查询子节点 并补齐欠缺节点
 							$.each(shangyicenglist, function(v,shangynode){ 
 								//循环多少个区域
 					   			 for(var df=0;df<region;df++){
+								  tdtal++;
 						   			$.each($.parseJSON(result), function(ld,vaw){  
 									if((Number(vaw.connectionId)==Number(shangynode))&&(Number(vaw.region)==df)){
 							  		temps++;
@@ -162,6 +164,14 @@
 						}
 						leftn=0;
 						});
+						if(Number(tdtal)!=Number(mc)){
+							var sytd=Number(mc)-Number(tdtal);
+							for(var lsds=0;lsds<sytd;lsds++){
+								tdstrs+="<td colspan='"+clstd+"'><div><a href='javascript:;'  >"+
+								"<img	src='../lib/ztree/zTreeStyle/img/ico/empty.png' height='32'> <br> <span>空位</span></a></div></td>";	
+							}
+						}
+						tdtal=0;
 						tdstrs+="</tr>";
 						lintr="<tr>";
 						var xhst= Number(Math.pow(region,(z-1)));
@@ -239,7 +249,8 @@
 						<input type="text" id="staffId" value="$!{command.userName}" >
 						显示层数:<select id="cennum">
                             <option value="2">2层</option>
-							<option value="3" selected >3层</option>
+							<option value="3" >3层</option>
+							<option value="4" selected >4层</option>
                         </select>	
 						<input type="button" value="查询" onclick="javascript:doSearch();"/>
 						<input type="button" value="我的图谱" onclick="javascript:doSearchmy('$!{command.userName}');"/>
@@ -247,7 +258,7 @@
 					</tr>
 				#else
 					<input type="hidden" id="staffId" value="$!{command.userName}" >
-					<input type="hidden" id="cennum" value="3" >
+					<input type="hidden" id="cennum" value="4" >
 				#end
 				
 			</table>
