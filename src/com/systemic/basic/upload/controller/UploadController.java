@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.systemic.basic.upload.model.UploadReturn;
+import com.systemic.unit.BarcodeFactory;
 import com.systemic.unit.ConUnit;
 import com.systemic.unit.ErrorDataMsg;
 
@@ -77,7 +78,7 @@ public class UploadController {
 		UploadReturn ur = new UploadReturn();
 		// 根据配置文件获取服务器图片存放路径
 		//String picDir = path + "/script/ueditor/jsp/upload/image";
-		String picDir ="D://qcode";
+		String picDir =BarcodeFactory.path;
 		String saveFilePath = picDir;
 
 		/* 构建文件目录 */
@@ -111,7 +112,7 @@ public class UploadController {
 		// 保存相对路径到数据库 图片写入服务器
 		if (filename != null ) {
 			String path = request.getSession().getServletContext().getRealPath("/");
-			String filepath="D://qcode//"+filename;
+			String filepath=BarcodeFactory.path+"//"+filename;
 			try {
 				 ConUnit.deleteImgFile(filepath);
 				edm.setCode(1);
