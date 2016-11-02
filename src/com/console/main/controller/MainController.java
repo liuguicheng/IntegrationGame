@@ -144,57 +144,57 @@ public class MainController extends SpringlineMultiActionController {
 
 		Staff staff = this.mainService.doValidate(loginName, password);
 		if (staff == null) {
-			int count;
-			Staff failTimes = this.mainService.selectAllStaff(loginName);
-			if (failTimes != null) {
-				StaffSecurity ss = this.mainService.loadStaffSecurity(failTimes.getId());
-				// 计算次数,判断是IE才执行
-				if (browser.equals("IE")) {
-					i = ss.getTimes();
-					i = i + 1;
-					staffTimes = this.mainService.doTimes(loginName, i);
-				}
+//			int count;
+//			Staff failTimes = this.mainService.selectAllStaff(loginName);
+//			if (failTimes != null) {
+//				StaffSecurity ss = this.mainService.loadStaffSecurity(failTimes.getId());
+//				// 计算次数,判断是IE才执行
+//				if (browser.equals("IE")) {
+//					i = ss.getTimes();
+//					i = i + 1;
+//					staffTimes = this.mainService.doTimes(loginName, i);
+//				}
 
-				if (ss.getFailedTimes() == null) {
-					count = 0;
-					count++;
-					// 记录登录失败次数，和登录失败时间
-					if (browser.equals("IE")) {
-						inputTimes = this.mainService.doFailiedTimes(loginName, count);
-					}
-					if (browser.equals("")) {
-						inputTimes = this.mainService.doFailiedTimes(loginName, count);
-					}
-				} else if (ss.getFailedTimes() < 3) {
-					int countNum = ss.getFailedTimes();
-					countNum++;
-					// 记录登录失败次数，和登录失败时间
-					if (browser.equals("IE") && staffTimes.getTimes() > 1) {
-						inputTimes = this.mainService.doFailiedTimes(loginName, countNum);
-					}
-					if (browser.equals("")) {
-						inputTimes = this.mainService.doFailiedTimes(loginName, countNum);
-					}
-				}
+//				if (ss.getFailedTimes() == null) {
+//					count = 0;
+//					count++;
+//					// 记录登录失败次数，和登录失败时间
+//					if (browser.equals("IE")) {
+//						inputTimes = this.mainService.doFailiedTimes(loginName, count);
+//					}
+//					if (browser.equals("")) {
+//						inputTimes = this.mainService.doFailiedTimes(loginName, count);
+//					}
+//				} else if (ss.getFailedTimes() < 3) {
+//					int countNum = ss.getFailedTimes();
+//					countNum++;
+//					// 记录登录失败次数，和登录失败时间
+//					if (browser.equals("IE") && staffTimes.getTimes() > 1) {
+//						inputTimes = this.mainService.doFailiedTimes(loginName, countNum);
+//					}
+//					if (browser.equals("")) {
+//						inputTimes = this.mainService.doFailiedTimes(loginName, countNum);
+//					}
+//				}
 				// 计算用户还可以输入多少次密码
-				int haveInputTimes = 0;
-				if (inputTimes != null) {
-					haveInputTimes = inputTimes.getFailedTimes();
-				} else {
-					haveInputTimes = ss.getFailedTimes();
-				}
-				haveInputTimes = 3 - haveInputTimes;
-				if (haveInputTimes != 0) {
-					model.put("message", "用户名或者密码错误！【今日再输错" + haveInputTimes + "次，账号将锁定】  ");
-				} else {
-					if (afterfailTime) {
-						model.put("message", "用户名或者密码错误！【该用户已经被锁定，请输入正确的密码进行解锁】  ");
-					} else {
-						model.put("message", "用户名或者密码错误！【今日输错已达到三次，账号被锁定】  ");
-					}
-				}
-			}
-
+//				int haveInputTimes = 0;
+//				if (inputTimes != null) {
+//					haveInputTimes = inputTimes.getFailedTimes();
+//				} else {
+//					haveInputTimes = ss.getFailedTimes();
+//				}
+//				haveInputTimes = 3 - haveInputTimes;
+//				if (haveInputTimes != 0) {
+//					model.put("message", "用户名或者密码错误！【今日再输错" + haveInputTimes + "次，账号将锁定】  ");
+//				} else {
+//					if (afterfailTime) {
+//						model.put("message", "用户名或者密码错误！【该用户已经被锁定，请输入正确的密码进行解锁】  ");
+//					} else {
+//						model.put("message", "用户名或者密码错误！【今日输错已达到三次，账号被锁定】  ");
+//					}
+//				}
+//			}
+			model.put("message", "用户名或者密码错误!");
 			model.put("loginName", loginName);
 			return index(request, response, model);
 		}

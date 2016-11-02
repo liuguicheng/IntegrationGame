@@ -699,7 +699,7 @@ public class MemberController {
 		edm.setMessage("冻结失败");
 		Member member = this.springMemberService.selectMemberById(info.getMemberId());
 		if (member != null) {
-			member.setIsok(0);
+			member.setIsok(2);
 			this.springMemberService.updateMermberInfo(member);
 			ConsoleHelper.getInstance().getMainService().doFrozen(member.getUserName());
 			edm.setMessage("冻结成功");

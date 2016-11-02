@@ -255,9 +255,11 @@ public class MemberMapController {
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			staffid = staff.getId();
 		}
-		memberinfo = ConsoleHelper.getInstance().getSpringMemberService().selectMemberByUserName(staffid);
-		//添加根节点
-		tempList.add(memberinfo);
+		memberinfo = ConsoleHelper.getInstance().getSpringMemberService().selectMemberByUserNametoAll(staffid);
+		if(memberinfo!=null){
+			//添加根节点
+			tempList.add(memberinfo);
+		
 		// 循环查询几层
 		switch (cennum) {
 		case "2":
@@ -311,6 +313,7 @@ public class MemberMapController {
 			break;		
 		default:
 			break;
+		}
 		}
 		//查询节点 统计
 		List list = selectNode(tempList,Integer.parseInt(cennum));
@@ -413,11 +416,16 @@ public class MemberMapController {
 		tm.setName(nodename);
 		tm.setRegion(member.getRegion());
 		tm.setConnectionId(member.getNoteUsername());
-		if (member.getIsActivation() == 0) {
+		if(member.getIsok()!=null){
+			if (member.getIsok() == 2) {
+				tm.setIcon(TreeModel.NETWORK_Activation_NO);
+			} else if (member.getIsok() == 1) {
+				tm.setIcon(TreeModel.NETWORK_Activation_YES);
+			}
+		}else{
 			tm.setIcon(TreeModel.NETWORK_Activation_NO);
-		} else {
-			tm.setIcon(TreeModel.NETWORK_Activation_YES);
 		}
+		
 		return tm;
 	}
 

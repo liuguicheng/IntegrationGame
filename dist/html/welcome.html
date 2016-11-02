@@ -40,12 +40,13 @@
 					账&nbsp;&nbsp; 号:&nbsp;<span id="bhid" style="color:red;"></span><span 
 						id="xzspan" ></span><br/>
 				</h2>
+				<small><b>专属二维码:</b></small><br /> <img
+					src="../images/1.png" width="100%" id="qRCodeImageUrl"
+					style="max-width: 300px; margin-left: -27px;"> <br/>
 				<small><b>专属推广链接:</b><a id="qRCodeContent" href="">暂未参与游戏</a>
 					<a class="btn btn-success" href="javascript:share();"> <i
 						class="fa fa-weixin"> </i> 马上分享
-				</a></small><br /> <small><b>专属二维码:</b></small><br /> <img
-					src="../images/1.png" width="100%" id="qRCodeImageUrl"
-					style="max-width: 300px; margin-left: -27px;"> <br>
+				</a></small><br /> 
 			</div>
 			<div class="col-sm-4">
 				<b>当前人品认证面：</b><span style="font-size: 50px;" id="levelid"> 忠</span><span
@@ -63,10 +64,10 @@
 				<br />
 				<div id="sprdiv" style="display: none;">
 				<p>
-				<b>匹配审批人编号:<span style="color:red;" id="spr"></span></b>
+				<b>认证编号:<span style="color:red;" id="spr"></span></b>
 				</p><br/>
 				<p>
-				 <b>匹配审批人廉通道:</b><span style="color:red;" id="sprlan"><a href="javascript:sprlanajax();">查看</a></span></p>
+				 <b>认证内容:</b><span style="color:red;" id="sprlan"><a href="javascript:sprlanajax();">查看</a></span></p>
 				<br /> <br />
 				</div>
 				<!--  <p>
@@ -273,156 +274,156 @@
 								levelstr = "忠";
 								if (upgradeState == 0) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>信</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>信</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-warning' onclick='gradelevel()'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else {
 
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-primary'>信</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								}
 							}
 							if (level == 2) {
 								levelstr = "信";
 								if (upgradeState == 0) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-circle btn-outline btn-primary'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-warning' onclick='gradelevel()'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else {
 
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-primary'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								}
 							}
 							if (level == 3) {
 								levelstr = "智";
 								if (upgradeState == 0) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle  btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle  btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-warning' onclick='gradelevel()'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else {
 
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-primary'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								}
 							}
 							if (level == 4) {
 								levelstr = "礼";
 								if (upgradeState == 0) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-warning' onclick='gradelevel()'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								} else {
 
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-primary'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								}
 							}
 							if (level == 5) {
 								levelstr = "义";
 								if (upgradeState == 0) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-default'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-default'>仁</button></p>";
 								} else if (upgradeState == 1) {
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger' >义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-warning' onclick='gradelevel()'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger' >义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-warning' onclick='gradelevel()'>仁</button></p>";
 								} else {
 
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>义</button>&nbsp;"
-											+ "<button type='button' class='btn btn-outline btn-primary'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle  btn-danger'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-outline btn-primary'>仁</button></p>";
 								}
 							}
 							if (level == 6) {
 								levelstr = "仁";
 									levelbutton += "<br/><p>"
-											+ "<button type='button' class='btn  btn-danger'>忠</button>&nbsp;"
-											+ "<button type='button' class='btn btn-danger'>信</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>智</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>礼</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>义</button>&nbsp;"
-											+ "<button type='button' class='btn  btn-danger'>仁</button></p>";
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>忠</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>信</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>智</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>礼</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>义</button>&nbsp;"
+											+ "<button type='button' class='btn btn-lg btn-circle btn-danger'>仁</button></p>";
 							}
 							$("#levelid").html(levelstr);
 

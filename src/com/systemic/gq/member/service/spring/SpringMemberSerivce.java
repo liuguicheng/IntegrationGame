@@ -131,9 +131,19 @@ public class SpringMemberSerivce implements ISpringMemberService {
 
 	@Override
 	public void deleteMember(String[] ids) {
+		List<Member> nodemeberlist=null;
 			for (String id :ids ) {
 				Member member = this.loadMermber(id);
 				if(member != null){
+					if(member.getMemberId().equals("1")){
+						System.out.println("管理员用户不能删除");
+						throw new RuntimeException("删除玩家出错!管理员用户不能删除!");
+					}
+					//查询是否有子节点
+					nodemeberlist=this.selectMemberListByNode(member.getStaffId());
+					if(nodemeberlist!=null){
+						throw new RuntimeException("删除玩家出错!您删除的玩家下有归属玩家,所以不能删除!");
+					}
 					ConsoleHelper.getInstance().notifyObservers(member);
 					try {
 						ConsoleHelper.getInstance().getManageService().deleteStaff(member.getStaffId());
@@ -369,6 +379,12 @@ public class SpringMemberSerivce implements ISpringMemberService {
 	public Page selectCountDownMember(MemberInfo info, int upda) {
 		// TODO Auto-generated method stub
 		return memberDao.selectCountDownMember(info,  upda);
+	}
+
+	@Override
+	public Member selectMemberByUserNametoAll(String staffid) {
+		// TODO Auto-generated method stub
+		return memberDao.selectMemberByUserNametoAll(staffid);
 	}
 
 	

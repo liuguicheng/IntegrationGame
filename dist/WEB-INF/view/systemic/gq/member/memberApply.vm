@@ -80,7 +80,7 @@ function selectNote(){
 </div>
 <div class="indieui-scroll">
 <form name="applyForm" action="" method="post" class="indieui-form" id="applyform">
-  <table class="TbCommon">
+  <table class="TbCommon" style="width:auto;">
     <tr>
       <td class="TdLabel" style="width:100px;">玩家编号:</td>
       <td class="TdInput" colspan="3">
@@ -89,13 +89,13 @@ function selectNote(){
       </td>
     </tr>
 	<tr>
-      <td class="TdLabel" style="width:100px;">推荐点编号:</td>
-      <td class="TdInput">
+      <td class="TdLabel" style="width:10%;">推荐点编号:</td>
+      <td class="TdInput" style="width:10%;">
         <input type="text" name="referenceName" value="$!{command.referenceName}" id="referenceName" readonly>
       </td>
-      <td class="TdLabel" style="width:100px;">推荐点廉认证:</td>
+      <td class="TdLabel" style="width:10%;">推荐点廉认证:</td>
       <td class="TdInput">
-		<textarea   id="referencelan" cols=40 rows=4 readonly >$!{command.referencelan}</textarea>
+		<textarea   id="referencelan" cols=60 rows=4 readonly >$!{command.referencelan}</textarea>
       </td>
     </tr>
 	<tr>
@@ -106,7 +106,7 @@ function selectNote(){
       <td class="TdLabel" style="width:100px;">#requiredInput("归属点廉认证:")</td>
       <td class="TdInput">
         <input type="hidden" name="noteyong"  value=""  id="noteyong" readonly >
-			  <textarea  name="notelan" id="notelan" cols=40 rows=4 readonly></textarea>
+			  <textarea  name="notelan" id="notelan" cols=60 rows=4 readonly></textarea>
       </td>
     </tr>
   </table>

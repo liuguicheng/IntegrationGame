@@ -70,4 +70,10 @@ public interface ISpringMemberService {
 	int selectMemberCount(MemberInfo info);
 	Member saveMermberAjax(MemberEditInfo info);
 	Page selectCountDownMember(MemberInfo info, int upda);
+	/**
+	 * 根据节点查询 包括所有状态
+	 * @param staffid
+	 * @return
+	 */
+	Member selectMemberByUserNametoAll(String staffid);
 }

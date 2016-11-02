@@ -180,7 +180,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		Object[] values = new Object[5];
 		int idx = 0;
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.note =? and m.isok=1 and m.isdel=1");
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.note =?  and m.isdel=1");
 		values[idx++] = staffId;
 		Object[] param = new Object[idx];
 		System.arraycopy(values, 0, param, 0, idx);
@@ -370,6 +370,22 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 			return super.putDataToPage(data);
 		}
 		return super.find(io.getQueryString(), io.getParam(), info.getPageNumber(), info.getPageSize());
+	}
+
+	@Override
+	public Member selectMemberByUserNametoAll(String staffid) {
+		Object[] values = new Object[5];
+		int idx = 0;
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("from ").append(Member.class.getName()).append(" as m where  m.userName =?  and m.isdel=1");
+		values[idx++] = staffid;
+		Object[] param = new Object[idx];
+		System.arraycopy(values, 0, param, 0, idx);
+		List list = super.doQuery(queryStr.toString(), param);
+		if (!list.isEmpty()) {
+			return  (Member) list.get(0);
+		}
+		return null;
 	}
 
 }

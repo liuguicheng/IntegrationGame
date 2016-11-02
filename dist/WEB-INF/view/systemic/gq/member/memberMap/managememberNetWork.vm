@@ -278,8 +278,8 @@
                         <tbody><tr align="center" >
                             <td>颜色<br><br>级别 </td>
                             <td><img src="../lib/ztree/zTreeStyle/img/ico/empty.png">空白</td>
-							<td><img src="../lib/ztree/zTreeStyle/img/ico/1.png">普通账户</td>
-							<td><img src="../lib/ztree/zTreeStyle/img/ico/0.png">未激活</td>
+							<td><img src="../lib/ztree/zTreeStyle/img/ico/1.png">玩家状态正常</td>
+							<td><img src="../lib/ztree/zTreeStyle/img/ico/0.png">玩家状态：半永久封号</td>
                                #** <td>
                                     <img src="../lib/ztree/zTreeStyle/img/ico/2.png">银卡账户</td>
                                 <td>
