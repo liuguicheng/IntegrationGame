@@ -76,4 +76,5 @@ public interface ISpringMemberService {
 	 * @return
 	 */
 	Member selectMemberByUserNametoAll(String staffid);
+	Page selectMemberByReIdandAGUsername(MemberInfo info);
 }

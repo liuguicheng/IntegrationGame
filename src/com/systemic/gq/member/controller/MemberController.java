@@ -201,14 +201,16 @@ public class MemberController {
 		try {
 			returnurl = "gq/member/memberApplyGradeManage";
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-
+			Member member = this.springMemberService.selectMemberByStaffid(staff.getId());
 			if (!staff.getName().equals("系统管理员")) {
 				info.setReferenceId(staff.getId());
+				info.setAuditGradeUserName(member.getUserName());
 			}
 			info.setIsActivation(2);
 			info.setUpgradeState(2);
 			info.setIsdel(1);
-			page = this.springMemberService.selectMeber(info);
+			page = this.springMemberService.selectMemberByReIdandAGUsername(info);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("获取数据失败！请联系管理员！" + e.getMessage());
@@ -217,7 +219,7 @@ public class MemberController {
 		model.addAttribute("message", request.getParameter("message"));
 		return returnurl;
 	}
-	
+
 	/**
 	 * 倒计时
 	 */
@@ -229,37 +231,38 @@ public class MemberController {
 		try {
 			returnurl = "gq/member/memberCountDownManage";
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
-			Member loginmember=this.springMemberService.selectMemberByStaffid(staff.getId());
-			Level level=ConsoleHelper.getInstance().getIlevelService().selectlevel(loginmember.getLevleId());
-			IntegrationGameRule rule= ConsoleHelper.getInstance().getIntegrationGameRuleService().selectIntegrationGameRule();
+			Member loginmember = this.springMemberService.selectMemberByStaffid(staff.getId());
+			Level level = ConsoleHelper.getInstance().getIlevelService().selectlevel(loginmember.getLevleId());
+			IntegrationGameRule rule = ConsoleHelper.getInstance().getIntegrationGameRuleService()
+					.selectIntegrationGameRule();
 			if (!staff.getName().equals("系统管理员")) {
 				info.setReferenceId(staff.getId());
 				info.setAuditGradeUserName(loginmember.getUserName());
 				info.setUserName(loginmember.getUserName());
 				model.addAttribute("typee", loginmember.getUserName());
-			}else{
+			} else {
 				model.addAttribute("typee", "0");
 			}
 			info.setIsActivation(2);
 			info.setUpgradeState(0);
 			info.setIsdel(1);
 			info.setIsok(1);
-			int djsnum=level.getV1_yjnum();
-			int crtime=rule.getRegisterAuditTime();
-			int upda=rule.getUpgradeAuditTime();
-			page = this.springMemberService.selectCountDownMember(info,djsnum);
-			List list=page.getData();
-			List<MemberInfo> memberinfolist=new ArrayList<MemberInfo>();
-			if(list!=null&&!list.isEmpty()){
-				MemberInfo memberinfo=null;
+			int djsnum = level.getV1_yjnum();
+			int crtime = rule.getRegisterAuditTime();
+			int upda = rule.getUpgradeAuditTime();
+			page = this.springMemberService.selectCountDownMember(info, djsnum);
+			List list = page.getData();
+			List<MemberInfo> memberinfolist = new ArrayList<MemberInfo>();
+			if (list != null && !list.isEmpty()) {
+				MemberInfo memberinfo = null;
 				for (Object object : list) {
-					Member member=(Member) object;
-					memberinfo=new MemberInfo();
+					Member member = (Member) object;
+					memberinfo = new MemberInfo();
 					BeanUtils.copyProperties(member, memberinfo);
-					if(member.getIsActivation()!=2){
+					if (member.getIsActivation() != 2) {
 						memberinfo.setCreateEndTime(ConUnit.dateCalculation(member.getCreateTime(), crtime));
 						memberinfo.setCreateCountDown(ConUnit.fromDeadline(memberinfo.getCreateEndTime()));
-					}else if(member.getUpgradeState()!=0){
+					} else if (member.getUpgradeState() != 0) {
 						memberinfo.setApplyUpgradeEndTime(ConUnit.dateCalculation(member.getApplyUpgradeTime(), upda));
 						memberinfo.setApplyUpgradeCountDown(ConUnit.fromDeadline(memberinfo.getApplyUpgradeEndTime()));
 					}
@@ -276,19 +279,21 @@ public class MemberController {
 		model.addAttribute("message", request.getParameter("message"));
 		return returnurl;
 	}
+
 	/**
 	 * 获取最新倒计时秒数
 	 */
-	
+
 	@RequestMapping(value = "/member/djsAjax.do", produces = "text/plain;charset=gbk")
 	@ResponseBody
 	public String djsAjax(HttpServletRequest request) {
 		String msg = "";
 		return msg;
 	}
-	
+
 	/**
 	 * 去注册
+	 * 
 	 * @param request
 	 * @param response
 	 * @param model
@@ -377,7 +382,7 @@ public class MemberController {
 		ErrorDataMsg edm = new ErrorDataMsg();
 		edm.setCode(0);
 		edm.setMessage("注册失败");
-		
+
 		try {
 			String code = request.getParameter("code");
 			String rand = (String) request.getSession().getAttribute("rand");
@@ -399,16 +404,15 @@ public class MemberController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			MemberInfo einfo=new MemberInfo();
+			MemberInfo einfo = new MemberInfo();
 			einfo.setBsid(info.getBsid());
 			einfo.setIsdel(1);
-			List<Member> memberlist= this.springMemberService.selectMemberBy(einfo);
-			if(memberlist!=null&&!memberlist.isEmpty()){
-				edm.setMessage("昵称『"
-						+ info.getBsid() + "』已被使用！");
+			List<Member> memberlist = this.springMemberService.selectMemberBy(einfo);
+			if (memberlist != null && !memberlist.isEmpty()) {
+				edm.setMessage("昵称『" + info.getBsid() + "』已被使用！");
 				msg = ConUnit.tojson(edm);
 				return msg;
-				
+
 			}
 			System.out.println("进入1");
 			// 系统设置
@@ -424,7 +428,7 @@ public class MemberController {
 			edm.setMessage(member.getUserName());
 			System.out.println("进入2");
 		} catch (Exception e) {
-			System.out.println("进入3:"+e.getMessage());
+			System.out.println("进入3:" + e.getMessage());
 			edm.setMessage(e.getMessage());
 		}
 		msg = ConUnit.tojson(edm);
@@ -471,7 +475,7 @@ public class MemberController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("basi="+infos.getBsid());
+		System.out.println("basi=" + infos.getBsid());
 		info.setBsid(infos.getBsid());
 		info.setIsdel(1);
 		List<Member> memberlist = this.springMemberService.selectMemberBy(info);
@@ -808,13 +812,13 @@ public class MemberController {
 					// 添加提醒记录
 					String title = "新玩家申请加入游戏提醒";
 					String content = "玩家昵称[" + member.getBsid() + "]申请加入游戏,是否通过审核";
-					if( member.getReferenceName().equals(member.getReferenceName())){
-						sendMsg(member, member.getReferenceName(), title, content,"1");
-						sendMsg(member, member.getNoteUsername(), title, content,"1");
-					}else{
-						sendMsg(member, member.getReferenceName(), title, content,"1");
+					if (member.getReferenceName().equals(member.getReferenceName())) {
+						sendMsg(member, member.getReferenceName(), title, content, "1");
+						sendMsg(member, member.getNoteUsername(), title, content, "1");
+					} else {
+						sendMsg(member, member.getReferenceName(), title, content, "1");
 					}
-					
+
 				}
 			}
 		}
@@ -834,7 +838,7 @@ public class MemberController {
 	 * @param content
 	 *            内容
 	 */
-	private void sendMsg(Member member, String receiveMan, String title, String content,String type) {
+	private void sendMsg(Member member, String receiveMan, String title, String content, String type) {
 		ConsoleHelper.getInstance().getMsgService().insertMessageForEmail(receiveMan, content, title, type,
 				member.getBsid(), member.getUserName());
 	}
@@ -855,7 +859,7 @@ public class MemberController {
 				region = "-1";
 			} else {
 				for (Member member2 : noteMember) {
-					if(member2.getRegion()!=null&&member2.getRegion()!=""){
+					if (member2.getRegion() != null && member2.getRegion() != "") {
 						regoin += Integer.parseInt(member2.getRegion());
 					}
 				}
@@ -908,13 +912,13 @@ public class MemberController {
 
 				// 添加消息
 				String title = "新玩家注册提醒";
-				String content = "有编号[" + member.getUserName() + "]新玩家加入,推荐点编号[" + member.getReferenceName() + "],归属点编号["
-						+ member.getNoteUsername() + "],请知悉";
-				if(member.getReferenceName().equals(member.getNoteUsername())){
-					sendMsg(member, member.getReferenceName(), title, content,"0");
-				}else{
-					sendMsg(member, member.getReferenceName(), title, content,"0");
-					sendMsg(member, member.getNoteUsername(), title, content,"0");
+				String content = "有编号[" + member.getUserName() + "]新玩家加入,推荐点编号[" + member.getReferenceName()
+						+ "],归属点编号[" + member.getNoteUsername() + "],请知悉";
+				if (member.getReferenceName().equals(member.getNoteUsername())) {
+					sendMsg(member, member.getReferenceName(), title, content, "0");
+				} else {
+					sendMsg(member, member.getReferenceName(), title, content, "0");
+					sendMsg(member, member.getNoteUsername(), title, content, "0");
 				}
 			} else {
 				// 封号 双方
@@ -1074,15 +1078,17 @@ public class MemberController {
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-申请升级,玩家编号为：" + member.getStaffId();
 			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember("申请升级", loginmember, logContent);
-	
-			DictionaryHelper helper= DictionaryHelper.getInstance();
-			String levelStr = helper.getDictionaryService().getDicDataByType("dicStockLevel",member.getStock().getGradeNum()); 
-			String levelStrtw = helper.getDictionaryService().getDicDataByType("dicStockLevel",(member.getStock().getGradeNum()+1)); 
+
+			DictionaryHelper helper = DictionaryHelper.getInstance();
+			String levelStr = helper.getDictionaryService().getDicDataByType("dicStockLevel",
+					member.getStock().getGradeNum());
+			String levelStrtw = helper.getDictionaryService().getDicDataByType("dicStockLevel",
+					(member.getStock().getGradeNum() + 1));
 			// 添加提醒记录
 			String title = "玩家升级提醒";
-			String content = "有(" + levelStr + ")级编号为[" + member.getUserName() + "]的玩家申请升级为("
-					+levelStrtw + ")级，是否通过请审核";
-			sendMsg(member, auditGradeUserName, title, content,"1");
+			String content = "有(" + levelStr + ")级编号为[" + member.getUserName() + "]的玩家申请升级为(" + levelStrtw
+					+ ")级，是否通过请审核";
+			sendMsg(member, auditGradeUserName, title, content, "1");
 		}
 		msg = ConUnit.tojson(edm);
 		return msg;
@@ -1271,18 +1277,19 @@ public class MemberController {
 		msg = ConUnit.tojson(loginmember);
 		return msg;
 	}
+
 	// 查询用户
-		@RequestMapping(value = "/member/selectMemberAjax.do", produces = "text/plain;charset=gbk")
-		@ResponseBody
-		public String selectMemberAjax(HttpServletRequest request, MemberInfo info) {
-			String msg = "";
-			String staffid=request.getParameter("staffId");
-			Member loginmember = ConsoleHelper.getInstance().getSpringMemberService().selectMemberByUserName(staffid);
-			if (loginmember != null) {
-			}
-			msg = ConUnit.tojson(loginmember);
-			return msg;
+	@RequestMapping(value = "/member/selectMemberAjax.do", produces = "text/plain;charset=gbk")
+	@ResponseBody
+	public String selectMemberAjax(HttpServletRequest request, MemberInfo info) {
+		String msg = "";
+		String staffid = request.getParameter("staffId");
+		Member loginmember = ConsoleHelper.getInstance().getSpringMemberService().selectMemberByUserName(staffid);
+		if (loginmember != null) {
 		}
+		msg = ConUnit.tojson(loginmember);
+		return msg;
+	}
 	// 查询统计
 
 	@RequestMapping(value = "/member/statisticsAjax.do", produces = "text/plain;charset=gbk")
@@ -1369,21 +1376,21 @@ public class MemberController {
 		MemberInfo info = new MemberInfo();
 		info.setIsdel(1);
 		info.setUpgradeState(2);
-		
+
 		Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 		Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
-		
+
 		List<Member> list = this.springMemberService.selectMemberBy(info);
 		List relist = new ArrayList<SysMessage>();
 		if (list != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			for (Member me : list) {
-				if(me.getUserName().equals(loginmember.getUserName())){
-					//排除自己
-				}else{
-					if(me.getApplyUpgradeTime()!=null&&!"".equals(me.getApplyUpgradeTime())){
+				if (me.getUserName().equals(loginmember.getUserName())) {
+					// 排除自己
+				} else {
+					if (me.getApplyUpgradeTime() != null && !"".equals(me.getApplyUpgradeTime())) {
 						me.setReferenceQRCodeContent(sdf.format(me.getApplyUpgradeTime()));
-					}else{
+					} else {
 						me.setReferenceQRCodeContent("");
 					}
 					relist.add(me);
@@ -1414,12 +1421,10 @@ public class MemberController {
 		}
 		return msg;
 	}
-	
-	///////////////////////////////////////////////h5//////////////////////
+
+	/////////////////////////////////////////////// h5//////////////////////
 	/**
 	 * H5登陆
 	 */
-	
-	
 
 }

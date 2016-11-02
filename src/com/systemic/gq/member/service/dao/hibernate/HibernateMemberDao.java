@@ -388,4 +388,44 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
 		return null;
 	}
 
+	@Override
+	public Page selectMemberByReIdandAGUsername(MemberInfo info) {
+		Object[] values = new Object[25];
+        int idx = 0;
+        StringBuffer select = new StringBuffer(" from ").append(Member.class.getName()).append(" as me  ");
+        StringBuffer where = new StringBuffer(200);
+        where.append(" 1=1 ");
+        if (info != null) {
+        	if(info.getIsdel()!=null){
+        		where.append(" and me.isdel=? ");
+      		  values[idx++] =info.getIsdel()   ;
+        	}
+        	if(info.getUpgradeState()!=null){
+        		where.append(" and ( me.upgradeState = ? )");
+      		  values[idx++] =info.getUpgradeState()  ;
+        	}
+        	if(info.getReferenceId()!=null&&info.getAuditGradeUserName()!=null&&info.getUserName()!=null){
+        		where.append(" and ( me.referenceId=?  or me.auditGradeUserName = ?  )");
+        		  values[idx++] =info.getReferenceId()   ;
+        		  values[idx++] =info.getAuditGradeUserName()   ;
+        	}
+			if(info.getIsActivation()!=null){
+				where.append(" and ( me.isActivation = ? )");
+				 values[idx++] =info.getIsActivation() ;
+			}
+			where.append(" ) ");
+		}
+        Object[] param = new Object[idx];
+        System.arraycopy(values, 0, param, 0, idx);
+		IQueryObject io = this.countDownMemberQuyerStringUtil.getQueryObject(info,where.toString(), param);
+		select.append(" where ").append(io.getWhereClause());
+		if (info.getNotPage() != null && info.getNotPage().booleanValue()) {
+			List data = super.doQuery(select.toString(), io.getParam());
+			info.setNotPage(false);
+			return super.putDataToPage(data);
+		}
+		return super.find(io.getQueryString(), io.getParam(), info.getPageNumber(), info.getPageSize());
+	
+	}
+
 }

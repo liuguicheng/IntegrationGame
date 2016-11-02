@@ -37,4 +37,6 @@ public interface IMemberDao extends ICommonDao {
 	Page selectCountDownMember(MemberInfo info, int upda);
 
 	Member selectMemberByUserNametoAll(String staffid);
+
+	Page selectMemberByReIdandAGUsername(MemberInfo info);
 }

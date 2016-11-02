@@ -387,5 +387,11 @@ public class SpringMemberSerivce implements ISpringMemberService {
 		return memberDao.selectMemberByUserNametoAll(staffid);
 	}
 
+	@Override
+	public Page selectMemberByReIdandAGUsername(MemberInfo info) {
+		// TODO Auto-generated method stub
+		return memberDao.selectMemberByReIdandAGUsername(info);
+	}
+
 	
 }
