@@ -684,6 +684,7 @@ public class MemberController {
 			member.setYong(info.getYong());
 			member.setUpdateInfoNum(1);
 			this.springMemberService.updateMermberInfo(member);
+			System.out.println("-==========修改会员个人资料====" + member.getUserName() + "--" + member.getRegion());
 			model.addAttribute("message", "修改成功");
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-修改个人资料";
 			ConsoleHelper.getInstance().getLogService().saveOperateLogForMember(OperateLog.LOG_TYPE_UP_MEMBERINFO,
@@ -704,8 +705,10 @@ public class MemberController {
 		Member member = this.springMemberService.selectMemberById(info.getMemberId());
 		if (member != null) {
 			member.setIsok(2);
+			System.out.println("-==========冻结会员====" + member.getUserName() + "--" + member.getRegion());
 			this.springMemberService.updateMermberInfo(member);
 			ConsoleHelper.getInstance().getMainService().doFrozen(member.getUserName());
+			System.out.println("-==========冻结会员====" + member.getUserName() + "--" + member.getRegion());
 			edm.setMessage("冻结成功");
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
@@ -730,6 +733,7 @@ public class MemberController {
 		if (member != null) {
 			member.setIsok(1);
 			this.springMemberService.updateMermberInfo(member);
+			System.out.println("-==========解除会员====" + member.getUserName() + "--" + member.getRegion());
 			Staff memberstaff = ConsoleHelper.getInstance().getMainService().selectStaff(member.getUserName());
 			ConsoleHelper.getInstance().getMainService().doUnlock(memberstaff);
 			edm.setMessage("冻结解除成功");
@@ -789,6 +793,7 @@ public class MemberController {
 				if (region.equals("-1")) {
 					edm.setMessage("申请失败,当前您输入的归属节点下无空位可放,请重新输入归属节点编号!");
 				} else {
+					System.out.println("-==========申请参与游戏====" + member.getUserName() + "--" + region);
 					member.setRegion(region);
 					Member notemember = this.springMemberService.selectMemberByUserName(info.getNoteUsername());
 					member.setNotelan(notemember.getNotelan());
@@ -850,27 +855,29 @@ public class MemberController {
 	 * @return
 	 */
 	private String queryRegion(String note) {
-		String region = "0";
+		String region = "-1";
+		List<String> regionlist = new ArrayList<String>();
+		regionlist.add("0");
+		regionlist.add("1");
+		regionlist.add("2");
 		// 查询归属节点信息
 		List<Member> noteMember = this.springMemberService.selectMemberListByNodeUsername(note);
 		if (noteMember != null && !noteMember.isEmpty()) {
-			int regoin = 0;
 			if (noteMember.size() == 3) {
 				region = "-1";
+				return region;
 			} else {
 				for (Member member2 : noteMember) {
-					if (member2.getRegion() != null && member2.getRegion() != "") {
-						regoin += Integer.parseInt(member2.getRegion());
+					if (member2.getRegion() != null && !"".equals(member2.getRegion())) {
+						if (regionlist.contains(member2.getRegion())) {
+							regionlist.remove(member2.getRegion());
+						}
 					}
 				}
-				if (regoin == 0) {
-					region = "1";
-				} else if (regoin == 1) {
-					region = "2";
-				}
 			}
-		} else {
-			region = "0";
+		}
+		if (regionlist != null && !regionlist.isEmpty()) {
+			region = regionlist.get(0);
 		}
 		return region;
 	}
@@ -937,7 +944,7 @@ public class MemberController {
 				}
 			}
 			member.setIsActivation(Integer.parseInt(istrue));
-
+			System.out.println("-==========审核 --申请参加游戏====" + member.getUserName() + "--" + member.getRegion());
 			this.springMemberService.updateMermberInfo(member);
 			edm.setMessage("审核成功");
 			edm.setCode(1);
@@ -1013,6 +1020,7 @@ public class MemberController {
 			member.setqRCodeContent(qRCodeContent);
 			member.setqRCodeImageUrl(qRCodeImageUrl);
 			this.springMemberService.updateMermberInfo(member);
+			System.out.println("-==========手动生成二维码====" + member.getUserName() + "--" + member.getRegion());
 			edm.setCode(1);
 		}
 		msg = ConUnit.tojson(edm);
@@ -1038,6 +1046,7 @@ public class MemberController {
 			member.setStock(stock);
 			member.setProductgradeId(stock.getId());
 			this.springMemberService.updateMermberInfo(member);
+			System.out.println("-==========修改级别====" + member.getUserName() + "--" + member.getRegion());
 			edm.setMessage("修改成功");
 			edm.setCode(1);
 			// 添加日志
@@ -1069,6 +1078,7 @@ public class MemberController {
 			member.setApplyUpgradeTime(new Date());
 			member.setUpgradeState(2);
 			this.springMemberService.updateMermberInfo(member);
+			System.out.println("-==========申请升级====" + member.getUserName() + "--" + member.getRegion());
 			edm.setMessage("申请成功");
 			edm.setCode(1);
 			// 送出积分-》审核人
@@ -1170,6 +1180,7 @@ public class MemberController {
 				member.setProductgradeId(stock.getId());
 
 				this.springMemberService.updateMermberInfo(member);
+				System.out.println("-==========升级审核====" + member.getUserName() + "--" + member.getRegion());
 				edm.setMessage("审核成功");
 				edm.setCode(1);
 				// 添加日志
@@ -1202,6 +1213,7 @@ public class MemberController {
 				edm.setCode(1);
 				edm.setMessage("申请成功");
 				this.springMemberService.update(member);
+				System.out.println("-==========孝字申请====" + member.getUserName() + "--" + member.getRegion());
 			} else {
 				edm.setMessage("该账号已申请或认证申请中,请勿重复申请!");
 			}
@@ -1229,6 +1241,7 @@ public class MemberController {
 				edm.setCode(1);
 				edm.setMessage("审核成功");
 				this.springMemberService.update(member);
+				System.out.println("-==========孝字审核====" + member.getUserName() + "--" + member.getRegion());
 			}
 
 		}
@@ -1252,7 +1265,7 @@ public class MemberController {
 			edm.setCode(1);
 			edm.setMessage("重置密码成功,重置后密码为:666666");
 			this.springMemberService.updateMermber(member);
-
+			System.out.println("-==========重置密码====" + member.getUserName() + "--" + member.getRegion());
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
 			String logContent = "在IP为" + ConsoleHelper.getUserIp() + "的机器上-重置了玩家编号:" + member.getUserName() + "登陆密码";
