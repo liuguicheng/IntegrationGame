@@ -404,7 +404,7 @@ public class HibernateMemberDao extends HibernateCommonDao implements IMemberDao
         		where.append(" and ( me.upgradeState = ? )");
       		  values[idx++] =info.getUpgradeState()  ;
         	}
-        	if(info.getReferenceId()!=null&&info.getAuditGradeUserName()!=null&&info.getUserName()!=null){
+        	if(info.getReferenceId()!=null&&info.getAuditGradeUserName()!=null){
         		where.append(" and ( me.referenceId=?  or me.auditGradeUserName = ?  )");
         		  values[idx++] =info.getReferenceId()   ;
         		  values[idx++] =info.getAuditGradeUserName()   ;
