@@ -1136,8 +1136,8 @@ public class MemberController {
 			return username;
 		}
 		if (num == 0) {
-			if (nodelevelnum < levelnum) {
-				num = num + 1;
+			if (nodelevelnum <= levelnum) {
+//				num = num + 1;
 				return loopSearchMember(num, levelnum, nodemember);
 			}
 			return username;

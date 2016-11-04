@@ -75,7 +75,7 @@
 								if((Number(val.connectionId)==Number(shtrid))&&(Number(val.region)==w)){
 							  		temps++;
 									tdstrs+="<td colspan='"+clstd+"'><div>"+
-									 "<a href='javascript:clickBIN("+val.id+");' "+
+									 "<a href=javascript:clickBIN('"+val.id+"');"+
 									 "	title=' "+val.name+" '>"+
 									 "	<img src='"+val.icon+"' height='32'> <br> <span>"+val.name+"</span>"+
 									 "  </a></div></td>";
@@ -133,7 +133,7 @@
 									if((Number(vaw.connectionId)==Number(shangynode))&&(Number(vaw.region)==df)){
 							  		temps++;
 									tdstrs+="<td colspan='"+clstd+"'><div>"+
-									 "<a href='javascript:clickBIN("+vaw.id+");' "+
+									 "<a href=javascript:clickBIN('"+vaw.id+"'); "+
 									 "	title=' "+vaw.name+" '>"+
 									 "	<img src='"+vaw.icon+"' height='32'> <br> <span>"+vaw.name+"</span>"+
 									 "  </a></div></td>";
@@ -213,12 +213,28 @@
 			//点击玩家节点
 			function clickBIN(id){
 			if(id!=""){
+			console.log(id);
 			   $("#staffId").val(id);
 			   var isd= $("#staffId").val();
 				console.log(isd.length);
 				if(isd.length!=8){
-					console.log(1);
-					var sd="0"+$("#staffId").val();
+				  var lens=isd.length;
+				  var sd="";
+					if(lens==1){
+					sd="0000000"+$("#staffId").val();
+					}else if(lens==2){
+					sd="000000"+$("#staffId").val();
+					}else if(lens==3){
+					sd="00000"+$("#staffId").val();
+					}else if(lens==4){
+					sd="0000"+$("#staffId").val();
+					}else if(lens==5){
+					sd="000"+$("#staffId").val();
+					}else if(lens==6){
+					sd="00"+$("#staffId").val();
+					}else if(lens==7){
+					sd="0"+$("#staffId").val();
+					}
 					$("#staffId").val(sd);
 				}
 				 onmynode();

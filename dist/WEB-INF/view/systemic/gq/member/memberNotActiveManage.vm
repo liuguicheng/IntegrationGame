@@ -203,7 +203,13 @@ function dorefresh(){
       <td>#lookUpDict($dicData.dicStockLevel "$!{data.stock.gradeNum}")</td>
 	  <td >$!{data.referenceName}</td>
 	  <td >#formatTime(${data.createTime})</td>
-      <td ><a href="javascript:activation('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.referencelan}')">[申请加入游戏]</a> <br/></td>
+      <td >
+		#if(${data.isok}==1)
+			<a href="javascript:activation('$!{data.staffId}','$!{data.userName}','$!{data.referenceName}','$!{data.referencelan}')">[申请加入游戏]</a>
+		#else
+            <span style="color:red;">该账号已被半永久封号</span>
+		#end
+		 <br/></td>
     </tr>
   #end
   </tbody>   
