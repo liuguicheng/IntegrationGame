@@ -707,8 +707,8 @@ public class MemberController {
 			member.setIsok(2);
 			System.out.println("-==========冻结会员====" + member.getUserName() + "--" + member.getRegion());
 			this.springMemberService.updateMermberInfo(member);
-			ConsoleHelper.getInstance().getMainService().doFrozen(member.getUserName());
-			System.out.println("-==========冻结会员====" + member.getUserName() + "--" + member.getRegion());
+			//ConsoleHelper.getInstance().getMainService().doFrozen(member.getUserName());
+			//System.out.println("-==========冻结会员====" + member.getUserName() + "--" + member.getRegion());
 			edm.setMessage("冻结成功");
 			Staff staff = (Staff) AuthenticationFilter.getAuthenticator(request);
 			Member loginmember = ConsoleHelper.getInstance().getManageService().selectMemberByStaffId(staff.getId());
